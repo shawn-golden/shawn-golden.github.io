@@ -398,13 +398,17 @@ function projectPage(p, { prev, next }) {
   );
 }
 
+const stackAttr = (p, root) => {
+  const imgs = p === demoReel ? [p.thumb] : slideImages(p).slice(0, 10);
+  return `data-flip="${esc(imgs.map((n) => `${root}assets/slides/${n}-sm.webp`).join('|'))}"`;
+};
 function pagerCard(p, root, dir) {
   const isReel = p === demoReel;
   const thumb = isReel ? p.thumb : slideImages(p)[0];
   const accent = isReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
   const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
-  return `<a class="pager-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}">
+  return `<a class="pager-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" ${stackAttr(p, root)}>
       <span class="pager-label label">${label}</span>
       <span class="pager-title">${esc(p.title)}</span>
       <span class="pager-tags">${esc(p.tags.join(' · '))}</span>
@@ -414,12 +418,14 @@ function pagerCard(p, root, dir) {
 // The top slice of a pager card: same color, label and title, cut off at the
 // bottom. Follows you down the page, then reveals into the full card.
 function sliceCard(p, root, dir) {
+  const thumb = p === demoReel ? p.thumb : slideImages(p)[0];
   const accent = p === demoReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
   const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
-  return `<a class="slice is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" tabindex="-1">
+  return `<a class="slice is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" tabindex="-1" ${stackAttr(p, root)}>
       <span class="pager-label label">${label}</span>
       <span class="pager-title">${esc(p.title)}</span>
+      <img class="pager-thumb" src="${root}assets/slides/${thumb}-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
     </a>`;
 }
 // Full cards at the end of the page, plus small pills that follow you down

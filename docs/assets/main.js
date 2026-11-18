@@ -181,6 +181,12 @@ if (keys && canHover && sections.length > 3) {
       rootMargin: '0px 0px -40px 0px',
     }).observe(foot);
   }
+  if (document.body.classList.contains('page-home')) {
+    const hero = document.querySelector('.home-hero');
+    const past = () => keys.classList.toggle('past-hero', window.scrollY > hero.offsetHeight * 0.6);
+    window.addEventListener('scroll', past, { passive: true });
+    past();
+  }
   toggle.addEventListener('click', () => {
     const collapsed = !keys.classList.contains('is-collapsed');
     setCollapsed(collapsed);
@@ -385,6 +391,29 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
       { threshold: 0.3 }
     ).observe(pagerEl);
   }
+  // ---------- Previous / next cards: hard-cut through images on hover ----------
+  document.querySelectorAll('[data-flip]').forEach((card) => {
+    const img = card.querySelector('.pager-thumb');
+    const srcs = card.dataset.flip.split('|');
+    if (!img || srcs.length < 2 || reduceMotion) return;
+    let timer = 0;
+    let i = 0;
+    let warmed = false;
+    card.addEventListener('mouseenter', () => {
+      if (!warmed) srcs.forEach((src) => (new Image().src = src));
+      warmed = true;
+      clearInterval(timer);
+      timer = setInterval(() => {
+        i = (i + 1) % srcs.length;
+        img.src = srcs[i];
+      }, 700);
+    });
+    card.addEventListener('mouseleave', () => {
+      clearInterval(timer);
+      i = 0;
+      img.src = srcs[0];
+    });
+  });
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();

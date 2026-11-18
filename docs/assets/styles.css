@@ -253,8 +253,7 @@ body.menu-open {
   display: grid;
   grid-template-columns: 1fr;
   gap: 24px;
-  padding: var(--gutter);
-  padding-right: calc(var(--gutter) + 72px);
+  padding: calc(var(--gutter) + 64px) var(--gutter) var(--gutter);
   min-height: 300px;
   align-content: start;
 }
@@ -1519,6 +1518,49 @@ body[data-locked] > :not(.gate) {
 @media (max-width: 599px) {
   .crumb,
   .crumb-sep {
+    display: none;
+  }
+}
+
+/* Homepage: shortcuts appear once you're past the hero. */
+.page-home .keys.is-on:not(.past-hero) {
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -8px);
+}
+
+/* A sliver of the thumbnail peeks up from each half card, in the same spot
+   as on the full card; hovering raises the card and shows more of it. */
+.slice {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.slice .pager-label,
+.slice .pager-title {
+  position: relative;
+  z-index: 1;
+}
+.slice .pager-thumb {
+  top: calc(100% - 22px);
+  bottom: auto;
+  transition: top 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.slice.is-prev .pager-thumb {
+  right: clamp(20px, 2vw, 36px);
+  transform: rotate(4deg);
+}
+.slice.is-next .pager-thumb {
+  left: clamp(20px, 2vw, 36px);
+  transform: rotate(-4deg);
+}
+.slice:hover .pager-thumb,
+.slice:focus-visible .pager-thumb {
+  top: calc(100% - 44px);
+  transform: rotate(0deg);
+}
+@media (max-width: 799px) {
+  .slice .pager-thumb {
     display: none;
   }
 }
