@@ -162,7 +162,11 @@ function imageInSection(i) {
 // choice is remembered between pages (per browser).
 const keys = document.querySelector('.keys');
 if (keys && canHover && sections.length > 3) {
-  if (!prevLink) keys.querySelector('.keys-projects')?.remove();
+  if (!prevLink) {
+    // Home and About: no projects to step through, nothing to zoom.
+    keys.querySelector('.keys-projects')?.remove();
+    keys.querySelector('.keys-zoom')?.remove();
+  }
   const toggle = keys.querySelector('.keys-toggle');
   const setCollapsed = (collapsed) => {
     keys.classList.toggle('is-collapsed', collapsed);

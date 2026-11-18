@@ -1571,25 +1571,28 @@ body[data-locked] > :not(.gate) {
   align-items: center;
   gap: 8px;
 }
+/* Sits left of the name; grows in from zero width so it pushes the name over. */
 .chrome-toggle {
-  order: 2;
-  width: 40px;
+  flex: none;
+  width: 0;
+  margin-right: -8px;
   padding: 0;
+  overflow: hidden;
   justify-content: center;
   border: 0;
   cursor: pointer;
   pointer-events: none;
   opacity: 0;
-  transform: translateX(-6px);
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease), background 0.2s;
+  transition: width 0.35s var(--ease), margin 0.35s var(--ease), opacity 0.25s var(--ease), background 0.2s;
 }
 .chrome-toggle svg {
   transition: transform 0.35s var(--ease);
 }
 .scrolled .chrome-toggle,
 .chrome-hidden .chrome-toggle {
+  width: 40px;
+  margin-right: 0;
   opacity: 1;
-  transform: none;
   pointer-events: auto;
 }
 .chrome-hidden .chrome-toggle svg {
@@ -1611,4 +1614,84 @@ body[data-locked] > :not(.gate) {
 }
 .chrome-hidden .keys.is-on {
   transform: translate(-50%, -12px);
+}
+
+/* ---------- Project header (v2) ---------- */
+.project-hero {
+  gap: 0;
+  padding-bottom: clamp(96px, 12vw, 200px);
+}
+.project-eyebrow {
+  display: flex;
+  gap: 16px;
+  margin-bottom: clamp(12px, 1.4vw, 24px);
+  opacity: 0.75;
+}
+.project-eyebrow span + span::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: currentColor;
+  vertical-align: middle;
+  margin-right: 16px;
+  opacity: 0.6;
+}
+.project-body {
+  display: grid;
+  gap: 40px;
+  margin-top: clamp(40px, 5vw, 88px);
+}
+.project-meta {
+  margin: 0;
+  display: grid;
+  align-content: start;
+}
+.project-meta div {
+  display: grid;
+  grid-template-columns: 112px 1fr;
+  gap: 12px;
+  padding: 12px 0 14px;
+  border-top: 1px solid currentColor;
+}
+.project-meta div:last-child {
+  border-bottom: 1px solid currentColor;
+}
+.project-meta dt {
+  font-size: 12px;
+  opacity: 0.7;
+  padding-top: 2px;
+}
+.project-meta dd {
+  margin: 0;
+  display: grid;
+  gap: 2px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+.project-meta .meta-names {
+  margin-top: 6px;
+  font-size: 12px;
+  line-height: 1.5;
+  opacity: 0.75;
+}
+.project-body .project-summary {
+  font-size: clamp(20px, 1.9vw, 34px);
+  line-height: 1.28;
+  letter-spacing: -0.015em;
+  max-width: 30em;
+}
+@media (min-width: 900px) {
+  .project-body {
+    grid-template-columns: minmax(300px, 1fr) 2fr;
+    gap: clamp(40px, 6vw, 120px);
+  }
+}
+/* The first image rises into the colored header. */
+.project-hero + .slides {
+  margin-top: calc(-1 * clamp(64px, 8vw, 140px));
+  position: relative;
+}
+.project-hero + .slides > :first-child {
+  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.45);
 }

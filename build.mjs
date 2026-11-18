@@ -259,7 +259,7 @@ ${body}
     <ol class="build-log" id="build-log" hidden>${BUILD_LOG}</ol>
   </div>
 </footer>
-<div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span><kbd>Z</kbd> Zoom</span></span></div>
+<div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span class="keys-zoom"><kbd>Z</kbd> Zoom</span></span></div>
 <dialog class="viewer" aria-label="Image viewer"><img alt=""><button class="viewer-close" type="button" aria-label="Close">×</button></dialog>
 </body>
 </html>
@@ -346,6 +346,23 @@ function credits(p) {
   return `<div class="credits">${col('Team', p.team, 'span-2')}${col('Shawn’s Role', p.role, wide ? 'span-2' : '')}${col('Contributions', p.contributions, '')}</div>`;
 }
 
+// Project header: chapter line, title, then facts (left) and summary (right).
+function projectMeta(p) {
+  const list = (items) => items.map((t) => `<span>${esc(t)}</span>`).join('');
+  const rows = [
+    p.role && ['Role', list(p.role)],
+    p.team && ['Team', `<span>${p.team.length + 1} people</span><span class="meta-names">${p.team.map((t) => esc(t)).join('<br>')}</span>`],
+    ['Discipline', list(p.tags)],
+    p.contributions && ['Contributions', list(p.contributions)],
+  ].filter(Boolean);
+  return `<dl class="project-meta">${rows.map(([k, v]) => `<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>`;
+}
+function eyebrow(p) {
+  const i = order.indexOf(p);
+  const group = grouped.find((g) => g.items.includes(p));
+  if (i < 0) return '';
+  return `<p class="project-eyebrow label"><span>${String(i + 1).padStart(2, '0')} / ${String(order.length).padStart(2, '0')}</span>${group ? `<span>${esc(group.name)}</span>` : ''}</p>`;
+}
 function scopeBar(p) {
   const items = [
     p.role && ['Role', p.role.join(', ')],
@@ -367,13 +384,12 @@ function projectPage(p, { prev, next }) {
   const body = `
   <article class="project">
     <header class="project-hero${p.dark ? ' is-dark' : ''}" style="${style}" data-section>
+      ${eyebrow(p)}
       <h1 class="project-title">${esc(p.title)}</h1>
-      ${scopeBar(p)}
-      <div class="project-intro">
-        <p class="label">Project Summary</p>
+      <div class="project-body">
+        ${projectMeta(p)}
         <p class="project-summary">${esc(p.summary)}</p>
       </div>
-      ${p.team || p.role ? credits(p) : ''}
     </header>
     <div class="slides">
       ${slidesWithPrinciples(p, root)}
@@ -445,10 +461,10 @@ function reelPage({ prev, next }) {
   const body = `
   <article class="project">
     <header class="project-hero" style="--accent:#cccccc;--on-accent:#000" data-section>
+      ${eyebrow(demoReel)}
       <h1 class="project-title">Demo Reel</h1>
-      ${scopeBar(demoReel)}
-      <div class="project-intro">
-        <p class="label">Motion and Animation</p>
+      <div class="project-body">
+        ${projectMeta(demoReel)}
         <p class="project-summary">${esc(demoReel.summary)}</p>
       </div>
     </header>
