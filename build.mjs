@@ -413,7 +413,8 @@ function pagerCard(p, root, dir) {
 function miniCard(p, root, dir) {
   const accent = p === demoReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
-  return `<a class="mini-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" data-dir="${dir}">${dir === 'prev' ? '<span aria-hidden="true">←</span> ' : ''}${esc(p.title)}${dir === 'next' ? ' <span aria-hidden="true">→</span>' : ''}</a>`;
+  const label = dir === 'prev' ? '← Previous project' : 'Next project →';
+  return `<a class="mini-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" data-dir="${dir}"><span class="mini-label">${label}</span><span class="mini-title">${esc(p.title)}</span></a>`;
 }
 // Full cards at the end of the page, plus small pills that follow you down
 // the page and grow into the full cards when you reach them.
