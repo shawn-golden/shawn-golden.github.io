@@ -1834,3 +1834,102 @@ body[data-locked] > :not(.gate) {
     align-self: start;
   }
 }
+
+/* =========================================================================
+   Type system. One scale for the whole site; everything maps to a step.
+   Inter's optical-size axis gives the Display cut automatically at large
+   sizes (tighter spacing, finer details), so headlines read as set, not
+   enlarged.
+   ========================================================================= */
+:root {
+  --fs-display: clamp(64px, 12.3vw, 236px);
+  --fs-1: clamp(40px, 6.6vw, 124px);
+  --fs-2: clamp(32px, 4.6vw, 84px);
+  --fs-3: clamp(24px, 2.7vw, 50px);
+  --fs-4: clamp(18px, 1.45vw, 26px);
+  --fs-5: 15px;
+  --fs-label: 12px;
+  --fs-mono: 11px;
+}
+body {
+  font-optical-sizing: auto;
+}
+.project-title {
+  font-size: var(--fs-display);
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+}
+.index-title,
+.footer-email {
+  font-size: var(--fs-1);
+  letter-spacing: -0.05em;
+  line-height: 0.98;
+}
+.home-name,
+.about-intro,
+.principle-quote,
+.gate-name {
+  font-size: var(--fs-2);
+  letter-spacing: -0.042em;
+  line-height: 1;
+}
+.pager-title,
+.slice .pager-title,
+.pager-card .pager-title,
+.work-title,
+.menu-list a,
+.home-about-text,
+.marquee-row span,
+.info-title {
+  font-size: var(--fs-3);
+  letter-spacing: -0.035em;
+  line-height: 1.02;
+}
+.project-summary,
+.home-positioning,
+.about-bio,
+.work-group-name,
+.menu-list-sm a,
+.experience li,
+.plain-list {
+  font-size: var(--fs-4);
+  letter-spacing: -0.012em;
+}
+.project-summary,
+.home-positioning,
+.about-bio {
+  line-height: 1.32;
+}
+.info-body,
+.work-summary,
+.work-role,
+.project-meta dd {
+  font-size: var(--fs-5);
+  line-height: 1.45;
+}
+/* One label style everywhere. */
+.label,
+.slide-caption,
+.credit,
+.home-contact,
+.footer-meta,
+.mini-label,
+.scope dt,
+.project-meta dt {
+  font-size: var(--fs-label);
+  letter-spacing: 0.01em;
+  line-height: 1.4;
+}
+/* One mono style for tags, numbers and dates. */
+.index-tags,
+.project-tags,
+.work-tags,
+.pager-tags,
+.index-num,
+.exp-dates,
+.work-group-count {
+  font-family: var(--mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
