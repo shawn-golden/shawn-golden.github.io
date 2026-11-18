@@ -437,7 +437,7 @@ export const principles = {
   expel: [
     {
       after: 'expel-03',
-      quote: 'Technical, data-driven, systematic, precise. A visual callback to when computer output showed its work.',
+      quote: 'Technical, data-driven, systematic, precise. It’s a visual callback to when computer output was precise, systematic, and showed its work.',
       source: 'Expel guidelines · Graphic device',
     },
     {
