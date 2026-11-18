@@ -181,7 +181,7 @@ function slidesWithPrinciples(p, root) {
 
 function menu(root, current) {
   return `
-  <button class="menu-button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
+  <button class="menu-button chip" aria-expanded="false" aria-controls="site-menu"><span class="menu-label">Menu</span><span class="menu-icon" aria-hidden="true"><span></span><span></span></span></button>
   <nav class="menu" id="site-menu" aria-label="Site" hidden>
     <div class="menu-inner">
       <div class="menu-col">
@@ -207,7 +207,7 @@ function menu(root, current) {
   </nav>`;
 }
 
-function layout({ title, description, root, current, body, bodyClass = '', bodyStyle = '', og, theme, prev, next }) {
+function layout({ title, description, root, current, body, bodyClass = '', bodyStyle = '', og, theme, prev, next, crumb }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.titles.join(', ')}`;
   const ogUrl = og ? `${site.url}/assets/og/${og}.png` : '';
   return `<!doctype html>
@@ -239,7 +239,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <body class="${bodyClass}"${bodyStyle ? ` style="${bodyStyle}"` : ''}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
-  <a class="wordmark" href="${root}">${esc(site.name)}</a>
+  <a class="wordmark chip" href="${root}"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}</a>
 </header>
 ${menu(root, current)}
 <main id="main">
@@ -391,6 +391,7 @@ function projectPage(p, { prev, next }) {
       bodyStyle: `--menu-bg:${p.accent};--menu-fg:${onAccent}`,
       og: p.slug,
       theme: p.accent,
+      crumb: { title: p.shortTitle || p.title, accent: p.accent },
       prev: `${root}${prev.slug}/`,
       next: `${root}${next.slug}/`,
     })
@@ -463,6 +464,7 @@ function reelPage({ prev, next }) {
       bodyStyle: '--menu-bg:#cccccc;--menu-fg:#000',
       og: demoReel.slug,
       theme: '#cccccc',
+      crumb: { title: 'Demo Reel', accent: '#cccccc' },
       prev: `${root}${prev.slug}/`,
       next: `${root}${next.slug}/`,
     })
@@ -509,7 +511,7 @@ function aboutPage() {
   </article>`;
   write(
     'about/index.html',
-    layout({ title: 'About', description: about.intro, root, current: 'about', body, bodyClass: 'page-about', og: 'about' })
+    layout({ title: 'About', description: about.intro, root, current: 'about', body, bodyClass: 'page-about', og: 'about', crumb: { title: 'About', accent: '#ffffff' } })
   );
 }
 

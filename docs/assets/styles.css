@@ -84,25 +84,67 @@ ol {
 }
 
 /* ---------- Header + menu ---------- */
+/* Top chrome: three matching capsules on one line (name, shortcuts, menu). */
+.chip {
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 16px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.86);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  color: #fff;
+  font: inherit;
+  font-size: 13px;
+  line-height: 1;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 10px 30px -14px rgba(0, 0, 0, 0.45);
+}
 .site-header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 20;
-  padding: var(--gutter);
+  position: fixed;
+  top: var(--gutter);
+  left: var(--gutter);
+  z-index: 45;
   pointer-events: none;
 }
 .wordmark {
   pointer-events: auto;
-  font-size: 12px;
-  display: inline-block;
+  max-width: calc(100vw - 2 * var(--gutter) - 120px);
+  min-width: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: background 0.2s;
 }
-.page-home .wordmark {
-  visibility: hidden;
+.wordmark:hover {
+  background: rgba(17, 17, 17, 0.95);
 }
-.hero-dark .wordmark {
-  color: #fff;
+.crumb-sep {
+  opacity: 0.35;
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  opacity: 0.8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.crumb i {
+  flex: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
+}
+.page-home .site-header {
+  display: none;
+}
+@media (min-width: 1100px) {
+  /* Leave room for the shortcut capsule in the middle. */
+  .wordmark {
+    max-width: calc(50vw - var(--gutter) - 290px);
+  }
 }
 
 .menu-button {
@@ -110,43 +152,38 @@ ol {
   top: var(--gutter);
   right: var(--gutter);
   z-index: 60;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  border: 0;
-  background: #000;
-  color: #fff;
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.35);
   cursor: pointer;
-  display: grid;
-  place-content: center;
-  gap: 5px;
-  padding: 0;
-  transition: transform 0.4s var(--ease), background 0.2s;
+  border: 0;
+  padding: 0 14px 0 16px;
+  transition: background 0.2s, color 0.2s;
 }
-.menu-button span {
+.menu-icon {
+  display: grid;
+  gap: 4px;
+  width: 16px;
+}
+.menu-icon span {
   display: block;
-  width: 22px;
-  height: 2px;
+  height: 1.5px;
   background: currentColor;
   border-radius: 2px;
-  transition: transform 0.35s var(--ease), opacity 0.2s;
+  transition: transform 0.3s var(--ease);
 }
-.menu-button:hover {
-  transform: scale(1.06);
+.menu-button:hover .menu-icon span:first-child {
+  transform: translateX(-2px);
+}
+.menu-button:hover .menu-icon span:last-child {
+  transform: translateX(2px);
 }
 .menu-button[aria-expanded='true'] {
   background: #fff;
   color: #000;
 }
-.menu-button[aria-expanded='true'] span:nth-child(1) {
-  transform: translateY(7px) rotate(45deg);
+.menu-button[aria-expanded='true'] .menu-icon span:first-child {
+  transform: translateY(2.75px) rotate(45deg);
 }
-.menu-button[aria-expanded='true'] span:nth-child(2) {
-  opacity: 0;
-}
-.menu-button[aria-expanded='true'] span:nth-child(3) {
-  transform: translateY(-7px) rotate(-45deg);
+.menu-button[aria-expanded='true'] .menu-icon span:last-child {
+  transform: translateY(-2.75px) rotate(-45deg);
 }
 
 .menu {
@@ -1064,49 +1101,80 @@ p, li, dd {
   }
 }
 
-/* ---------- Keyboard hint ---------- */
+/* ---------- Keyboard hint (top center capsule) ---------- */
 .keys {
   position: fixed;
   left: 50%;
-  top: calc(var(--gutter) + 10px);
+  top: var(--gutter);
   z-index: 40;
+  height: 40px;
   display: flex;
-  gap: 16px;
-  padding: 8px 12px;
-  border-radius: 999px;
-  background: rgba(0, 0, 0, 0.85);
-  color: #fff;
-  font-size: 12px;
   align-items: center;
+  gap: 4px;
+  padding: 0 14px 0 6px;
+  border-radius: 999px;
+  background: rgba(17, 17, 17, 0.86);
+  -webkit-backdrop-filter: blur(14px) saturate(1.4);
+  backdrop-filter: blur(14px) saturate(1.4);
+  color: #fff;
+  font-size: 13px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.1), 0 10px 30px -14px rgba(0, 0, 0, 0.45);
   opacity: 0;
   transform: translate(-50%, -8px);
-  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), padding 0.3s var(--ease);
+  transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
 }
 .keys.is-on {
   opacity: 1;
   transform: translate(-50%, 0);
 }
-
 .keys-list {
   display: flex;
-  gap: 16px;
+  align-items: center;
+}
+.keys-list > span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 12px;
+  color: rgba(255, 255, 255, 0.72);
+}
+.keys-list > span + span {
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+}
+.keys-list > span:last-child {
+  padding-right: 0;
+}
+.keys kbd {
+  font-family: var(--mono);
+  font-size: 11px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.08);
+}
+.keys kbd:last-of-type {
+  margin-right: 4px;
 }
 .keys-toggle {
   display: grid;
   place-items: center;
-  width: 24px;
-  height: 24px;
-  margin: -4px -2px -4px -4px;
+  width: 30px;
+  height: 30px;
   border: 0;
   border-radius: 50%;
   background: transparent;
   color: inherit;
   cursor: pointer;
-  opacity: 0.8;
+  opacity: 0.75;
 }
 .keys-toggle:hover {
   opacity: 1;
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.1);
 }
 .keys .eye-closed,
 .keys.is-collapsed .eye-open,
@@ -1117,24 +1185,11 @@ p, li, dd {
   display: block;
 }
 .keys.is-collapsed {
-  padding: 8px;
+  width: 40px;
+  padding: 0;
+  justify-content: center;
 }
-.keys span {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-.keys kbd {
-  font-family: var(--mono);
-  font-size: 11px;
-  min-width: 20px;
-  height: 20px;
-  display: inline-grid;
-  place-items: center;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  border-radius: 4px;
-}
-@media (hover: none), (max-width: 899px) {
+@media (hover: none), (max-width: 1099px) {
   .keys {
     display: none;
   }
@@ -1459,5 +1514,11 @@ body[data-locked] > :not(.gate) {
 @media (min-width: 800px) {
   .mini-pager {
     grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 599px) {
+  .crumb,
+  .crumb-sep {
+    display: none;
   }
 }
