@@ -100,7 +100,7 @@ if (preview && canHover && window.innerWidth >= 900) {
         timer = setInterval(() => {
           i = (i + 1) % srcs.length;
           img.src = srcs[i];
-        }, 350);
+        }, 700);
       }
     });
     a.addEventListener('mousemove', place);
