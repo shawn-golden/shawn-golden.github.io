@@ -2,3 +2,6 @@
 node_modules/
 # Full-size PNG exports from Figma (the site uses the WebP versions in docs/assets/slides)
 source/
+
+# Password for the page gate (never committed)
+.site-password

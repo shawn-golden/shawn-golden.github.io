@@ -1322,3 +1322,115 @@ p, li, dd {
 .cursor-ugly:active {
   cursor: url('cursors/grab.png') 19 20, grabbing;
 }
+
+/* ---------- Password gate ---------- */
+body[data-locked] > :not(.gate) {
+  display: none;
+}
+.gate {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: grid;
+  align-items: end;
+  padding: var(--gutter);
+}
+.gate-form {
+  display: grid;
+  gap: 14px;
+  width: min(100%, 640px);
+  border-top: 1px solid var(--rule);
+  padding-top: 16px;
+}
+.gate-name {
+  font-size: clamp(32px, 4.4vw, 84px);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  margin-bottom: clamp(24px, 6vh, 80px);
+}
+.gate-row {
+  display: flex;
+  gap: 8px;
+}
+.gate-row input {
+  flex: 1;
+  min-width: 0;
+  font: inherit;
+  font-size: 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--ink);
+}
+.gate-row button {
+  font: inherit;
+  font-size: 16px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: 6px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+}
+.gate-form.is-busy button {
+  opacity: 0.5;
+}
+.gate-error {
+  color: #b00020;
+}
+.gate-error a {
+  text-decoration: underline;
+}
+.gate-form.is-wrong .gate-row {
+  animation: gate-shake 0.35s;
+}
+@keyframes gate-shake {
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-3px); }
+}
+
+/* ---------- Mini pager ---------- */
+.mini-pager {
+  position: fixed;
+  right: var(--gutter);
+  bottom: var(--gutter);
+  z-index: 40;
+  display: flex;
+  gap: 6px;
+  opacity: 0;
+  transform: translateY(12px);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+}
+.mini-pager.is-on {
+  opacity: 1;
+  transform: none;
+  pointer-events: auto;
+}
+.mini-card {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13px;
+  white-space: nowrap;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 8px 24px -10px rgba(0, 0, 0, 0.35);
+  transition: transform 0.25s var(--ease);
+}
+.mini-card:hover {
+  transform: translateY(-2px);
+}
+.pager-card {
+  transform-origin: 0 0;
+}
+@media (max-width: 600px) {
+  .mini-pager {
+    left: var(--gutter);
+    justify-content: space-between;
+  }
+}

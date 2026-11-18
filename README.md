@@ -35,3 +35,11 @@ ffmpeg -i in.mov -an -vf "scale='min(1600,iw)':-2" -c:v libx264 -crf 25 -preset 
 
 Push this folder to a GitHub repository, then in **Settings → Pages** choose
 "Deploy from a branch", branch `main`, folder `/docs`.
+
+## Password
+
+Pages are encrypted with the password in `.site-password` (one line, never
+committed). Change it by editing that file and running `node build.mjs`, then
+push. Delete the file to publish the site without a password. Images and
+videos are still reachable by direct URL, so this keeps casual visitors out;
+it isn't a secure lock.

@@ -5,6 +5,7 @@ import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { gzipSync } from 'node:zlib';
+import { pbkdf2Sync, randomBytes, createCipheriv } from 'node:crypto';
 import { site, projects, demoReel, about, groups, principles, alts } from './content/site.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
@@ -17,7 +18,7 @@ const SLIDE_H = 1080;
 const visible = projects.filter((p) => !p.hidden);
 const bySlug = Object.fromEntries([...visible, demoReel].map((p) => [p.slug, p]));
 const VERSION = createHash('sha1')
-  .update(['styles.css', 'main.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
+  .update(['styles.css', 'main.js', 'gate.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
   .digest('hex')
   .slice(0, 8);
 const missingVideos = new Set();
@@ -232,6 +233,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&family=Inter:opsz,wght@14..32,400;14..32,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${root}assets/styles.css?v=${VERSION}">
 <script>document.documentElement.classList.add('js')</script>
+<script src="${root}assets/gate.js?v=${VERSION}" defer></script>
 <script src="${root}assets/main.js?v=${VERSION}" defer></script>
 </head>
 <body class="${bodyClass}"${bodyStyle ? ` style="${bodyStyle}"` : ''}>
@@ -250,7 +252,7 @@ ${body}
     <div class="footer-meta">
       <span class="footer-clock">${esc(site.location)}<time data-clock></time></span>
       <button class="footer-build" type="button" aria-expanded="false" aria-controls="build-log">How this site was built</button>
-      <a href="mailto:${site.email}">Open in mail</a>
+      <a href="mailto:${site.email}">${esc(site.email)}</a>
       <span>© ${new Date().getFullYear()} ${esc(site.name)}</span>
     </div>
     <ol class="build-log" id="build-log" hidden>${BUILD_LOG}</ol>
@@ -408,11 +410,19 @@ function pagerCard(p, root, dir) {
       <img class="pager-thumb" src="${root}assets/slides/${thumb}-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
     </a>`;
 }
+function miniCard(p, root, dir) {
+  const accent = p === demoReel ? '#cccccc' : p.accent;
+  const on = p.dark ? '#fff' : '#000';
+  return `<a class="mini-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" data-dir="${dir}">${dir === 'prev' ? '<span aria-hidden="true">←</span> ' : ''}${esc(p.title)}${dir === 'next' ? ' <span aria-hidden="true">→</span>' : ''}</a>`;
+}
+// Full cards at the end of the page, plus small pills that follow you down
+// the page and grow into the full cards when you reach them.
 function pager({ prev, next }, root) {
   return `<nav class="pager" aria-label="More projects" data-section>
     ${pagerCard(prev, root, 'prev')}
     ${pagerCard(next, root, 'next')}
-  </nav>`;
+  </nav>
+  <div class="mini-pager" aria-hidden="true">${miniCard(prev, root, 'prev')}${miniCard(next, root, 'next')}</div>`;
 }
 
 // ---------- Demo reel ----------
@@ -527,7 +537,7 @@ for (const entry of readdirSync(OUT)) {
   if (entry === 'assets' || entry === 'CNAME' || entry === '.nojekyll') continue;
   rmSync(join(OUT, entry), { recursive: true, force: true });
 }
-for (const f of ['styles.css', 'main.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
+for (const f of ['styles.css', 'main.js', 'gate.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
 writeFileSync(join(OUT, '.nojekyll'), '');
 BUILD_LOG = buildLog();
 
@@ -546,7 +556,38 @@ write('404.html', layout({ title: 'Not found', description: 'Page not found', ro
   const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? (f === 'assets' ? [] : walk(join(dir, f))) : f.endsWith('.html') ? [join(dir, f)] : []));
   for (const f of walk(OUT)) writeFileSync(f, readFileSync(f, 'utf8').replaceAll('{{WEIGHT}}', weight));
 }
-console.log(`Built ${order.length + 2} pages into docs/`);
+// ---------- Password gate ----------
+// Each page's <body> content is encrypted (AES-GCM, key from PBKDF2) with the
+// password in .site-password, which is never committed. Visitors see a gate;
+// gate.js decrypts in the browser. Images and videos stay reachable by direct
+// URL, so this hides the site from casual visitors only.
+const PW_FILE = join(ROOT, '.site-password');
+let gated = 0;
+if (existsSync(PW_FILE)) {
+  const pw = readFileSync(PW_FILE, 'utf8').trim();
+  const salt = createHash('sha256').update('gate-salt:' + pw).digest().subarray(0, 16);
+  const iter = 210000;
+  const key = pbkdf2Sync(pw, salt, iter, 32, 'sha256');
+  const gate = `<div class="gate"><form class="gate-form" autocomplete="on">
+  <p class="gate-name">${esc(site.name)}<br>${site.titles.map(esc).join('<br>')}</p>
+  <label class="label" for="gate-pw">This portfolio is password protected.</label>
+  <div class="gate-row"><input id="gate-pw" name="password" type="password" autocomplete="current-password" required autofocus><button type="submit">Enter <span aria-hidden="true">→</span></button></div>
+  <p class="gate-error label" role="alert" hidden>That’s not it. Try again, or email <a href="mailto:${site.email}">${esc(site.email)}</a>.</p>
+</form></div>`;
+  const walkHtml = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? (f === 'assets' ? [] : walkHtml(join(dir, f))) : f.endsWith('.html') && f !== '404.html' ? [join(dir, f)] : []));
+  for (const f of walkHtml(OUT)) {
+    const html = readFileSync(f, 'utf8');
+    const m = html.match(/<body([^>]*)>([\s\S]*)<\/body>/);
+    if (!m) continue;
+    const iv = randomBytes(12);
+    const c = createCipheriv('aes-256-gcm', key, iv);
+    const data = Buffer.concat([c.update(m[2], 'utf8'), c.final(), c.getAuthTag()]);
+    const payload = JSON.stringify({ salt: salt.toString('base64'), iter, iv: iv.toString('base64'), data: data.toString('base64') });
+    writeFileSync(f, html.replace(m[0], `<body${m[1]} data-locked>${gate}<script type="application/json" id="locked">${payload}</script></body>`));
+    gated++;
+  }
+}
+console.log(`Built ${order.length + 2} pages into docs/${gated ? ` (${gated} password-protected)` : ' (no .site-password: pages are public)'}`);
 if (missingVideos.size) {
   console.log(`\n${missingVideos.size} video(s) not found in docs/assets/video/ (stills shown instead):`);
   for (const f of missingVideos) console.log(`  - ${f}`);
