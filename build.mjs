@@ -233,7 +233,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&family=Inter:opsz,wght@14..32,400;14..32,500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="${root}assets/styles.css?v=${VERSION}">
-<script>document.documentElement.classList.add('js')</script>
+<script>document.documentElement.classList.add('js');window.ACCENTS=${JSON.stringify(Object.fromEntries([...visible.map((p) => [p.slug, p.accent]), [demoReel.slug, '#cccccc']]))};try{var w=sessionStorage.getItem('wipe');if(w){document.documentElement.style.setProperty('--wipe',w);document.documentElement.classList.add('wiping')}}catch(e){}</script>
 <script src="${root}assets/gate.js?v=${VERSION}" defer></script>
 <script src="${root}assets/main.js?v=${VERSION}" defer></script>
 </head>

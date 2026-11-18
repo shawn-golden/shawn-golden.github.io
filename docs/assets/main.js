@@ -452,6 +452,42 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     window.addEventListener('scroll', onScrolled, { passive: true });
     onScrolled();
   }
+  // ---------- Page transitions: a wipe in the destination project's color ----------
+  const html = document.documentElement;
+  if (html.classList.contains('wiping')) {
+    try {
+      sessionStorage.removeItem('wipe');
+    } catch (e) {}
+    setTimeout(() => {
+      html.classList.add('wipe-out');
+      setTimeout(() => html.classList.remove('wiping', 'wipe-out'), 700);
+    }, 30);
+  }
+  window.addEventListener('pageshow', (e) => {
+    if (e.persisted) {
+      html.classList.remove('wiping', 'wipe-out');
+      document.querySelector('.wipe')?.remove();
+    }
+  });
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest && e.target.closest('a[href]');
+    if (!a || reduceMotion || e.defaultPrevented) return;
+    if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0 || a.target === '_blank' || a.hasAttribute('download')) return;
+    const url = new URL(a.href, location.href);
+    if (url.origin !== location.origin || url.pathname === location.pathname || a.getAttribute('href').startsWith('#') || url.protocol === 'mailto:') return;
+    const slug = url.pathname.replace(/\/+$/, '').split('/').pop();
+    const color = (window.ACCENTS && window.ACCENTS[slug]) || '#111111';
+    e.preventDefault();
+    try {
+      sessionStorage.setItem('wipe', color);
+    } catch (err) {}
+    const wipe = document.createElement('div');
+    wipe.className = 'wipe';
+    wipe.style.background = color;
+    document.body.appendChild(wipe);
+    requestAnimationFrame(() => wipe.classList.add('is-in'));
+    setTimeout(() => (location.href = url.href), 380);
+  });
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();
