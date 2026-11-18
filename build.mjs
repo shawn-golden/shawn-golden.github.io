@@ -1,31 +1,56 @@
 // Generates the static site into docs/ (GitHub Pages can serve this folder).
 // Usage: node build.mjs
-import { mkdirSync, writeFileSync, copyFileSync, existsSync, rmSync, readdirSync, readFileSync } from 'node:fs';
+import { mkdirSync, writeFileSync, copyFileSync, existsSync, rmSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { site, projects, demoReel, about } from './content/site.mjs';
+import { gzipSync } from 'node:zlib';
+import { site, projects, demoReel, about, groups, principles, alts } from './content/site.mjs';
 
 const ROOT = dirname(fileURLToPath(import.meta.url));
 const OUT = join(ROOT, 'docs');
+const SLIDES_DIR = join(OUT, 'assets', 'slides');
 const VIDEO_DIR = join(OUT, 'assets', 'video');
 const SLIDE_W = 1920;
 const SLIDE_H = 1080;
 
 const visible = projects.filter((p) => !p.hidden);
+const bySlug = Object.fromEntries([...visible, demoReel].map((p) => [p.slug, p]));
 const VERSION = createHash('sha1')
   .update(['styles.css', 'main.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
   .digest('hex')
   .slice(0, 8);
 const missingVideos = new Set();
+const missingAlts = new Set();
+
+// Site order follows the homepage groups.
+const grouped = groups.map((g) => ({ name: g.name, items: g.slugs.map((s) => bySlug[s]).filter(Boolean) }));
+const listed = new Set(grouped.flatMap((g) => g.items.map((p) => p.slug)));
+const leftovers = visible.filter((p) => !listed.has(p.slug));
+if (leftovers.length) grouped[grouped.length - 1].items.push(...leftovers);
+const order = grouped.flatMap((g) => g.items);
 
 const esc = (s = '') =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
 const pct = (v, total) => `${+((v / total) * 100).toFixed(4)}%`;
+const has2x = (name) => existsSync(join(SLIDES_DIR, `${name}-2x.webp`));
+const altFor = (name, fallback) => {
+  if (alts[name]) return alts[name];
+  missingAlts.add(name);
+  return fallback;
+};
+const slideSrc = (s) => (typeof s === 'string' ? s : s.src || (s.row && s.row[0]));
+const slideImages = (p) =>
+  p.slides.flatMap((s) => (typeof s === 'string' ? [s] : s.row ? s.row : s.body ? [] : [s.src]));
 
-function pictureTag(name, root, alt, { eager = false } = {}) {
+function pictureTag(name, root, alt, { eager = false, half = false } = {}) {
   const base = `${root}assets/slides/${name}`;
-  return `<img src="${base}.webp" srcset="${base}-sm.webp 960w, ${base}.webp 1920w" sizes="(max-width: 1000px) 100vw, min(100vw, 1760px)" width="${SLIDE_W}" height="${SLIDE_H}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
+  const [w, h] = half ? [944, 1080] : [SLIDE_W, SLIDE_H];
+  const set = half
+    ? `${base}-sm.webp 480w, ${base}.webp 944w${has2x(name) ? `, ${base}-2x.webp 1888w` : ''}`
+    : `${base}-sm.webp 960w, ${base}.webp 1920w${has2x(name) ? `, ${base}-2x.webp 3200w` : ''}`;
+  const sizes = half ? '(max-width: 700px) 100vw, 50vw' : '(max-width: 1000px) 100vw, min(100vw, 1760px)';
+  return `<img src="${base}.webp" srcset="${set}" sizes="${sizes}" width="${w}" height="${h}" alt="${esc(alt)}" data-full="${base}${has2x(name) ? '-2x' : ''}.webp" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
 }
 
 function boxStyle(v, W = SLIDE_W, H = SLIDE_H) {
@@ -67,6 +92,38 @@ function motionLayers(s, root, W = SLIDE_W, H = SLIDE_H) {
 // Inline text formatting for content strings: _italic_.
 const rich = (t) => esc(t).replace(/_(.+?)_/g, '<em>$1</em>');
 
+// ---------- Live demos (Tap to Pay info slides) ----------
+const DEMO_PHOTOS = ['sunflower', 'face', 'jacket', 'drink', 'ladder', 'brushes', 'shadow', 'brown', 'produce'];
+function demoMarkup(kind, root) {
+  const img = (n, extra = '') => `<img src="${root}assets/demo/${n}.webp" alt="" loading="lazy" decoding="async"${extra}>`;
+  if (kind === 'scroll-gallery') {
+    return `<div class="demo demo-gallery" aria-label="Live demo: a gallery that moves as you scroll">
+          <div class="demo-page">
+            <p class="demo-kicker">New</p>
+            <p class="demo-head">Sell on the go.</p>
+            <div class="demo-track">${DEMO_PHOTOS.concat(DEMO_PHOTOS.slice(0, 3)).map((n) => `<span class="demo-tile">${img(n)}</span>`).join('')}</div>
+          </div>
+          <p class="demo-note">Live demo · scroll the page</p>
+        </div>`;
+  }
+  if (kind === 'collage') {
+    // Final positions (% of the stage) and the side each photo flies in from.
+    const spots = [
+      ['sunflower', 3, 6, 19, 'l'], ['face', 25, 2, 15, 't'], ['jacket', 60, 3, 13, 't'],
+      ['drink', 77, 8, 20, 'r'], ['ladder', 2, 42, 17, 'l'], ['brushes', 81, 44, 17, 'r'],
+      ['shadow', 8, 72, 18, 'b'], ['brown', 72, 72, 18, 'b'], ['produce', 44, 74, 10, 'b'],
+    ];
+    return `<div class="demo demo-collage" aria-label="Live demo: photos fly in to frame a call to action">
+          <div class="demo-stage">
+            ${spots.map(([n, x, y, w, from], i) => `<span class="demo-piece from-${from}" style="left:${x}%;top:${y}%;width:${w}%;--i:${i}">${img(n)}</span>`).join('')}
+            <div class="demo-cta"><p class="demo-head">Take your first tap.</p><span class="demo-btn">Get started</span></div>
+          </div>
+          <button class="demo-replay" type="button">Replay</button>
+        </div>`;
+  }
+  return '';
+}
+
 // Info slide: live text on the left, the demo panel (image + any video) on the right.
 // Panel coordinates are in the panel's own pixels (Figma: 1387×922).
 const PANEL_W = 1387;
@@ -76,48 +133,70 @@ function infoSlide(s, project, root) {
   const figs = (s.figures || [])
     .map((f) => `<img src="${root}assets/slides/${f.img}" width="${f.w}" height="${f.h}" style="width:${f.w}px" alt="${esc(f.alt || '')}" loading="lazy" decoding="async">`)
     .join('');
-  return `<section class="info-slide">
+  const panelImg = `<img src="${base}.webp" srcset="${base}-sm.webp 800w, ${base}.webp 1387w, ${base}-2x.webp 2774w" sizes="(max-width: 900px) 100vw, 70vw" width="${PANEL_W}" height="${PANEL_H}" alt="${esc(`${project.title}: ${s.title}`)}" data-full="${base}-2x.webp" loading="lazy" decoding="async">`;
+  return `<section class="info-slide" data-section>
         <div class="info-text">
           <p class="label">${esc(s.eyebrow || 'Interaction design')}</p>
           <h2 class="info-title">${esc(s.title)}</h2>
           <div class="info-body">${s.body.map((p) => `<p>${rich(p)}</p>`).join('')}</div>
           ${figs ? `<div class="info-figs">${figs}</div>` : ''}
         </div>
-        <figure class="info-panel">
-          <img src="${base}.webp" srcset="${base}-sm.webp 800w, ${base}.webp 1387w" sizes="(max-width: 900px) 100vw, 70vw" width="${PANEL_W}" height="${PANEL_H}" alt="${esc(`${project.title}: ${s.title}`)}" loading="lazy" decoding="async">
-          ${motionLayers(s, root, PANEL_W, PANEL_H)}
+        <figure class="info-panel${s.demo ? ' has-demo' : ''}">
+          ${s.demo ? demoMarkup(s.demo, root) : `${panelImg}${motionLayers(s, root, PANEL_W, PANEL_H)}`}
         </figure>
       </section>`;
+}
+
+function principleBlock(pr) {
+  return `<blockquote class="principle" data-section>
+        <p class="principle-quote">${esc(pr.quote)}</p>
+        <footer class="label">${esc(pr.source)}</footer>
+      </blockquote>`;
 }
 
 function slideFigure(slide, i, project, root) {
   const s = typeof slide === 'string' ? { src: slide } : slide;
   if (s.body) return infoSlide(s, project, root);
-  const fig = `<figure class="slide${i === 0 ? ' reveal-now' : ''}">${pictureTag(s.src, root, s.caption ? `${project.title}: ${s.caption}` : `${project.title}, image ${i + 1}`, { eager: i === 0 })}${motionLayers(s, root)}</figure>`;
-  return s.caption ? `<div class="slide-group"><p class="slide-caption label">${esc(s.caption)}</p>${fig}</div>` : fig;
+  if (s.row) {
+    return `<div class="slide-row cols-${s.row.length}" data-section>${s.row
+      .map((n) => `<figure class="slide slide-half">${pictureTag(n, root, altFor(n, project.title), { half: true })}</figure>`)
+      .join('')}</div>`;
+  }
+  const fig = `<figure class="slide${i === 0 ? ' reveal-now' : ''}"${s.caption ? '' : ' data-section'}>${pictureTag(s.src, root, altFor(s.src, `${project.title}, image ${i + 1}`), { eager: i === 0 })}${motionLayers(s, root)}</figure>`;
+  return s.caption ? `<div class="slide-group" data-section><p class="slide-caption label">${esc(s.caption)}</p>${fig}</div>` : fig;
+}
+
+function slidesWithPrinciples(p, root) {
+  const prs = principles[p.slug] || [];
+  return p.slides
+    .map((s, i) => {
+      const after = prs.filter((pr) => pr.after === slideSrc(s)).map(principleBlock).join('');
+      return slideFigure(s, i, p, root) + after;
+    })
+    .join('\n      ');
 }
 
 function menu(root, current) {
-  const items = [...visible.slice(0, -1), demoReel, visible.at(-1)].map((p) => ({
-    href: `${root}${p.slug}/`,
-    label: p.title,
-    slug: p.slug,
-  }));
   return `
   <button class="menu-button" aria-expanded="false" aria-controls="site-menu" aria-label="Open menu"><span></span><span></span><span></span></button>
   <nav class="menu" id="site-menu" aria-label="Site" hidden>
     <div class="menu-inner">
       <div class="menu-col">
-        <p class="label">Projects</p>
+        ${grouped
+          .map(
+            (g) => `<p class="label">${esc(g.name)}</p>
         <ol class="menu-list">
-          ${items.map((it) => `<li><a href="${it.href}"${it.slug === current ? ' aria-current="page"' : ''}>${esc(it.label)}</a></li>`).join('')}
-        </ol>
+          ${g.items.map((p) => `<li><a href="${root}${p.slug}/"${p.slug === current ? ' aria-current="page"' : ''}>${esc(p.title)}</a></li>`).join('')}
+        </ol>`
+          )
+          .join('')}
       </div>
       <div class="menu-col">
         <p class="label">Info</p>
         <ol class="menu-list menu-list-sm">
           <li><a href="${root}"${current === 'home' ? ' aria-current="page"' : ''}>Home</a></li>
           <li><a href="${root}about/"${current === 'about' ? ' aria-current="page"' : ''}>About</a></li>
+          <li><a href="${root}about/#colophon">Colophon</a></li>
           <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
         </ol>
       </div>
@@ -125,9 +204,9 @@ function menu(root, current) {
   </nav>`;
 }
 
-function layout({ title, description, root, current, body, bodyClass = '', ogImage, theme }) {
+function layout({ title, description, root, current, body, bodyClass = '', bodyStyle = '', og, theme, prev, next }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.titles.join(', ')}`;
-  const og = ogImage ? `${site.url ? site.url + '/' : root}assets/slides/${ogImage}.webp` : '';
+  const ogUrl = og ? `${site.url}/assets/og/${og}.png` : '';
   return `<!doctype html>
 <html lang="en">
 <head>
@@ -135,10 +214,16 @@ function layout({ title, description, root, current, body, bodyClass = '', ogIma
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(description)}">
+<meta property="og:type" content="website">
 <meta property="og:title" content="${esc(fullTitle)}">
 <meta property="og:description" content="${esc(description)}">
-${og ? `<meta property="og:image" content="${og}">` : ''}
+${ogUrl ? `<meta property="og:image" content="${ogUrl}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">` : ''}
 <meta name="theme-color" content="${theme || '#f6f6f6'}">
+${prev ? `<link rel="prev" href="${prev}">` : ''}
+${next ? `<link rel="next" href="${next}">` : ''}
 <link rel="icon" href="${root}assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -147,7 +232,7 @@ ${og ? `<meta property="og:image" content="${og}">` : ''}
 <script>document.documentElement.classList.add('js')</script>
 <script src="${root}assets/main.js?v=${VERSION}" defer></script>
 </head>
-<body class="${bodyClass}">
+<body class="${bodyClass}"${bodyStyle ? ` style="${bodyStyle}"` : ''}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <a class="wordmark" href="${root}">${esc(site.name)}</a>
@@ -161,10 +246,13 @@ ${body}
     <p class="footer-big">Let’s make something.</p>
     <div class="footer-meta">
       <a href="mailto:${site.email}">${esc(site.email)}</a>
+      <a href="${root}about/#colophon">How this site was built</a>
       <span>${esc(site.name)} | ${esc(site.titles[0])}</span>
     </div>
   </div>
 </footer>
+<div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span><kbd>Z</kbd> Zoom</span></span></div>
+<dialog class="viewer" aria-label="Image viewer"><img alt=""><button class="viewer-close" type="button" aria-label="Close">×</button></dialog>
 </body>
 </html>
 `;
@@ -176,38 +264,53 @@ function write(rel, html) {
   writeFileSync(file, html);
 }
 
-const firstSlide = (p) => (typeof p.slides[0] === 'string' ? p.slides[0] : p.slides[0].src);
-
 // ---------- Home ----------
 function home() {
   const root = '';
-  const rows = [...visible.slice(0, -1), { ...demoReel, isReel: true }, visible.at(-1)]
-    .filter(Boolean)
-    .map((p, i) => {
-      const thumb = p.isReel ? p.thumb : firstSlide(p);
+  let n = 0;
+  const groupsHtml = grouped
+    .map((g) => {
+      const rows = g.items
+        .map((p) => {
+          n++;
+          const stack = p === demoReel ? [p.thumb] : slideImages(p).slice(0, 10);
+          const thumb = stack[0];
+          return `
+        <li class="index-row">
+          <a href="${p.slug}/" data-stack="${esc(stack.map((s) => `assets/slides/${s}-sm.webp`).join('|'))}">
+            <span class="index-num">${String(n).padStart(2, '0')}</span>
+            <span class="index-title">${esc(p.title)}</span>
+            <span class="index-tags">${esc(p.tags.join(', '))}</span>
+            <img class="index-thumb" src="assets/slides/${thumb}-sm.webp" alt="" loading="lazy" width="960" height="540">
+          </a>
+        </li>`;
+        })
+        .join('');
       return `
-      <li class="index-row">
-        <a href="${p.slug}/" data-thumb="assets/slides/${thumb}-sm.webp">
-          <span class="index-num">${String(i + 1).padStart(2, '0')}</span>
-          <span class="index-title">${esc(p.title)}</span>
-          <span class="index-tags">${esc(p.tags.join(', '))}</span>
-          <img class="index-thumb" src="assets/slides/${thumb}-sm.webp" alt="" loading="lazy" width="960" height="540">
-        </a>
-      </li>`;
+    <section class="index-group" data-section>
+      <h2 class="index-group-name label">${esc(g.name)}</h2>
+      <ol class="index-list">${rows}</ol>
+    </section>`;
     })
     .join('');
+  const clients = about.clients.map((c) => `<span>${esc(c)}</span>`).join('');
   const body = `
-  <section class="home-hero">
+  <section class="home-hero" data-section>
     <h1 class="home-name">${esc(site.name)}<br>${site.titles.map(esc).join('<br>')}</h1>
-    <p class="home-contact"><a href="mailto:${site.email}">${esc(site.email)}</a><br>Based in ${esc(site.location)}</p>
+    <div class="home-side">
+      <p class="home-positioning">${esc(site.positioning)}</p>
+      <p class="home-contact"><a href="mailto:${site.email}">${esc(site.email)}</a></p>
+    </div>
   </section>
-  <section class="index" aria-labelledby="projects-label">
-    <p class="label" id="projects-label">Projects</p>
-    <ol class="index-list">${rows}</ol>
-    <img class="index-preview" alt="" aria-hidden="true">
+  <section class="marquee" aria-label="Selected clients" data-section>
+    <p class="label">Selected clients</p>
+    <div class="marquee-track"><div class="marquee-row">${clients}</div><div class="marquee-row" aria-hidden="true">${clients}</div></div>
   </section>
-  <section class="home-about">
-    <p class="home-about-text">${esc(about.intro)}</p>
+  <div class="index">${groupsHtml}
+    <div class="index-preview" aria-hidden="true"></div>
+  </div>
+  <section class="home-about" data-section>
+    <p class="home-about-text">${esc(about.bio[0])}</p>
     <a class="arrow-link" href="about/">About, experience &amp; capabilities <span aria-hidden="true">→</span></a>
   </section>`;
   write(
@@ -217,8 +320,8 @@ function home() {
       current: 'home',
       body,
       bodyClass: 'page-home',
-      description: `${site.name} is a ${site.titles.join(' and ').toLowerCase()} based in ${site.location}.`,
-      ogImage: firstSlide(visible[0]),
+      description: `${site.name} is a ${site.titles.join(' and ').toLowerCase()} based in ${site.location}. ${site.positioning}`,
+      og: 'home',
     })
   );
 }
@@ -235,24 +338,37 @@ function credits(p) {
   return `<div class="credits">${col('Team', p.team, 'span-2')}${col('Shawn’s Role', p.role, wide ? 'span-2' : '')}${col('Contributions', p.contributions, '')}</div>`;
 }
 
-function projectPage(p, next) {
+function scopeBar(p) {
+  const items = [
+    p.role && ['Role', p.role.join(', ')],
+    p.team && ['Team', `${p.team.length + 1} people`],
+    ['Discipline', p.tags.join(' · ')],
+  ].filter(Boolean);
+  return `<dl class="scope">${items.map(([k, v]) => `<div><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>`;
+}
+
+function neighbors(p) {
+  const i = order.indexOf(p);
+  return { prev: order[(i - 1 + order.length) % order.length], next: order[(i + 1) % order.length] };
+}
+
+function projectPage(p, { prev, next }) {
   const root = '../';
-  const style = `--accent:${p.accent};--on-accent:${p.dark ? '#fff' : '#000'}`;
+  const onAccent = p.dark ? '#fff' : '#000';
+  const style = `--accent:${p.accent};--on-accent:${onAccent}`;
   const body = `
   <article class="project">
-    <header class="project-hero${p.dark ? ' is-dark' : ''}" style="${style}">
+    <header class="project-hero${p.dark ? ' is-dark' : ''}" style="${style}" data-section>
       <h1 class="project-title">${esc(p.title)}</h1>
+      ${scopeBar(p)}
       <div class="project-intro">
         <p class="label">Project Summary</p>
-        <div>
-          <p class="project-summary">${esc(p.summary)}</p>
-          <p class="project-tags">${esc(p.tags.join(' · '))}</p>
-        </div>
+        <p class="project-summary">${esc(p.summary)}</p>
       </div>
       ${p.team || p.role ? credits(p) : ''}
     </header>
     <div class="slides">
-      ${p.slides.map((s, i) => slideFigure(s, i, p, root)).join('\n      ')}
+      ${slidesWithPrinciples(p, root)}
     </div>
   </article>
   ${nextLink(next, root)}`;
@@ -264,37 +380,38 @@ function projectPage(p, next) {
       root,
       current: p.slug,
       body,
-      bodyClass: `page-project${p.dark ? ' hero-dark' : ''}`,
-      ogImage: firstSlide(p),
+      bodyClass: `page-project${p.dark ? ' hero-dark' : ''}${p.slug === 'ugly-magazine' ? ' cursor-ugly' : ''}`,
+      bodyStyle: `--menu-bg:${p.accent};--menu-fg:${onAccent}`,
+      og: p.slug,
       theme: p.accent,
+      prev: `${root}${prev.slug}/`,
+      next: `${root}${next.slug}/`,
     })
   );
 }
 
 function nextLink(next, root) {
-  return `<a class="next" href="${root}${next.slug}/">
+  return `<a class="next" href="${root}${next.slug}/" data-section>
     <span class="label">Next project</span>
     <span class="next-title">${esc(next.title)} <span aria-hidden="true">→</span></span>
   </a>`;
 }
 
 // ---------- Demo reel ----------
-function reelPage(next) {
+function reelPage({ prev, next }) {
   const root = '../';
   const body = `
   <article class="project">
-    <header class="project-hero" style="--accent:#cccccc;--on-accent:#000">
+    <header class="project-hero" style="--accent:#cccccc;--on-accent:#000" data-section>
       <h1 class="project-title">Demo Reel</h1>
+      ${scopeBar(demoReel)}
       <div class="project-intro">
         <p class="label">Motion and Animation</p>
-        <div>
-          <p class="project-summary">${esc(demoReel.summary)}</p>
-          <p class="project-tags">${esc(demoReel.tags.join(' · '))}</p>
-        </div>
+        <p class="project-summary">${esc(demoReel.summary)}</p>
       </div>
     </header>
     <div class="slides">
-      <figure class="slide reel">
+      <figure class="slide reel" data-section>
         <iframe src="https://player.vimeo.com/video/${demoReel.vimeoId}?title=0&amp;byline=0&amp;portrait=0&amp;dnt=1" title="${esc(site.name)} motion demo reel" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>
       </figure>
     </div>
@@ -302,25 +419,37 @@ function reelPage(next) {
   ${nextLink(next, root)}`;
   write(
     `${demoReel.slug}/index.html`,
-    layout({ title: demoReel.title, description: demoReel.summary, root, current: demoReel.slug, body, bodyClass: 'page-project', ogImage: demoReel.thumb, theme: '#cccccc' })
+    layout({
+      title: demoReel.title,
+      description: demoReel.summary,
+      root,
+      current: demoReel.slug,
+      body,
+      bodyClass: 'page-project',
+      bodyStyle: '--menu-bg:#cccccc;--menu-fg:#000',
+      og: demoReel.slug,
+      theme: '#cccccc',
+      prev: `${root}${prev.slug}/`,
+      next: `${root}${next.slug}/`,
+    })
   );
 }
 
 // ---------- About ----------
-function aboutPage() {
+function aboutPage(colophon) {
   const root = '../';
   const list = (items) => `<ul class="plain-list">${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`;
   const body = `
   <article class="about">
-    <header class="about-hero">
+    <header class="about-hero" data-section>
       <p class="label">About</p>
       <h1 class="about-intro">${esc(about.intro)}</h1>
     </header>
-    <section class="about-grid">
+    <section class="about-grid" data-section>
       <p class="label">Bio</p>
       <div class="about-bio">${about.bio.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
     </section>
-    <section class="about-grid">
+    <section class="about-grid" data-section>
       <p class="label">Experience</p>
       <ol class="experience">
         ${about.experience
@@ -330,24 +459,43 @@ function aboutPage() {
           .join('')}
       </ol>
     </section>
-    <section class="about-grid">
+    <section class="about-grid" data-section>
       <p class="label">Selected Clients</p>
       ${list(about.clients)}
     </section>
-    <figure class="slide about-band">${pictureTag(about.capabilitiesImage, root, 'Creative capabilities: direction, brand, interactive, writing, illustration, motion, print')}</figure>
-    <section class="about-grid">
+    <figure class="slide about-band" data-section>${pictureTag(about.capabilitiesImage, root, alts.capabilities)}</figure>
+    <section class="about-grid" data-section>
       <p class="label">Capabilities</p>
       ${list(about.capabilities)}
     </section>
-    <section class="about-grid">
+    <section class="about-grid" data-section>
       <p class="label">Tools &amp; Technology</p>
       ${list(about.tools)}
+    </section>
+    <section class="about-grid colophon" id="colophon" data-section>
+      <p class="label">Colophon</p>
+      <div class="about-bio">${colophon}</div>
     </section>
   </article>`;
   write(
     'about/index.html',
-    layout({ title: 'About', description: about.intro, root, current: 'about', body, bodyClass: 'page-about', ogImage: about.capabilitiesImage })
+    layout({ title: 'About', description: about.intro, root, current: 'about', body, bodyClass: 'page-about', og: 'about' })
   );
+}
+
+function colophonHtml() {
+  const lines = readFileSync(join(ROOT, 'build.mjs'), 'utf8').split('\n').length;
+  const kb = (f) => gzipSync(readFileSync(join(OUT, f))).length / 1024;
+  const weight = Math.round(kb('index.html') + kb('assets/styles.css') + kb('assets/main.js'));
+  const imageCount = order.reduce((n, p) => n + (p.slides ? slideImages(p).length : 0), 0);
+  return [
+    `Designed in Figma. Built and shipped with Claude Code, working from the same Figma file the work lives in.`,
+    `It’s a hand-rolled static site: every word on it lives in one content file, and a ${lines}-line build script turns that into pages. No framework, no theme, no tracking.`,
+    `The ${imageCount} images were exported from the original Figma files at 2× and served as WebP at the size each screen needs. The motion was pulled from Figma at source resolution and re-encoded, and only loads when it scrolls into view.`,
+    `The homepage’s HTML, CSS and JavaScript come to about ${weight} KB compressed. Set in Inter and Geist Mono. Hosted on GitHub Pages.`,
+  ]
+    .map((t) => `<p>${esc(t)}</p>`)
+    .join('');
 }
 
 // ---------- Run ----------
@@ -362,14 +510,12 @@ for (const f of ['styles.css', 'main.js', 'favicon.svg']) copyFileSync(join(ROOT
 writeFileSync(join(OUT, '.nojekyll'), '');
 
 home();
-const order = [...visible.slice(0, -1), demoReel, visible.at(-1)];
-order.forEach((p, i) => {
-  const next = order[(i + 1) % order.length];
-  if (p === demoReel) reelPage(next);
-  else projectPage(p, next);
-});
-for (const p of projects.filter((p) => p.hidden)) projectPage(p, visible[0]);
-aboutPage();
+for (const p of order) {
+  if (p === demoReel) reelPage(neighbors(p));
+  else projectPage(p, neighbors(p));
+}
+for (const p of projects.filter((p) => p.hidden)) projectPage(p, { prev: order.at(-1), next: order[0] });
+aboutPage(colophonHtml());
 write('404.html', layout({ title: 'Not found', description: 'Page not found', root: '/', current: '', body: `<section class="about-hero"><h1 class="about-intro">That page doesn’t exist. <a href="/">Back to the work →</a></h1></section>` }));
 
 console.log(`Built ${order.length + 2} pages into docs/`);
@@ -377,3 +523,6 @@ if (missingVideos.size) {
   console.log(`\n${missingVideos.size} video(s) not found in docs/assets/video/ (stills shown instead):`);
   for (const f of missingVideos) console.log(`  - ${f}`);
 }
+if (missingAlts.size) console.log(`\nMissing alt text: ${[...missingAlts].join(', ')}`);
+const missingOg = ['home', 'about', ...order.map((p) => p.slug)].filter((s) => !existsSync(join(OUT, 'assets', 'og', `${s}.png`)));
+if (missingOg.length) console.log(`\nMissing share images (run scripts/og.sh): ${missingOg.join(', ')}`);

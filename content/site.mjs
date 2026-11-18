@@ -13,7 +13,9 @@ export const site = {
   titles: ['Lead Brand Designer', 'Creative Director'],
   email: 'hi@shawngolden.co',
   location: 'Detroit',
-  url: '', // set once the site has a public address, e.g. https://shawngolden.co
+  positioning:
+    'Detroit-based creative director and designer making complex ideas clear, compelling, and impossible to ignore.',
+  url: 'https://shawn-golden.github.io', // public address, used for share images
 };
 
 export const projects = [
@@ -119,6 +121,7 @@ export const projects = [
       {
         src: 'taptopay-05',
         title: 'Collage CTA',
+        demo: 'collage',
         body: [
           'To create a compelling user experience on our Tap to Pay landing page, we designed a dynamic animation that captures users’ attention as they reach the conclusion of the page, grabbing their attention just as we present our primary call to action.',
           'The collage animation serves as a visual summary of the people and images that users encountered while scrolling through the page. This collage reinforces our messaging of _on-the-go, anywhere, for anyone_ by showcasing a diverse array of sellers and payment methods.',
@@ -130,6 +133,7 @@ export const projects = [
       {
         src: 'taptopay-06',
         title: 'Scroll gallery',
+        demo: 'scroll-gallery',
         body: [
           'We integrated a scroll-based gallery on the Tap to Pay landing page to showcase diverse seller types and reinforce our _Sell on the go_ messaging. This animation enhances the visual appeal of our design and supports our messaging by, literally, moving our sellers.',
           'To bring this concept to life, we utilized the Web Animations API through Motion One, an open-source JavaScript library that enabled us to easily manage scroll-linked animations.',
@@ -141,7 +145,7 @@ export const projects = [
           { img: 'taptopay-06-easing.webp', w: 268, h: 86, alt: 'Easing curves' },
         ],
       },
-      'taptopay-07',
+      { src: 'taptopay-07', caption: 'Scalable design system for international launch: US, UK, France, Spain, Canada, Australia, Ireland' },
       {
         src: 'taptopay-08',
         caption: 'Motion studies',
@@ -270,6 +274,46 @@ export const projects = [
     slides: range('motioncal', 3),
   },
   {
+    // Draft summary written from the work itself; role and team still to confirm.
+    slug: 'tracebit',
+    title: 'Tracebit',
+    tags: ['Brand identity', 'Web design', 'Generative tools'],
+    accent: '#f3dcd5',
+    summary:
+      'Tracebit helps security teams catch attackers inside their cloud early, positioning itself as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
+    slides: [
+      'tracebit-01',
+      'tracebit-02',
+      'tracebit-03',
+      'tracebit-04',
+      'tracebit-05',
+      { row: ['tracebit-h1', 'tracebit-h2', 'tracebit-h3'] },
+      'tracebit-06',
+      'tracebit-07',
+      'tracebit-08',
+    ],
+  },
+  {
+    // Draft summary written from the work itself; role and team still to confirm.
+    slug: 'expel',
+    title: 'Expel',
+    tags: ['Brand identity', 'Campaigns', 'Environmental design'],
+    accent: '#5ce58b',
+    summary:
+      'Expel runs managed detection and response for security teams. The brand pairs a plainspoken voice, “No Black Box. No BS.,” with an X pattern built from the logomark, and carries it from guidelines and the website to a trade show booth, a keynote stage, campaign posters, a pixel mascot and merch.',
+    slides: [
+      'expel-01',
+      'expel-02',
+      'expel-03',
+      'expel-04',
+      'expel-05',
+      { row: ['expel-h1', 'expel-h2'] },
+      'expel-06',
+      { row: ['expel-h3', 'expel-h4'] },
+      { row: ['expel-h5', 'expel-h6'] },
+    ],
+  },
+  {
     slug: 'experiments',
     title: 'Experiments',
     tags: ['Side projects', 'Explorations'],
@@ -351,6 +395,143 @@ export const about = {
     'Womp',
   ],
   capabilitiesImage: 'capabilities',
+};
+
+// Homepage groups, in order. Projects not listed fall into the last group.
+export const groups = [
+  { name: 'Brand systems', slugs: ['minka', 'blumira', 'ultra', 'keystrike', 'tracebit', 'expel'] },
+  { name: 'Design systems', slugs: ['email-design-system'] },
+  { name: 'Launches & campaigns', slugs: ['tap-to-pay', 'demo-reel'] },
+  { name: 'Editorial & interaction', slugs: ['ugly-magazine'] },
+  { name: 'Side projects', slugs: ['experiments'] },
+];
+
+// Principles quoted from the brand guidelines in Figma, shown between slides.
+export const principles = {
+  minka: [
+    { after: 'minka-01', quote: 'Color in Minka is a tool, not a theme.', source: 'Minka guidelines · Color' },
+    { after: 'minka-02', quote: 'Guilloché should feel engineered, not ornamental.', source: 'Minka guidelines · Imagery' },
+    {
+      after: 'minka-05',
+      quote: 'Patterns should always feel purposeful, precise, and integrated — never ornamental or illustrative.',
+      source: 'Minka guidelines · Pattern',
+    },
+  ],
+  blumira: [
+    {
+      after: 'blumira-03',
+      quote: 'Each illustration is created from a single, unbroken line, symbolizing connection, vigilance, and flow.',
+      source: 'Blumira guidelines · Illustration',
+    },
+    {
+      after: 'blumira-04',
+      quote: 'Each color expresses a facet of Blumira’s personality. Use them with intention to convey mood and hierarchy.',
+      source: 'Blumira guidelines · Color',
+    },
+  ],
+  'email-design-system': [
+    {
+      after: 'email-01',
+      quote: 'Aim to keep this within 2 lines on desktop and 3 lines on mobile.',
+      source: 'Usage note built into the headline component',
+    },
+  ],
+};
+
+// Alt text for every image, keyed by image name.
+export const alts = {
+  'minka-01': 'Pages from the Minka brand guidelines: secondary colors, logo, logomark and guilloché imagery, laid out at an angle.',
+  'minka-02': 'The Minka logo on a white blade sign hanging off a brick wall.',
+  'minka-03': 'Minka homepage headline, “Connective Infrastructure for Instant Economies,” under a beta announcement bar.',
+  'minka-04': 'A dark event stage with Minka’s striped pattern and logo across the backdrop.',
+  'minka-05': 'Two dark posters filled with Minka’s blocky color and line patterns.',
+  'minka-06': 'Three covers of “A Blueprint for National RTP Success” in blue, yellow and coral.',
+  'minka-07': 'Minka’s team page in black and white, with portraits set into blue and gray tiles.',
+  'minka-08': 'Minka’s pattern generator: controls on the left, a black and white pattern it made on the right.',
+  'minka-09': 'Three report covers pairing Minka patterns with architectural photography.',
+  'minka-10': 'The Minka site’s Products menu, with a yellow and black pattern card beside the list.',
+  'blumira-01': 'Blumira billboards on a city street, “Your Security Team in the Cloud” and “See Clearly. Respond Confidently.”',
+  'blumira-02': 'Blumira’s Logs screen floating over a dark blue wave background.',
+  'blumira-03': '“Where Good Security Becomes Second Nature.” on blue, beside a line drawing of a climber planting a flag.',
+  'blumira-04': 'The Mira hedgehog app icon in eight brand colors.',
+  'blumira-05': 'A laptop open to Blumira’s homepage, “Security smarts to help you spot threats with ease.”',
+  'blumira-06': 'A Blumira tote bag on concrete steps, with a round offsite sticker in the corner.',
+  'blumira-07': 'Spreads from Blumira’s guidelines covering Mira’s expressions and the illustration styles.',
+  'blumira-08': 'Two Blumira posters, “Respond like a pro.” and “Capture the complete picture.”, over a moving blue wave.',
+  'blumira-09': 'A “Demo & Discuss” event poster in pale green, shown flat and on a sidewalk sign.',
+  'blumira-10': 'A one-line drawing of someone at a broken computer, next to a healthcare threat report full of big numbers.',
+  'ultra-01': 'Ultra business cards: a dark name card and one covered in the blue, green and pink pixel pattern.',
+  'ultra-02': 'An Ultra sign on a stone wall, its pixel pattern breaking up in the leaf shadows.',
+  'ultra-03': 'Ultra’s pattern generator: a colorful pixel field with a panel of controls.',
+  'ultra-04': 'Three Ultra social posts: a wireframe diagram, a pixel pattern, and a green “Every action, secured.”',
+  'ultra-05': 'Someone carrying an Ultra tote printed with a black and white pixel pattern.',
+  'ultra-06': 'Ultra’s web hero, “Secure every action your agents take,” over a strip of pixel pattern.',
+  'ultra-07': 'Two Ultra mobile screens: “Security for agents that act.” and a blue pattern card.',
+  'ultra-08': 'Four tall Ultra banners in blue, green, white and pink: Enable, Govern, Own, Verify.',
+  'ultra-09': 'Ultra presentation slides titled “Built for what’s next.”',
+  'ultra-10': 'Two Ultra ebook covers about securing what AI agents are allowed to do.',
+  'keystrike-01': 'A Keystrike employee handbook on a round wooden side table.',
+  'keystrike-02': 'A Keystrike billboard, “Protection without pauses.”, with colored ribbons running across it.',
+  'keystrike-03': 'Keystrike platform cards: Continuous Verification, Live Remote Access Mapping and The Keystrike Platform.',
+  'keystrike-04': 'A Keystrike business card on wood, next to a card covered in blue and violet blocks.',
+  'keystrike-05': 'A Keystrike slide, “Keystrike: Unified,” with gradient shapes tied to a center point.',
+  'keystrike-06': 'An office lobby with a Keystrike poster on a stand and a blue “All Hands Reykjavík 2026” card.',
+  'keystrike-07': 'Keystrike homepage, “Continuous verification. Zero friction.”, with ribbons sweeping across.',
+  'keystrike-08': 'A Keystrike flyer lying on moss-covered bricks.',
+  'keystrike-09': 'A Keystrike social post: “Protect the core when everything else fails.”',
+  'keystrike-10': 'The opening page of Keystrike’s brand story, “Who We Are.”',
+  'keystrike-11': 'Three Keystrike cards in purple, green and pink: “Authentication assumes. Verification happens continuously.”',
+  'tracebit-01': 'Tracebit web and product screens tilted into a collage: “The answer to Assume Breach.”',
+  'tracebit-02': 'A Tracebit sign mounted on a concrete wall, plus a slim sign stand.',
+  'tracebit-03': 'The Tracebit mark shown at a set of fixed angles, in color and in white.',
+  'tracebit-04': 'A browser tool for composing the Tracebit mark, with the mark on a dark grid.',
+  'tracebit-05': 'Tracebit on a desktop monitor, and a Tracebit business card.',
+  'tracebit-h1': 'A full Tracebit homepage, top to bottom.',
+  'tracebit-h2': 'A tall Tracebit kiosk outside a perforated metal building.',
+  'tracebit-h3': 'A black Tracebit tote held up by one strap.',
+  'tracebit-06': 'Four Tracebit social graphics in blush and black.',
+  'tracebit-07': 'Two Tracebit posters: “Detect attacks across cloud at scale.”',
+  'tracebit-08': 'Someone in a cream Tracebit hoodie.',
+  'expel-01': 'A keynote stage with “No Black Box. No BS.” on the screen.',
+  'expel-02': 'Expel’s trade show booth, its green X logo lit up on a metal frame.',
+  'expel-03': 'Pages from Expel’s brand guidelines: logo variations, clearspace and layout types.',
+  'expel-04': 'Two Expel web pages: “Before it’s a breach” and a page of big green stats.',
+  'expel-05': 'Three Expel posters: “3 AM, you’re asleep. We’re on the breach.”, “We don’t sell peace of mind.” and “Detected. Contained.”',
+  'expel-h1': 'Expel’s pixel robot mascot in twelve expressions.',
+  'expel-h2': 'The pixel mascot up close.',
+  'expel-06': 'An Expel lanyard badge and an annual report cover with the X pattern.',
+  'expel-h3': 'A pile of green Expel keycaps.',
+  'expel-h4': 'An Expel keycap keychain.',
+  'expel-h5': 'A black Expel tote bag with the X pattern.',
+  'expel-h6': 'A dark green Expel sweatshirt.',
+  'taptopay-01': 'Tap to Pay style guide: seller portraits on pale blue, hands tapping a card to a phone, color swatches and ad layouts.',
+  'taptopay-02': 'One hand holds out a card, the other holds an iPhone showing $35.00.',
+  'taptopay-03': 'Pages from the Tap to Pay campaign design system: color, messaging and approved UI screens.',
+  'taptopay-04': 'The Tap to Pay landing page open on a laptop.',
+  'taptopay-07': 'Tap to Pay landing pages for Spain, France, Canada and more, tiled at an angle.',
+  'taptopay-08': 'Tap to Pay motion studies: animated type, photo collages and a checkmark confirmation.',
+  'taptopay-09': 'A phone playing a Tap to Pay social story, next to a grid of campaign frames.',
+  'ugly-01': 'Ugly Magazine’s site: “28 pages packed with goofs, spoofs, and gags,” the $3 monthly club and a big SUBSCRIBE.',
+  'ugly-02': 'Ugly Magazine brand guide pages: color palettes, typography and a giant lowercase a.',
+  'ugly-03': 'Three Ugly social ads: a free-sample starburst, an “ask me to draw anything” post and the Goofs badge.',
+  'ugly-04': 'Ugly’s cartoon characters, drawn for the website animations.',
+  'ugly-06': 'Ugly’s About page on a phone held by a wooden hand: “Hello I am Ugly Magazine & I am a new indie comedy magazine…”',
+  'ugly-08': 'Ugly’s custom cursor set: waving hand, grabbing hand, pointing finger, two arrows, a no sign and a text cursor.',
+  'ugly-10': 'Four dark screens mapping Ugly’s referral, subscription, issue management and preorder flows.',
+  'email-01': 'Type styles from the Market for Email system, on light and dark.',
+  'email-02': 'The email icon library, sorted into action, alert, arrow, device and finance sets.',
+  'email-03': 'Color tokens, logo lockups, buttons and a data table from the email system.',
+  'email-04': 'Instructions for using the Figma library: grabbing a component and swapping nested ones.',
+  'email-05': 'A finished loan offer email, “You’re on a roll, Kaitlyn,” beside the template variations behind it.',
+  'motioncal-01': 'Motion’s desktop week view with color-coded events.',
+  'motioncal-02': 'Three Motion phone screens: day view, a Groceries task and a to-do list.',
+  'motioncal-03': 'Checking off a stack of “Sales team huddle” events in Motion, with the week view behind.',
+  'experiments-01': 'Neature: posters and a tee built from vintage nature illustrations of a blue jay, pears, a brook trout and a tree.',
+  'experiments-02': 'Square recruiting ads: “Join us in shaping the future of business,” “We’re hiring,” “Everyone.”',
+  'experiments-03': 'Square illustration style: sellers and everyday objects drawn in red, blue and black.',
+  'experiments-04': 'A hack week website exploration with neon gradients, a payments menu and a dotted schedule.',
+  demoreel: 'Motion demo reel title card: SHAWN GOLDEN in tall type with a cartoon head.',
+  capabilities: 'Creative Capabilities, with direction, brand, interactive, writing, illustration, motion and print in floating ovals.',
 };
 
 function range(prefix, n) {
