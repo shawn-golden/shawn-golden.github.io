@@ -1783,3 +1783,8 @@ body[data-locked] > :not(.gate) {
 .project-hero .credit {
   border-top-color: var(--hairline);
 }
+
+/* No edge-to-edge rule under the Work and About intros. */
+.about-hero {
+  border-bottom: 0;
+}
