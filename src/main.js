@@ -73,52 +73,35 @@ if (!reduceMotion && motions.length && 'IntersectionObserver' in window) {
   motions.forEach((m) => mo.observe(m));
 }
 
-// ---------- Home: flip-stack preview ----------
-// Hovering a project shows a small stack of its images that flips through,
-// top card to the back, like a thick stapled pack.
+// ---------- Home: hover preview ----------
+// Hovering a project hard-cuts through its images in place. No transitions.
 const preview = document.querySelector('.index-preview');
 if (preview && canHover && window.innerWidth >= 900) {
+  const img = new Image();
+  img.alt = '';
+  preview.appendChild(img);
+  const cache = new Map();
   let timer = 0;
-  let raf = 0;
-  let current = null;
   const place = (e) => {
-    cancelAnimationFrame(raf);
-    raf = requestAnimationFrame(() => {
-      const h = preview.offsetHeight;
-      const y = Math.max(24, Math.min(window.innerHeight - h - 40, e.clientY - h / 2));
-      preview.style.setProperty('--y', `${y}px`);
-    });
-  };
-  const build = (a) => {
-    const srcs = a.dataset.stack.split('|');
-    preview.replaceChildren(
-      ...srcs.map((src, i) => {
-        const img = new Image();
-        img.src = src;
-        img.alt = '';
-        img.style.setProperty('--r', `${((i * 37) % 7) - 3}deg`);
-        img.style.setProperty('--o', `${i}`);
-        return img;
-      })
-    );
-  };
-  const flip = () => {
-    const first = preview.firstElementChild;
-    if (!first || preview.children.length < 2) return;
-    first.classList.add('is-leaving');
-    setTimeout(() => {
-      first.classList.remove('is-leaving');
-      preview.appendChild(first);
-    }, 180);
+    const h = preview.offsetHeight;
+    const y = Math.max(24, Math.min(window.innerHeight - h - 40, e.clientY - h / 2));
+    preview.style.setProperty('--y', `${y}px`);
   };
   document.querySelectorAll('.index-row a').forEach((a) => {
+    const srcs = a.dataset.stack.split('|');
     a.addEventListener('mouseenter', (e) => {
-      if (current !== a) build(a);
-      current = a;
+      if (!cache.has(a)) cache.set(a, srcs.map((src) => Object.assign(new Image(), { src })));
+      let i = 0;
+      img.src = srcs[0];
       place(e);
       preview.classList.add('is-on');
       clearInterval(timer);
-      if (!reduceMotion) timer = setInterval(flip, 420);
+      if (!reduceMotion && srcs.length > 1) {
+        timer = setInterval(() => {
+          i = (i + 1) % srcs.length;
+          img.src = srcs[i];
+        }, 350);
+      }
     });
     a.addEventListener('mousemove', place);
     a.addEventListener('mouseleave', () => {
@@ -190,6 +173,12 @@ if (keys && canHover && sections.length > 3) {
   } catch (e) {}
   setCollapsed(saved);
   keys.classList.add('is-on');
+  const foot = document.querySelector('.site-footer');
+  if (foot && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => keys.classList.toggle('over-footer', e.isIntersecting), {
+      rootMargin: '0px 0px -40px 0px',
+    }).observe(foot);
+  }
   toggle.addEventListener('click', () => {
     const collapsed = !keys.classList.contains('is-collapsed');
     setCollapsed(collapsed);
@@ -290,3 +279,59 @@ document.querySelectorAll('.demo-collage').forEach((demo) => {
   co.observe(demo);
   demo.querySelector('.demo-replay')?.addEventListener('click', play);
 });
+
+// ---------- Footer: copy email ----------
+document.querySelectorAll('.footer-email').forEach((btn) => {
+  btn.addEventListener('click', async () => {
+    const email = btn.dataset.email;
+    try {
+      await navigator.clipboard.writeText(email);
+      btn.classList.add('is-copied');
+      setTimeout(() => btn.classList.remove('is-copied'), 2200);
+    } catch (e) {
+      location.href = `mailto:${email}`;
+    }
+  });
+});
+
+// ---------- Footer: Detroit clock ----------
+const clock = document.querySelector('[data-clock]');
+if (clock) {
+  const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Detroit', hour: 'numeric', minute: '2-digit' });
+  const tick = () => (clock.textContent = ` · ${fmt.format(new Date())}`);
+  tick();
+  setInterval(tick, 15000);
+}
+
+// ---------- Footer: build log ----------
+const buildBtn = document.querySelector('.footer-build');
+const log = document.getElementById('build-log');
+function openLog() {
+  if (!log || !log.hidden) return;
+  const nav = performance.getEntriesByType('navigation')[0];
+  const ms = nav ? nav.loadEventEnd || nav.domContentLoadedEventEnd : performance.now();
+  const t = log.querySelector('[data-load-time]');
+  if (t) t.textContent = ms ? `${(ms / 1000).toFixed(2)}s` : 'under a second';
+  log.hidden = false;
+  buildBtn.setAttribute('aria-expanded', 'true');
+  const rows = [...log.children];
+  rows.forEach((r, i) => {
+    r.style.setProperty('--d', `${reduceMotion ? 0 : i * 140}ms`);
+  });
+  requestAnimationFrame(() => log.classList.add('is-open'));
+  log.closest('footer').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'end' });
+}
+function closeLog() {
+  log.classList.remove('is-open');
+  log.hidden = true;
+  buildBtn.setAttribute('aria-expanded', 'false');
+}
+buildBtn?.addEventListener('click', () => (log.hidden ? openLog() : closeLog()));
+document.querySelectorAll('[data-open-build]').forEach((a) =>
+  a.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (menuOpen()) setMenu(false);
+    setTimeout(openLog, 200);
+  })
+);
+if (location.hash === '#colophon') setTimeout(openLog, 400);

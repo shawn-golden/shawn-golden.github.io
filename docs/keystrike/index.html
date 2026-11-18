@@ -19,9 +19,9 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400&family=Inter:opsz,wght@14..32,400;14..32,500&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../assets/styles.css?v=7596e679">
+<link rel="stylesheet" href="../assets/styles.css?v=43a9dc04">
 <script>document.documentElement.classList.add('js')</script>
-<script src="../assets/main.js?v=7596e679" defer></script>
+<script src="../assets/main.js?v=43a9dc04" defer></script>
 </head>
 <body class="page-project hero-dark" style="--menu-bg:#3065f8;--menu-fg:#fff">
 <a class="skip" href="#main">Skip to content</a>
@@ -55,7 +55,7 @@
         <ol class="menu-list menu-list-sm">
           <li><a href="../">Home</a></li>
           <li><a href="../about/">About</a></li>
-          <li><a href="../about/#colophon">Colophon</a></li>
+          <li><a href="#colophon" data-open-build>Colophon</a></li>
           <li><a href="mailto:hi@shawngolden.co">hi@shawngolden.co</a></li>
         </ol>
       </div>
@@ -87,19 +87,32 @@
       <figure class="slide" data-section><img src="../assets/slides/keystrike-11.webp" srcset="../assets/slides/keystrike-11-sm.webp 960w, ../assets/slides/keystrike-11.webp 1920w, ../assets/slides/keystrike-11-2x.webp 3200w" sizes="(max-width: 1000px) 100vw, min(100vw, 1760px)" width="1920" height="1080" alt="Three Keystrike cards in purple, green and pink: “Authentication assumes. Verification happens continuously.”" data-full="../assets/slides/keystrike-11-2x.webp" loading="lazy" decoding="async"></figure>
     </div>
   </article>
-  <a class="next" href="../tracebit/" data-section>
-    <span class="label">Next project</span>
-    <span class="next-title">Tracebit <span aria-hidden="true">→</span></span>
-  </a>
+  <nav class="pager" aria-label="More projects" data-section>
+    <a class="pager-card is-prev" href="../ultra/" style="--accent:#181818;--on-accent:#fff">
+      <span class="pager-label label"><span aria-hidden="true">←</span> Previous</span>
+      <span class="pager-title">Ultra</span>
+      <span class="pager-tags">Creative direction · Brand identity · Web design</span>
+      <img class="pager-thumb" src="../assets/slides/ultra-01-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
+    </a>
+    <a class="pager-card is-next" href="../tracebit/" style="--accent:#f3dcd5;--on-accent:#000">
+      <span class="pager-label label">Next <span aria-hidden="true">→</span></span>
+      <span class="pager-title">Tracebit</span>
+      <span class="pager-tags">Brand identity · Web design · Generative tools</span>
+      <img class="pager-thumb" src="../assets/slides/tracebit-01-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
+    </a>
+  </nav>
 </main>
-<footer class="site-footer">
+<footer class="site-footer" id="colophon">
   <div class="footer-inner">
-    <p class="footer-big">Let’s make something.</p>
+    <p class="label">Got something in mind? Say hi.</p>
+    <button class="footer-email" type="button" data-email="hi@shawngolden.co" aria-label="Copy hi@shawngolden.co"><span class="footer-email-text">hi@shawngolden.co</span><span class="footer-email-done" aria-hidden="true">Copied. Talk soon.</span></button>
     <div class="footer-meta">
-      <a href="mailto:hi@shawngolden.co">hi@shawngolden.co</a>
-      <a href="../about/#colophon">How this site was built</a>
-      <span>Shawn Golden | Lead Brand Designer</span>
+      <span class="footer-clock">Detroit<time data-clock></time></span>
+      <button class="footer-build" type="button" aria-expanded="false" aria-controls="build-log">How this site was built</button>
+      <a href="mailto:hi@shawngolden.co">Open in mail</a>
+      <span>© 2026 Shawn Golden</span>
     </div>
+    <ol class="build-log" id="build-log" hidden><li><span class="log-k">$</span> open figma “Portfolio 2026”</li><li><span class="log-k">✓</span> 87 images exported at 2×, served as WebP</li><li><span class="log-k">✓</span> 17 clips pulled from Figma’s video stream, re-encoded</li><li><span class="log-k">$</span> claude code</li><li><span class="log-k">✓</span> 1 content file → 13 pages via a 557-line build script</li><li><span class="log-k">✓</span> no framework · no theme · no tracking</li><li><span class="log-k">✓</span> homepage HTML + CSS + JS: 13 KB compressed</li><li><span class="log-k">✓</span> set in Inter and Geist Mono</li><li><span class="log-k">→</span> deployed to GitHub Pages</li><li><span class="log-k">✓</span> this page loaded in <span data-load-time>…</span></li></ol>
   </div>
 </footer>
 <div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span><kbd>Z</kbd> Zoom</span></span></div>

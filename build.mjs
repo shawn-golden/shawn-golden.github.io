@@ -63,6 +63,7 @@ function boxStyle(v, W = SLIDE_W, H = SLIDE_H) {
     v.radius ? `border-radius:${pct(v.radius, v.w)} / ${pct(v.radius, v.h)}` : '',
     v.color ? `background:${v.color}` : '',
     v.blend ? `mix-blend-mode:${v.blend}` : '',
+    v.round ? 'border-radius:50%' : '',
   ]
     .filter(Boolean)
     .join(';');
@@ -83,10 +84,11 @@ function motionLayers(s, root, W = SLIDE_W, H = SLIDE_H) {
     .map((v) => `<video class="slide-video" style="${boxStyle(v, W, H)}" data-src="${root}assets/video/${esc(v.file)}" muted loop playsinline preload="none" aria-hidden="true"></video>`)
     .join('');
   const blends = (s.blends || []).map((b) => `<div class="slide-layer" style="${boxStyle(b, W, H)}"></div>`).join('');
+  const under = (s.under || []).map((u) => `<div class="slide-layer" style="${boxStyle(u, W, H)}"></div>`).join('');
   const overlays = (s.overlays || [])
     .map((o) => `<img class="slide-layer" style="${boxStyle(o, W, H)}" src="${root}assets/overlays/${esc(o.img)}" alt="" loading="lazy" decoding="async">`)
     .join('');
-  return `<div class="slide-motion">${vids}${blends}${overlays}</div>`;
+  return `<div class="slide-motion">${under}${vids}${blends}${overlays}</div>`;
 }
 
 // Inline text formatting for content strings: _italic_.
@@ -196,7 +198,7 @@ function menu(root, current) {
         <ol class="menu-list menu-list-sm">
           <li><a href="${root}"${current === 'home' ? ' aria-current="page"' : ''}>Home</a></li>
           <li><a href="${root}about/"${current === 'about' ? ' aria-current="page"' : ''}>About</a></li>
-          <li><a href="${root}about/#colophon">Colophon</a></li>
+          <li><a href="#colophon" data-open-build>Colophon</a></li>
           <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
         </ol>
       </div>
@@ -241,14 +243,17 @@ ${menu(root, current)}
 <main id="main">
 ${body}
 </main>
-<footer class="site-footer">
+<footer class="site-footer" id="colophon">
   <div class="footer-inner">
-    <p class="footer-big">Let’s make something.</p>
+    <p class="label">Got something in mind? Say hi.</p>
+    <button class="footer-email" type="button" data-email="${esc(site.email)}" aria-label="Copy ${esc(site.email)}"><span class="footer-email-text">${esc(site.email)}</span><span class="footer-email-done" aria-hidden="true">Copied. Talk soon.</span></button>
     <div class="footer-meta">
-      <a href="mailto:${site.email}">${esc(site.email)}</a>
-      <a href="${root}about/#colophon">How this site was built</a>
-      <span>${esc(site.name)} | ${esc(site.titles[0])}</span>
+      <span class="footer-clock">${esc(site.location)}<time data-clock></time></span>
+      <button class="footer-build" type="button" aria-expanded="false" aria-controls="build-log">How this site was built</button>
+      <a href="mailto:${site.email}">Open in mail</a>
+      <span>© ${new Date().getFullYear()} ${esc(site.name)}</span>
     </div>
+    <ol class="build-log" id="build-log" hidden>${BUILD_LOG}</ol>
   </div>
 </footer>
 <div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span><kbd>Z</kbd> Zoom</span></span></div>
@@ -371,7 +376,7 @@ function projectPage(p, { prev, next }) {
       ${slidesWithPrinciples(p, root)}
     </div>
   </article>
-  ${nextLink(next, root)}`;
+  ${pager({ prev, next }, root)}`;
   write(
     `${p.slug}/index.html`,
     layout({
@@ -390,11 +395,24 @@ function projectPage(p, { prev, next }) {
   );
 }
 
-function nextLink(next, root) {
-  return `<a class="next" href="${root}${next.slug}/" data-section>
-    <span class="label">Next project</span>
-    <span class="next-title">${esc(next.title)} <span aria-hidden="true">→</span></span>
-  </a>`;
+function pagerCard(p, root, dir) {
+  const isReel = p === demoReel;
+  const thumb = isReel ? p.thumb : slideImages(p)[0];
+  const accent = isReel ? '#cccccc' : p.accent;
+  const on = p.dark ? '#fff' : '#000';
+  const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous' : 'Next <span aria-hidden="true">→</span>';
+  return `<a class="pager-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}">
+      <span class="pager-label label">${label}</span>
+      <span class="pager-title">${esc(p.title)}</span>
+      <span class="pager-tags">${esc(p.tags.join(' · '))}</span>
+      <img class="pager-thumb" src="${root}assets/slides/${thumb}-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
+    </a>`;
+}
+function pager({ prev, next }, root) {
+  return `<nav class="pager" aria-label="More projects" data-section>
+    ${pagerCard(prev, root, 'prev')}
+    ${pagerCard(next, root, 'next')}
+  </nav>`;
 }
 
 // ---------- Demo reel ----------
@@ -416,7 +434,7 @@ function reelPage({ prev, next }) {
       </figure>
     </div>
   </article>
-  ${nextLink(next, root)}`;
+  ${pager({ prev, next }, root)}`;
   write(
     `${demoReel.slug}/index.html`,
     layout({
@@ -436,7 +454,7 @@ function reelPage({ prev, next }) {
 }
 
 // ---------- About ----------
-function aboutPage(colophon) {
+function aboutPage() {
   const root = '../';
   const list = (items) => `<ul class="plain-list">${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul>`;
   const body = `
@@ -472,10 +490,6 @@ function aboutPage(colophon) {
       <p class="label">Tools &amp; Technology</p>
       ${list(about.tools)}
     </section>
-    <section class="about-grid colophon" id="colophon" data-section>
-      <p class="label">Colophon</p>
-      <div class="about-bio">${colophon}</div>
-    </section>
   </article>`;
   write(
     'about/index.html',
@@ -483,22 +497,29 @@ function aboutPage(colophon) {
   );
 }
 
-function colophonHtml() {
+// Footer build log. Typed out line by line when opened; the last line is
+// filled in live with how long the current page took to load.
+function buildLog() {
   const lines = readFileSync(join(ROOT, 'build.mjs'), 'utf8').split('\n').length;
-  const kb = (f) => gzipSync(readFileSync(join(OUT, f))).length / 1024;
-  const weight = Math.round(kb('index.html') + kb('assets/styles.css') + kb('assets/main.js'));
   const imageCount = order.reduce((n, p) => n + (p.slides ? slideImages(p).length : 0), 0);
-  return [
-    `Designed in Figma. Built and shipped with Claude Code, working from the same Figma file the work lives in.`,
-    `It’s a hand-rolled static site: every word on it lives in one content file, and a ${lines}-line build script turns that into pages. No framework, no theme, no tracking.`,
-    `The ${imageCount} images were exported from the original Figma files at 2× and served as WebP at the size each screen needs. The motion was pulled from Figma at source resolution and re-encoded, and only loads when it scrolls into view.`,
-    `The homepage’s HTML, CSS and JavaScript come to about ${weight} KB compressed. Set in Inter and Geist Mono. Hosted on GitHub Pages.`,
-  ]
-    .map((t) => `<p>${esc(t)}</p>`)
-    .join('');
+  const videoCount = readdirSync(VIDEO_DIR).filter((f) => f.endsWith('.mp4')).length;
+  const rows = [
+    ['$', 'open figma “Portfolio 2026”'],
+    ['✓', `${imageCount} images exported at 2×, served as WebP`],
+    ['✓', `${videoCount} clips pulled from Figma’s video stream, re-encoded`],
+    ['$', 'claude code'],
+    ['✓', `1 content file → ${order.length + 2} pages via a ${lines}-line build script`],
+    ['✓', 'no framework · no theme · no tracking'],
+    ['✓', 'homepage HTML + CSS + JS: {{WEIGHT}} KB compressed'],
+    ['✓', 'set in Inter and Geist Mono'],
+    ['→', 'deployed to GitHub Pages'],
+    ['✓', 'this page loaded in <span data-load-time>…</span>'],
+  ];
+  return rows.map(([k, t]) => `<li><span class="log-k">${k}</span> ${t.includes('<span') ? t : esc(t)}</li>`).join('');
 }
 
 // ---------- Run ----------
+let BUILD_LOG = '';
 mkdirSync(join(OUT, 'assets'), { recursive: true });
 mkdirSync(VIDEO_DIR, { recursive: true });
 // Remove previously generated pages (keeps assets/).
@@ -508,6 +529,7 @@ for (const entry of readdirSync(OUT)) {
 }
 for (const f of ['styles.css', 'main.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
 writeFileSync(join(OUT, '.nojekyll'), '');
+BUILD_LOG = buildLog();
 
 home();
 for (const p of order) {
@@ -515,9 +537,15 @@ for (const p of order) {
   else projectPage(p, neighbors(p));
 }
 for (const p of projects.filter((p) => p.hidden)) projectPage(p, { prev: order.at(-1), next: order[0] });
-aboutPage(colophonHtml());
+aboutPage();
 write('404.html', layout({ title: 'Not found', description: 'Page not found', root: '/', current: '', body: `<section class="about-hero"><h1 class="about-intro">That page doesn’t exist. <a href="/">Back to the work →</a></h1></section>` }));
 
+{
+  const kb = (f) => gzipSync(readFileSync(join(OUT, f))).length / 1024;
+  const weight = String(Math.round(kb('index.html') + kb('assets/styles.css') + kb('assets/main.js')));
+  const walk = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? (f === 'assets' ? [] : walk(join(dir, f))) : f.endsWith('.html') ? [join(dir, f)] : []));
+  for (const f of walk(OUT)) writeFileSync(f, readFileSync(f, 'utf8').replaceAll('{{WEIGHT}}', weight));
+}
 console.log(`Built ${order.length + 2} pages into docs/`);
 if (missingVideos.size) {
   console.log(`\n${missingVideos.size} video(s) not found in docs/assets/video/ (stills shown instead):`);

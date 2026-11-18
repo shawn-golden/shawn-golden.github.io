@@ -45,7 +45,14 @@ export const projects = [
       'blumira-03',
       'blumira-04',
       'blumira-05',
-      { src: 'blumira-06', videos: [{ file: 'blumira-hog.mp4', x: 0, y: 89, w: 342, h: 342, rotate: -15 }] },
+      {
+        // The hedgehog clip lost its transparency in Figma's stream, so it's
+        // multiplied onto the badge (white drops out), over a cream patch that
+        // hides the badge's static hedgehog.
+        src: 'blumira-06',
+        under: [{ x: 132, y: 127, w: 156, h: 156, color: '#f5f2ec', round: true }],
+        videos: [{ file: 'blumira-hog.mp4', x: 0, y: 89, w: 342, h: 342, rotate: -15, blend: 'multiply' }],
+      },
       'blumira-07',
       {
         // Waves clip tinted by three blend-mode rectangles, posters on top.
@@ -121,7 +128,6 @@ export const projects = [
       {
         src: 'taptopay-05',
         title: 'Collage CTA',
-        demo: 'collage',
         body: [
           'To create a compelling user experience on our Tap to Pay landing page, we designed a dynamic animation that captures users’ attention as they reach the conclusion of the page, grabbing their attention just as we present our primary call to action.',
           'The collage animation serves as a visual summary of the people and images that users encountered while scrolling through the page. This collage reinforces our messaging of _on-the-go, anywhere, for anyone_ by showcasing a diverse array of sellers and payment methods.',
@@ -133,7 +139,6 @@ export const projects = [
       {
         src: 'taptopay-06',
         title: 'Scroll gallery',
-        demo: 'scroll-gallery',
         body: [
           'We integrated a scroll-based gallery on the Tap to Pay landing page to showcase diverse seller types and reinforce our _Sell on the go_ messaging. This animation enhances the visual appeal of our design and supports our messaging by, literally, moving our sellers.',
           'To bring this concept to life, we utilized the Web Animations API through Motion One, an open-source JavaScript library that enabled us to easily manage scroll-linked animations.',
