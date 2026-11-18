@@ -33,6 +33,15 @@ const order = grouped.flatMap((g) => g.items);
 
 const esc = (s = '') =>
   String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+// Contrast of a project's text color on its accent; below 7:1 the softened
+// (70%) labels would fall under 4.5:1, so those projects keep labels solid.
+const contrast = (accent, dark) => {
+  const c = accent.replace('#', '').match(/../g).map((h) => parseInt(h, 16) / 255);
+  const lin = (v) => (v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
+  const L = 0.2126 * lin(c[0]) + 0.7152 * lin(c[1]) + 0.0722 * lin(c[2]);
+  return dark ? 1.05 / (L + 0.05) : (L + 0.05) / 0.05;
+};
+const lowc = (p) => (p && p.accent && contrast(p.accent, p.dark) < 7 ? ' is-lowc' : '');
 const pct = (v, total) => `${+((v / total) * 100).toFixed(4)}%`;
 const has2x = (name) => existsSync(join(SLIDES_DIR, `${name}-2x.webp`));
 const altFor = (name, fallback) => {
@@ -385,7 +394,7 @@ function projectPage(p, { prev, next }) {
   const style = `--accent:${p.accent};--on-accent:${onAccent}`;
   const body = `
   <article class="project">
-    <header class="project-hero${p.dark ? ' is-dark' : ''}" style="${style}" data-section>
+    <header class="project-hero${p.dark ? ' is-dark' : ''}${lowc(p)}" style="${style}" data-section>
       <h1 class="project-title">${esc(p.title)}</h1>
       <div class="project-intro">
         <p class="label">Project Summary</p>
@@ -427,7 +436,7 @@ function pagerCard(p, root, dir) {
   const accent = isReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
   const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
-  return `<a class="pager-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" ${stackAttr(p, root)}>
+  return `<a class="pager-card is-${dir}${lowc(p)}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" ${stackAttr(p, root)}>
       <span class="pager-label label">${label}</span>
       <span class="pager-title">${esc(p.title)}</span>
       <span class="pager-tags">${esc(p.tags.join(' · '))}</span>
@@ -441,7 +450,7 @@ function sliceCard(p, root, dir) {
   const accent = p === demoReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
   const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
-  return `<a class="slice is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" tabindex="-1" ${stackAttr(p, root)}>
+  return `<a class="slice is-${dir}${lowc(p)}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" tabindex="-1" ${stackAttr(p, root)}>
       <span class="pager-label label">${label}</span>
       <span class="pager-title">${esc(p.title)}</span>
       <img class="pager-thumb" src="${root}assets/slides/${thumb}-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
@@ -658,7 +667,7 @@ write('404.html', layout({ title: 'Not found', description: 'Page not found', ro
 // URL, so this hides the site from casual visitors only.
 const PW_FILE = join(ROOT, '.site-password');
 let gated = 0;
-if (existsSync(PW_FILE)) {
+if (existsSync(PW_FILE) && !process.env.NO_GATE) {
   const pw = readFileSync(PW_FILE, 'utf8').trim();
   const salt = createHash('sha256').update('gate-salt:' + pw).digest().subarray(0, 16);
   const iter = 210000;

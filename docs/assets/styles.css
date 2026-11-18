@@ -1976,3 +1976,24 @@ html.is-gated .gate {
     display: none;
   }
 }
+
+/* Lower-contrast project colors (e.g. Keystrike's blue): no softened labels. */
+.is-lowc .pager-tags,
+.is-lowc .mini-label,
+.is-lowc .project-tags,
+.is-lowc .scope dt,
+.is-lowc .project-meta dt {
+  opacity: 1;
+}
+.project-hero.is-lowc {
+  --hairline: color-mix(in srgb, currentColor 55%, transparent);
+}
+
+/* If the first image has a caption, start below the header instead of
+   overlapping it, so the caption isn't set on the project color. */
+.project-hero + .slides:has(> .slide-group:first-child) {
+  margin-top: 0;
+}
+.project-hero:has(+ .slides > .slide-group:first-child) {
+  padding-bottom: clamp(56px, 7vw, 120px);
+}
