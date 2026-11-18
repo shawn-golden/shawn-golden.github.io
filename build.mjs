@@ -239,6 +239,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <body class="${bodyClass}"${bodyStyle ? ` style="${bodyStyle}"` : ''}>
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
+  <button class="chrome-toggle chip" type="button" aria-pressed="false" aria-label="Hide navigation"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
   <a class="wordmark chip" href="${root}"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}</a>
 </header>
 ${menu(root, current)}

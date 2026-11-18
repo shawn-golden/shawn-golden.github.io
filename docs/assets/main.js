@@ -414,6 +414,30 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
       img.src = srcs[0];
     });
   });
+  // ---------- Hide / show the top chrome ----------
+  // After you start scrolling, a round arrow appears beside the name. It tucks
+  // away the name, shortcuts and menu; the arrow stays to bring them back.
+  const chromeBtn = document.querySelector('.chrome-toggle');
+  if (chromeBtn) {
+    const setHidden = (hidden) => {
+      document.body.classList.toggle('chrome-hidden', hidden);
+      chromeBtn.setAttribute('aria-pressed', String(hidden));
+      chromeBtn.setAttribute('aria-label', hidden ? 'Show navigation' : 'Hide navigation');
+    };
+    try {
+      setHidden(localStorage.getItem('chrome-hidden') === '1');
+    } catch (e) {}
+    chromeBtn.addEventListener('click', () => {
+      const hidden = !document.body.classList.contains('chrome-hidden');
+      setHidden(hidden);
+      try {
+        localStorage.setItem('chrome-hidden', hidden ? '1' : '0');
+      } catch (e) {}
+    });
+    const onScrolled = () => document.body.classList.toggle('scrolled', window.scrollY > 120);
+    window.addEventListener('scroll', onScrolled, { passive: true });
+    onScrolled();
+  }
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();
