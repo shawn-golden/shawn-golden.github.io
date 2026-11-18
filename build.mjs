@@ -28,12 +28,12 @@ function pictureTag(name, root, alt, { eager = false } = {}) {
   return `<img src="${base}.webp" srcset="${base}-sm.webp 960w, ${base}.webp 1920w" sizes="(max-width: 1000px) 100vw, min(100vw, 1760px)" width="${SLIDE_W}" height="${SLIDE_H}" alt="${esc(alt)}" ${eager ? 'fetchpriority="high"' : 'loading="lazy"'} decoding="async">`;
 }
 
-function boxStyle(v) {
+function boxStyle(v, W = SLIDE_W, H = SLIDE_H) {
   return [
-    `left:${pct(v.x, SLIDE_W)}`,
-    `top:${pct(v.y, SLIDE_H)}`,
-    `width:${pct(v.w, SLIDE_W)}`,
-    `height:${pct(v.h, SLIDE_H)}`,
+    `left:${pct(v.x, W)}`,
+    `top:${pct(v.y, H)}`,
+    `width:${pct(v.w, W)}`,
+    `height:${pct(v.h, H)}`,
     v.rotate ? `transform:rotate(${v.rotate}deg)` : '',
     v.radius ? `border-radius:${pct(v.radius, v.w)} / ${pct(v.radius, v.h)}` : '',
     v.color ? `background:${v.color}` : '',
@@ -46,7 +46,7 @@ function boxStyle(v) {
 // Motion layers sit on top of the still slide and fade in together once the
 // clips can play: videos, then blend tints (recreating Figma blend modes),
 // then foreground artwork that was layered above the video in Figma.
-function motionLayers(s, root) {
+function motionLayers(s, root, W = SLIDE_W, H = SLIDE_H) {
   const videos = s.videos || [];
   if (!videos.length) return '';
   const missing = videos.filter((v) => !existsSync(join(VIDEO_DIR, v.file)));
@@ -55,18 +55,46 @@ function motionLayers(s, root) {
     return '';
   }
   const vids = videos
-    .map((v) => `<video class="slide-video" style="${boxStyle(v)}" data-src="${root}assets/video/${esc(v.file)}" muted loop playsinline preload="none" aria-hidden="true"></video>`)
+    .map((v) => `<video class="slide-video" style="${boxStyle(v, W, H)}" data-src="${root}assets/video/${esc(v.file)}" muted loop playsinline preload="none" aria-hidden="true"></video>`)
     .join('');
-  const blends = (s.blends || []).map((b) => `<div class="slide-layer" style="${boxStyle(b)}"></div>`).join('');
+  const blends = (s.blends || []).map((b) => `<div class="slide-layer" style="${boxStyle(b, W, H)}"></div>`).join('');
   const overlays = (s.overlays || [])
-    .map((o) => `<img class="slide-layer" style="${boxStyle(o)}" src="${root}assets/overlays/${esc(o.img)}" alt="" loading="lazy" decoding="async">`)
+    .map((o) => `<img class="slide-layer" style="${boxStyle(o, W, H)}" src="${root}assets/overlays/${esc(o.img)}" alt="" loading="lazy" decoding="async">`)
     .join('');
   return `<div class="slide-motion">${vids}${blends}${overlays}</div>`;
 }
 
+// Inline text formatting for content strings: _italic_.
+const rich = (t) => esc(t).replace(/_(.+?)_/g, '<em>$1</em>');
+
+// Info slide: live text on the left, the demo panel (image + any video) on the right.
+// Panel coordinates are in the panel's own pixels (Figma: 1387×922).
+const PANEL_W = 1387;
+const PANEL_H = 922;
+function infoSlide(s, project, root) {
+  const base = `${root}assets/slides/${s.src}-panel`;
+  const figs = (s.figures || [])
+    .map((f) => `<img src="${root}assets/slides/${f.img}" width="${f.w}" height="${f.h}" style="width:${f.w}px" alt="${esc(f.alt || '')}" loading="lazy" decoding="async">`)
+    .join('');
+  return `<section class="info-slide">
+        <div class="info-text">
+          <p class="label">${esc(s.eyebrow || 'Interaction design')}</p>
+          <h2 class="info-title">${esc(s.title)}</h2>
+          <div class="info-body">${s.body.map((p) => `<p>${rich(p)}</p>`).join('')}</div>
+          ${figs ? `<div class="info-figs">${figs}</div>` : ''}
+        </div>
+        <figure class="info-panel">
+          <img src="${base}.webp" srcset="${base}-sm.webp 800w, ${base}.webp 1387w" sizes="(max-width: 900px) 100vw, 70vw" width="${PANEL_W}" height="${PANEL_H}" alt="${esc(`${project.title}: ${s.title}`)}" loading="lazy" decoding="async">
+          ${motionLayers(s, root, PANEL_W, PANEL_H)}
+        </figure>
+      </section>`;
+}
+
 function slideFigure(slide, i, project, root) {
   const s = typeof slide === 'string' ? { src: slide } : slide;
-  return `<figure class="slide${i === 0 ? ' reveal-now' : ''}">${pictureTag(s.src, root, `${project.title}, image ${i + 1}`, { eager: i === 0 })}${motionLayers(s, root)}</figure>`;
+  if (s.body) return infoSlide(s, project, root);
+  const fig = `<figure class="slide${i === 0 ? ' reveal-now' : ''}">${pictureTag(s.src, root, s.caption ? `${project.title}: ${s.caption}` : `${project.title}, image ${i + 1}`, { eager: i === 0 })}${motionLayers(s, root)}</figure>`;
+  return s.caption ? `<div class="slide-group"><p class="slide-caption label">${esc(s.caption)}</p>${fig}</div>` : fig;
 }
 
 function menu(root, current) {
@@ -197,11 +225,14 @@ function home() {
 
 // ---------- Project pages ----------
 function credits(p) {
-  const col = (label, items) =>
+  // 4-column grid: Team takes the left half; Role and Contributions share the
+  // right half, or Role takes all of it when there are no contributions.
+  const wide = !(p.contributions && p.contributions.length);
+  const col = (label, items, cls) =>
     items && items.length
-      ? `<div class="credit"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
+      ? `<div class="credit ${cls}"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
       : '';
-  return `<div class="credits">${col('Team', p.team)}${col('Shawn’s Role', p.role)}${col('Contributions', p.contributions)}</div>`;
+  return `<div class="credits">${col('Team', p.team, 'span-2')}${col('Shawn’s Role', p.role, wide ? 'span-2' : '')}${col('Contributions', p.contributions, '')}</div>`;
 }
 
 function projectPage(p, next) {
@@ -233,7 +264,7 @@ function projectPage(p, next) {
       root,
       current: p.slug,
       body,
-      bodyClass: 'page-project',
+      bodyClass: `page-project${p.dark ? ' hero-dark' : ''}`,
       ogImage: firstSlide(p),
       theme: p.accent,
     })

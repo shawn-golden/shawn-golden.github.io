@@ -30,7 +30,7 @@ document.addEventListener('keydown', (e) => {
 });
 
 // ---------- Slide reveal ----------
-const slides = document.querySelectorAll('.slide');
+const slides = document.querySelectorAll('.slide, .info-slide');
 if ('IntersectionObserver' in window) {
   const io = new IntersectionObserver(
     (entries) => {

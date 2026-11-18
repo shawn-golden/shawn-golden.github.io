@@ -112,15 +112,39 @@ export const projects = [
     role: ['Lead Designer'],
     contributions: ['Creative strategy', 'Photo and video art direction', 'Motion graphics', 'Visual system design & documentation'],
     slides: [
-      'taptopay-01',
-      'taptopay-02',
-      'taptopay-03',
-      'taptopay-04',
-      'taptopay-05',
-      'taptopay-06',
+      { src: 'taptopay-01', caption: 'Art direction style guide' },
+      { src: 'taptopay-02', caption: 'Product photoshoot art direction' },
+      { src: 'taptopay-03', caption: 'Brand campaign design system for cross-functional use' },
+      { src: 'taptopay-04', caption: 'Public web experience' },
+      {
+        src: 'taptopay-05',
+        title: 'Collage CTA',
+        body: [
+          'To create a compelling user experience on our Tap to Pay landing page, we designed a dynamic animation that captures users’ attention as they reach the conclusion of the page, grabbing their attention just as we present our primary call to action.',
+          'The collage animation serves as a visual summary of the people and images that users encountered while scrolling through the page. This collage reinforces our messaging of _on-the-go, anywhere, for anyone_ by showcasing a diverse array of sellers and payment methods.',
+          'To bring this collage to life, each image is initially positioned outside of the viewport and then animated to move into place with a carefully choreographed staggered start.',
+          'The distance between each image is proportional to the width of the user’s device, resulting in a scalable, seamless, and visually stunning animation that enhances the user’s overall experience.',
+        ],
+        figures: [{ img: 'taptopay-05-diagram.webp', w: 320, h: 160, alt: 'Diagram: images animate in from outside the viewport' }],
+      },
+      {
+        src: 'taptopay-06',
+        title: 'Scroll gallery',
+        body: [
+          'We integrated a scroll-based gallery on the Tap to Pay landing page to showcase diverse seller types and reinforce our _Sell on the go_ messaging. This animation enhances the visual appeal of our design and supports our messaging by, literally, moving our sellers.',
+          'To bring this concept to life, we utilized the Web Animations API through Motion One, an open-source JavaScript library that enabled us to easily manage scroll-linked animations.',
+          'Our primary considerations were to create a seamless user experience by determining optimal timing, duration, distance, and easing motion for the gallery images across all viewport sizes.',
+          'These details resulted in a visually striking and impactful feature that effectively communicates our messaging.',
+        ],
+        figures: [
+          { img: 'taptopay-06-diagram.webp', w: 320, h: 198, alt: 'Diagram: gallery images move with scroll' },
+          { img: 'taptopay-06-easing.webp', w: 268, h: 86, alt: 'Easing curves' },
+        ],
+      },
       'taptopay-07',
       {
         src: 'taptopay-08',
+        caption: 'Motion studies',
         videos: [
           { file: 'taptopay-tap-to-phone-3.mp4', x: 201, y: 159, w: 812, h: 514 },
           { file: 'taptopay-precomp-3.mp4', x: 1056, y: 159, w: 293, h: 355 },
@@ -133,6 +157,7 @@ export const projects = [
       },
       {
         src: 'taptopay-09',
+        caption: 'Social media campaign motion graphics',
         videos: [{ file: 'taptopay-product-1.mp4', x: 125, y: 219, w: 318, h: 565 }],
         overlays: [{ img: 'taptopay-09-story.webp', x: 125, y: 219, w: 318, h: 59 }],
       },
@@ -163,23 +188,54 @@ export const projects = [
       'Social ad campaigns and creative',
     ],
     slides: [
-      'ugly-01',
-      'ugly-02',
-      { src: 'ugly-03', videos: [{ file: 'ugly-free-sample.mp4', x: 140, y: 236, w: 482, h: 607 }] },
+      { src: 'ugly-01', caption: 'Marketing website experience' },
+      { src: 'ugly-02', caption: 'Brand guidelines' },
+      {
+        src: 'ugly-03',
+        caption: 'Social media campaign design and animation',
+        videos: [{ file: 'ugly-free-sample.mp4', x: 140, y: 236, w: 482, h: 607 }],
+      },
       {
         src: 'ugly-04',
+        caption: 'Marketing website animations',
         videos: [
           { file: 'ugly-kickflip-boy.mp4', x: 933, y: 658, w: 318, h: 318, radius: 14 },
           { file: 'ugly-running-man.mp4', x: 1485, y: 658, w: 318, h: 318, radius: 14 },
         ],
         overlays: [{ img: 'ugly-04-patch.webp', x: 1485, y: 952, w: 135, h: 24 }],
       },
-      { src: 'ugly-05', videos: [{ file: 'ugly-comp-2.mp4', x: 626, y: 221, w: 1142, h: 738 }] },
-      'ugly-06',
-      { src: 'ugly-07', videos: [{ file: 'ugly-comp-1.mp4', x: 626, y: 220, w: 1142, h: 738 }] },
-      'ugly-08',
-      { src: 'ugly-09', videos: [{ file: 'ugly-comp-3.mp4', x: 626, y: 221, w: 1142, h: 738 }] },
-      'ugly-10',
+      {
+        // Info slide: video coordinates are relative to the 1387×922 panel.
+        src: 'ugly-05',
+        title: 'Security conscious hot dog',
+        body: [
+          'In designing the login and sign up page for Ugly Magazine, we aimed to inject some joy and playfulness into an otherwise mundane task. To achieve this, we added a _security-conscious_ hot dog to the page. The dog serves to enhance the overall user experience and reinforce the publication’s brand.',
+          'This hot dog, which is designed to be both endearing and lighthearted, features interactive eyes that will inaccurately follow the user’s cursor around the screen. As an added security measure, the hot dog will also cover its eyes when the user focuses on the password field, creating an engaging and memorable interaction.',
+        ],
+        videos: [{ file: 'ugly-comp-2.mp4', x: 123, y: 93, w: 1142, h: 738 }],
+      },
+      { src: 'ugly-06', caption: 'Marketing website experience' },
+      {
+        src: 'ugly-07',
+        title: 'About image and video hover',
+        body: [
+          'We designed Ugly Magazine’s about page to reflect the magazine’s absurdist and unexpected tone. The page is presented from the perspective of the physical magazine, telling a story that is in keeping with the publication’s overall sensibilities. In, might I add, wildly exaggerated jumbo typography.',
+          'To enhance the narrative experience, we incorporated hover interactions that reveal images or videos that align with the magazine’s unique tone and aesthetics while reinforcing the story. This not only adds an engaging layer of interactivity to the design, keeping users scrolling and enjoying the madness, but also reinforces the overall brand of the publication.',
+        ],
+        videos: [{ file: 'ugly-comp-1.mp4', x: 123, y: 92, w: 1142, h: 738 }],
+      },
+      { src: 'ugly-08', caption: 'Joyful web experiences, custom cursors' },
+      {
+        src: 'ugly-09',
+        title: 'Excessive congratulations confetti',
+        body: [
+          'Upon completion of a subscription sign-up for Ugly Magazine, we wanted to offer users a lighthearted and engaging reward. To achieve this, we developed an absurd and fun confetti animation that evokes a sense of accomplishment, but not without having a tongue in cheek.',
+          'The exaggerated animation features an eye-catching display of exploding confetti that attacks the screen unexpectedly.',
+          'By adding this touch of absurdism to the subscription process, we are able to create a memorable experience for our users, while also, again, reinforcing the overall tone and personality of the Ugly Magazine brand.',
+        ],
+        videos: [{ file: 'ugly-comp-3.mp4', x: 123, y: 93, w: 1142, h: 738 }],
+      },
+      { src: 'ugly-10', caption: 'Interaction models for collaboration with web development agency' },
     ],
   },
   {
@@ -199,7 +255,7 @@ export const projects = [
     ],
     role: ['Designer'],
     contributions: ['Template design', 'System design', 'Figma library, styles, components', 'Documentation'],
-    slides: range('email', 5),
+    slides: ['email-01', 'email-02', 'email-03', { src: 'email-04', caption: 'Design system instructions for cross-team collaboration' }, 'email-05'],
   },
   {
     slug: 'motion-calendar',
@@ -220,7 +276,12 @@ export const projects = [
     accent: '#cccccc',
     summary:
       'I’m always excited to dive into the latest technologies and design trends. My passion for experimentation doesn’t stop at work. I’m constantly working on side projects that help me refine my skills. This continuous learning fuels my ability to come up with fresh, innovative solutions.',
-    slides: range('experiments', 4),
+    slides: [
+      { src: 'experiments-01', caption: 'Neat nature, Neature' },
+      { src: 'experiments-02', caption: 'Square recruiting campaign' },
+      { src: 'experiments-03', caption: 'Square illustration style' },
+      { src: 'experiments-04', caption: 'Hack week website design exploration' },
+    ],
   },
 ];
 
