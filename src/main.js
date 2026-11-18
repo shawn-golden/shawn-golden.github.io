@@ -438,7 +438,17 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
         localStorage.setItem('chrome-hidden', hidden ? '1' : '0');
       } catch (e) {}
     });
-    const onScrolled = () => document.body.classList.toggle('scrolled', window.scrollY > 120);
+    const onScrolled = () => {
+      const scrolled = window.scrollY > 120;
+      document.body.classList.toggle('scrolled', scrolled);
+      // Back at the top: bring everything back.
+      if (!scrolled && document.body.classList.contains('chrome-hidden')) {
+        setHidden(false);
+        try {
+          localStorage.setItem('chrome-hidden', '0');
+        } catch (e) {}
+      }
+    };
     window.addEventListener('scroll', onScrolled, { passive: true });
     onScrolled();
   }
