@@ -1646,3 +1646,140 @@ body[data-locked] > :not(.gate) {
 .project-hero + .slides > :first-child {
   box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.45);
 }
+
+/* ---------- Work overview ---------- */
+.index-all {
+  justify-self: end;
+  font-size: 13px;
+}
+.work-group {
+  padding: 0 var(--gutter);
+  margin-top: clamp(40px, 5vw, 80px);
+}
+.work-group-name {
+  font-weight: 400;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--rule);
+}
+.work-item {
+  display: grid;
+  gap: 20px;
+  padding: clamp(20px, 2.4vw, 40px) 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+.work-info {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+.work-title {
+  font-weight: 400;
+  font-size: clamp(30px, 3.4vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.work-title a {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.28em;
+}
+.work-title i {
+  width: 0.32em;
+  height: 0.32em;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+.work-role {
+  font-size: 14px;
+}
+.work-summary {
+  font-size: 15px;
+  line-height: 1.45;
+  color: #333;
+  max-width: 34em;
+}
+.work-tags {
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--muted);
+}
+.work-info .arrow-link {
+  font-size: 13px;
+  margin-top: 6px;
+}
+.work-sheet {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+.work-sheet.is-single {
+  grid-template-columns: 1fr;
+}
+.work-thumb {
+  margin: 0;
+  aspect-ratio: 16 / 9;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #e6e6e6;
+}
+.work-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: zoom-in;
+  transition: transform 0.5s var(--ease);
+}
+.work-thumb:hover img {
+  transform: scale(1.04);
+}
+@media (min-width: 900px) {
+  .work-item {
+    grid-template-columns: minmax(280px, 1fr) 2.4fr;
+    gap: clamp(32px, 4vw, 72px);
+  }
+  .work-sheet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .work-sheet.is-single {
+    grid-template-columns: 2fr 1fr;
+  }
+}
+
+/* Summary row gets the same hairline as the credits, so label and text connect. */
+.project-intro {
+  border-top: 1px solid currentColor;
+  padding-top: 8px;
+}
+.project-intro > .label {
+  padding-top: 0;
+}
+/* Credits always fill the full width: 3 columns → the last spans two. */
+@media (min-width: 1000px) {
+  .credits.cols-3 .credit:last-child {
+    grid-column: span 2;
+  }
+  .credits.cols-2 .credit {
+    grid-column: span 2;
+  }
+  .credits.cols-1 .credit {
+    grid-column: 1 / -1;
+  }
+}
+@media (min-width: 700px) and (max-width: 999px) {
+  .credits.cols-3 .credit:last-child,
+  .credits.cols-1 .credit {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Header rules: the text color at low opacity, so lines pick up each project's tint. */
+.project-hero {
+  --hairline: color-mix(in srgb, currentColor 35%, transparent);
+}
+.project-hero .project-intro,
+.project-hero .credit {
+  border-top-color: var(--hairline);
+}

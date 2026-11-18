@@ -128,8 +128,8 @@ function closeViewer() {
 viewer?.addEventListener('click', (e) => {
   if (e.target === viewer || e.target.classList.contains('viewer-close')) closeViewer();
 });
-document.querySelectorAll('.slide img, .info-panel > img').forEach((img) => {
-  img.addEventListener('dblclick', () => openViewer(img));
+document.querySelectorAll('.slide img, .info-panel > img, .work-thumb img').forEach((img) => {
+  img.addEventListener(img.closest('.work-thumb') ? 'click' : 'dblclick', () => openViewer(img));
 });
 
 // ---------- Keyboard ----------
@@ -155,7 +155,7 @@ function goTo(i) {
 }
 function imageInSection(i) {
   const s = sections[i];
-  return s?.querySelector('.slide img, .info-panel > img');
+  return s?.querySelector('.slide img, .info-panel > img, .work-thumb img');
 }
 
 // Shortcut hint: always shown on desktop; the eye button collapses it, and the
@@ -165,7 +165,7 @@ if (keys && canHover && sections.length > 3) {
   if (!prevLink) {
     // Home and About: no projects to step through, nothing to zoom.
     keys.querySelector('.keys-projects')?.remove();
-    keys.querySelector('.keys-zoom')?.remove();
+    if (!document.querySelector('.work-thumb img')) keys.querySelector('.keys-zoom')?.remove();
   }
   const toggle = keys.querySelector('.keys-toggle');
   const setCollapsed = (collapsed) => {
@@ -217,7 +217,7 @@ document.addEventListener('keydown', (e) => {
     if (k === 'arrowdown' || k === 'j' || k === 'arrowup' || k === 'k') {
       e.preventDefault();
       const dir = k === 'arrowdown' || k === 'j' ? 1 : -1;
-      const all = [...document.querySelectorAll('.slide img, .info-panel > img')];
+      const all = [...document.querySelectorAll('.slide img, .info-panel > img, .work-thumb img')];
       const at = all.findIndex((img) => (img.dataset.full || img.src) === viewerImg.getAttribute('src'));
       const nextImg = all[at + dir];
       if (nextImg) openViewer(nextImg);

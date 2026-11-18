@@ -198,6 +198,7 @@ function menu(root, current) {
         <p class="label">Info</p>
         <ol class="menu-list menu-list-sm">
           <li><a href="${root}"${current === 'home' ? ' aria-current="page"' : ''}>Home</a></li>
+          <li><a href="${root}work/"${current === 'work' ? ' aria-current="page"' : ''}>All work</a></li>
           <li><a href="${root}about/"${current === 'about' ? ' aria-current="page"' : ''}>About</a></li>
           <li><a href="#colophon" data-open-build>Colophon</a></li>
           <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
@@ -314,7 +315,8 @@ function home() {
     <p class="label">Selected clients</p>
     <div class="marquee-track"><div class="marquee-row">${clients}</div><div class="marquee-row" aria-hidden="true">${clients}</div></div>
   </section>
-  <div class="index">${groupsHtml}
+  <div class="index">
+    <a class="index-all arrow-link" href="work/">See all work on one page <span aria-hidden="true">→</span></a>${groupsHtml}
     <div class="index-preview" aria-hidden="true"></div>
   </div>
   <section class="home-about" data-section>
@@ -494,6 +496,67 @@ function reelPage({ prev, next }) {
   );
 }
 
+// ---------- Work overview ----------
+// Every project on one page: the essentials beside a contact sheet of its
+// strongest images (a project can set `featured` to choose them).
+const firstSentence = (t) => (t.match(/^.*?[.!?](\s|$)/) || [t])[0].trim();
+function workPage() {
+  const root = '../';
+  const blocks = grouped
+    .map(
+      (g) => `
+    <section class="work-group">
+      <h2 class="work-group-name label">${esc(g.name)}</h2>
+      ${g.items
+        .map((p) => {
+          const isReel = p === demoReel;
+          const imgs = isReel ? [p.thumb] : (p.featured || slideImages(p)).slice(0, 6);
+          const thumbs = imgs
+            .map((n) => {
+              const half = /-h\d+$/.test(n);
+              const full = `${root}assets/slides/${n}${has2x(n) ? '-2x' : ''}.webp`;
+              return `<figure class="work-thumb${half ? ' is-tall' : ''}"><img src="${root}assets/slides/${n}-sm.webp" data-full="${full}" alt="${esc(alts[n] || p.title)}" loading="lazy" decoding="async" width="960" height="540"></figure>`;
+            })
+            .join('');
+          return `
+      <article class="work-item" data-section style="--accent:${isReel ? '#cccccc' : p.accent}">
+        <div class="work-info">
+          <h3 class="work-title"><a href="${root}${p.slug}/"><i></i>${esc(p.title)}</a></h3>
+          ${p.role ? `<p class="work-role">${esc(p.role.join(', '))}</p>` : ''}
+          <p class="work-summary">${esc(firstSentence(p.summary))}</p>
+          <p class="work-tags">${esc(p.tags.join(' · '))}</p>
+          <a class="arrow-link" href="${root}${p.slug}/">View project <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="work-sheet${isReel ? ' is-single' : ''}">${thumbs}</div>
+      </article>`;
+        })
+        .join('')}
+    </section>`
+    )
+    .join('');
+  const body = `
+  <article class="work">
+    <header class="about-hero" data-section>
+      <p class="label">Work</p>
+      <h1 class="about-intro">${order.length} projects across brand systems, campaigns, design systems and interaction, all on one page.</h1>
+    </header>
+    ${blocks}
+  </article>`;
+  write(
+    'work/index.html',
+    layout({
+      title: 'Work',
+      description: `An overview of ${site.name}’s work: ${order.map((p) => p.title).join(', ')}.`,
+      root,
+      current: 'work',
+      body,
+      bodyClass: 'page-work',
+      og: 'home',
+      crumb: { title: 'Work', accent: '#ffffff' },
+    })
+  );
+}
+
 // ---------- About ----------
 function aboutPage() {
   const root = '../';
@@ -579,6 +642,7 @@ for (const p of order) {
 }
 for (const p of projects.filter((p) => p.hidden)) projectPage(p, { prev: order.at(-1), next: order[0] });
 aboutPage();
+workPage();
 write('404.html', layout({ title: 'Not found', description: 'Page not found', root: '/', current: '', body: `<section class="about-hero"><h1 class="about-intro">That page doesn’t exist. <a href="/">Back to the work →</a></h1></section>` }));
 
 {
