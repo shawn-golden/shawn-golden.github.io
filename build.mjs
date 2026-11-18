@@ -335,15 +335,15 @@ function home() {
 }
 
 // ---------- Project pages ----------
+// One row of facts under the summary, like the Figma summary slides:
+// Team · Shawn's Role · Contributions · Discipline.
 function credits(p) {
-  // 4-column grid: Team takes the left half; Role and Contributions share the
-  // right half, or Role takes all of it when there are no contributions.
-  const wide = !(p.contributions && p.contributions.length);
-  const col = (label, items, cls) =>
+  const col = (label, items) =>
     items && items.length
-      ? `<div class="credit ${cls}"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
+      ? `<div class="credit"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
       : '';
-  return `<div class="credits">${col('Team', p.team, 'span-2')}${col('Shawn’s Role', p.role, wide ? 'span-2' : '')}${col('Contributions', p.contributions, '')}</div>`;
+  const cols = [col('Team', p.team), col('Shawn’s Role', p.role), col('Contributions', p.contributions), col('Discipline', p.tags)].filter(Boolean);
+  return `<div class="credits cols-${cols.length}">${cols.join('')}</div>`;
 }
 
 // Project header: chapter line, title, then facts (left) and summary (right).
@@ -384,12 +384,12 @@ function projectPage(p, { prev, next }) {
   const body = `
   <article class="project">
     <header class="project-hero${p.dark ? ' is-dark' : ''}" style="${style}" data-section>
-      ${eyebrow(p)}
       <h1 class="project-title">${esc(p.title)}</h1>
-      <div class="project-body">
-        ${projectMeta(p)}
+      <div class="project-intro">
+        <p class="label">Project Summary</p>
         <p class="project-summary">${esc(p.summary)}</p>
       </div>
+      ${credits(p)}
     </header>
     <div class="slides">
       ${slidesWithPrinciples(p, root)}
@@ -461,12 +461,12 @@ function reelPage({ prev, next }) {
   const body = `
   <article class="project">
     <header class="project-hero" style="--accent:#cccccc;--on-accent:#000" data-section>
-      ${eyebrow(demoReel)}
       <h1 class="project-title">Demo Reel</h1>
-      <div class="project-body">
-        ${projectMeta(demoReel)}
+      <div class="project-intro">
+        <p class="label">Motion and Animation</p>
         <p class="project-summary">${esc(demoReel.summary)}</p>
       </div>
+      ${credits(demoReel)}
     </header>
     <div class="slides">
       <figure class="slide reel" data-section>

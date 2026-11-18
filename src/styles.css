@@ -479,9 +479,7 @@ body.menu-open {
   .credits {
     grid-template-columns: repeat(4, 1fr);
   }
-  .credit.span-2 {
-    grid-column: span 2;
-  }
+
   .credit:only-child {
     grid-column: 1 / -1;
   }
@@ -1616,76 +1614,29 @@ body[data-locked] > :not(.gate) {
   transform: translate(-50%, -12px);
 }
 
-/* ---------- Project header (v2) ---------- */
+/* ---------- Project header ---------- */
 .project-hero {
-  gap: 0;
+  gap: clamp(40px, 7vw, 120px);
   padding-bottom: clamp(96px, 12vw, 200px);
 }
-.project-eyebrow {
-  display: flex;
-  gap: 16px;
-  margin-bottom: clamp(12px, 1.4vw, 24px);
-  opacity: 0.75;
+.credits {
+  grid-template-columns: 1fr;
 }
-.project-eyebrow span + span::before {
-  content: '';
-  display: inline-block;
-  width: 24px;
-  height: 1px;
-  background: currentColor;
-  vertical-align: middle;
-  margin-right: 16px;
-  opacity: 0.6;
-}
-.project-body {
-  display: grid;
-  gap: 40px;
-  margin-top: clamp(40px, 5vw, 88px);
-}
-.project-meta {
-  margin: 0;
-  display: grid;
-  align-content: start;
-}
-.project-meta div {
-  display: grid;
-  grid-template-columns: 112px 1fr;
-  gap: 12px;
-  padding: 12px 0 14px;
-  border-top: 1px solid currentColor;
-}
-.project-meta div:last-child {
-  border-bottom: 1px solid currentColor;
-}
-.project-meta dt {
-  font-size: 12px;
-  opacity: 0.7;
-  padding-top: 2px;
-}
-.project-meta dd {
-  margin: 0;
-  display: grid;
-  gap: 2px;
-  font-size: 15px;
-  line-height: 1.35;
-}
-.project-meta .meta-names {
-  margin-top: 6px;
-  font-size: 12px;
-  line-height: 1.5;
-  opacity: 0.75;
-}
-.project-body .project-summary {
-  font-size: clamp(20px, 1.9vw, 34px);
-  line-height: 1.28;
-  letter-spacing: -0.015em;
-  max-width: 30em;
-}
-@media (min-width: 900px) {
-  .project-body {
-    grid-template-columns: minmax(300px, 1fr) 2fr;
-    gap: clamp(40px, 6vw, 120px);
+@media (min-width: 700px) {
+  .credits {
+    grid-template-columns: repeat(2, 1fr);
   }
+}
+@media (min-width: 1000px) {
+  .credits {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .credits .credit:only-child {
+    grid-column: auto;
+  }
+}
+.credit ul {
+  line-height: 1.5;
 }
 /* The first image rises into the colored header. */
 .project-hero + .slides {
