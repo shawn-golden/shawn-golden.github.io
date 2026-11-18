@@ -285,7 +285,7 @@ export const projects = [
     tags: ['Brand identity', 'Web design', 'Generative tools'],
     accent: '#f3dcd5',
     summary:
-      'Tracebit helps security teams catch attackers inside their cloud early, positioning itself as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
+      'Tracebit helps security teams catch attackers early by planting canaries across their cloud, decoys that alert the moment someone touches them, positioning the company as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
     slides: [
       'tracebit-01',
       'tracebit-02',
@@ -432,6 +432,18 @@ export const principles = {
       after: 'blumira-04',
       quote: 'Each color expresses a facet of Blumira’s personality. Use them with intention to convey mood and hierarchy.',
       source: 'Blumira guidelines · Color',
+    },
+  ],
+  expel: [
+    {
+      after: 'expel-03',
+      quote: 'Technical, data-driven, systematic, precise. A visual callback to when computer output showed its work.',
+      source: 'Expel guidelines · Graphic device',
+    },
+    {
+      after: 'expel-05',
+      quote: 'When you’d like to add emphasis to the layout, extend a color block to half or even 3/4 of the design.',
+      source: 'Expel guidelines · Layout',
     },
   ],
   'email-design-system': [
