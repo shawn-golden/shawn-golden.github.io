@@ -338,47 +338,51 @@ document.querySelectorAll('[data-open-build]').forEach((a) =>
 );
 if (location.hash === '#colophon') setTimeout(openLog, 400);
 
-  // ---------- Mini pager: follows you, then grows into the full cards ----------
+  // ---------- Half cards: follow you, then reveal into the full cards ----------
   const pagerEl = document.querySelector('.pager');
   const mini = document.querySelector('.mini-pager');
   if (pagerEl && mini) {
     const cards = { prev: pagerEl.querySelector('.is-prev'), next: pagerEl.querySelector('.is-next') };
-    const pills = { prev: mini.querySelector('.is-prev'), next: mini.querySelector('.is-next') };
+    const slices = { prev: mini.querySelector('.is-prev'), next: mini.querySelector('.is-next') };
     let reached = false;
-    const onScroll = () => {
-      const past = window.scrollY > window.innerHeight * 0.6;
-      mini.classList.toggle('is-on', past && !reached);
+    const update = () => {
+      const on = window.scrollY > window.innerHeight * 0.6 && !reached;
+      mini.classList.toggle('is-on', on);
+      document.body.classList.toggle('has-slices', on);
+      document.body.style.setProperty('--slice-h', `${mini.offsetHeight}px`);
     };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    const grow = () => {
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    // The slice is the top of the card, so the card starts clipped to the
+    // slice's height at the slice's position and opens downward.
+    const reveal = () => {
       if (reduceMotion) return;
       for (const dir of ['prev', 'next']) {
-        const from = pills[dir].getBoundingClientRect();
+        const from = slices[dir].getBoundingClientRect();
         const to = cards[dir].getBoundingClientRect();
-        if (!from.width || !to.width) continue;
-        const sx = from.width / to.width;
-        const sy = from.height / to.height;
+        if (!from.height || !to.height) continue;
+        const cut = Math.max(0, to.height - from.height);
         cards[dir].animate(
           [
-            { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px) scale(${sx}, ${sy})`, borderRadius: '999px' },
-            { transform: 'none', borderRadius: '6px' },
+            { transform: `translateY(${from.top - to.top}px)`, clipPath: `inset(0 0 ${cut}px 0 round 6px 6px 0 0)` },
+            { transform: 'none', clipPath: 'inset(0 0 0 0 round 6px)' },
           ],
-          { duration: 650, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
+          { duration: 700, easing: 'cubic-bezier(0.2, 0.8, 0.2, 1)' }
         );
       }
     };
     new IntersectionObserver(
       ([e]) => {
         if (e.isIntersecting && !reached) {
-          if (mini.classList.contains('is-on')) grow();
+          if (mini.classList.contains('is-on')) reveal();
           reached = true;
         } else if (!e.isIntersecting && e.boundingClientRect.top > 0) {
           reached = false;
         }
-        onScroll();
+        update();
       },
-      { threshold: 0.35 }
+      { threshold: 0.3 }
     ).observe(pagerEl);
   }
 }

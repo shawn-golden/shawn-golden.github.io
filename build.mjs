@@ -402,7 +402,7 @@ function pagerCard(p, root, dir) {
   const thumb = isReel ? p.thumb : slideImages(p)[0];
   const accent = isReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
-  const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous' : 'Next <span aria-hidden="true">→</span>';
+  const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
   return `<a class="pager-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}">
       <span class="pager-label label">${label}</span>
       <span class="pager-title">${esc(p.title)}</span>
@@ -410,11 +410,16 @@ function pagerCard(p, root, dir) {
       <img class="pager-thumb" src="${root}assets/slides/${thumb}-sm.webp" alt="" loading="lazy" decoding="async" width="960" height="540">
     </a>`;
 }
-function miniCard(p, root, dir) {
+// The top slice of a pager card: same color, label and title, cut off at the
+// bottom. Follows you down the page, then reveals into the full card.
+function sliceCard(p, root, dir) {
   const accent = p === demoReel ? '#cccccc' : p.accent;
   const on = p.dark ? '#fff' : '#000';
-  const label = dir === 'prev' ? '← Previous project' : 'Next project →';
-  return `<a class="mini-card is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" data-dir="${dir}"><span class="mini-label">${label}</span><span class="mini-title">${esc(p.title)}</span></a>`;
+  const label = dir === 'prev' ? '<span aria-hidden="true">←</span> Previous project' : 'Next project <span aria-hidden="true">→</span>';
+  return `<a class="slice is-${dir}" href="${root}${p.slug}/" style="--accent:${accent};--on-accent:${on}" tabindex="-1">
+      <span class="pager-label label">${label}</span>
+      <span class="pager-title">${esc(p.title)}</span>
+    </a>`;
 }
 // Full cards at the end of the page, plus small pills that follow you down
 // the page and grow into the full cards when you reach them.
@@ -423,7 +428,7 @@ function pager({ prev, next }, root) {
     ${pagerCard(prev, root, 'prev')}
     ${pagerCard(next, root, 'next')}
   </nav>
-  <div class="mini-pager" aria-hidden="true">${miniCard(prev, root, 'prev')}${miniCard(next, root, 'next')}</div>`;
+  <div class="mini-pager" aria-hidden="true">${sliceCard(prev, root, 'prev')}${sliceCard(next, root, 'next')}</div>`;
 }
 
 // ---------- Demo reel ----------

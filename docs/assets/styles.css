@@ -1067,8 +1067,8 @@ p, li, dd {
 /* ---------- Keyboard hint ---------- */
 .keys {
   position: fixed;
-  left: var(--gutter);
-  bottom: var(--gutter);
+  left: 50%;
+  top: calc(var(--gutter) + 10px);
   z-index: 40;
   display: flex;
   gap: 16px;
@@ -1079,17 +1079,14 @@ p, li, dd {
   font-size: 12px;
   align-items: center;
   opacity: 0;
-  transform: translateY(8px);
+  transform: translate(-50%, -8px);
   transition: opacity 0.4s var(--ease), transform 0.4s var(--ease), padding 0.3s var(--ease);
 }
 .keys.is-on {
   opacity: 1;
-  transform: none;
+  transform: translate(-50%, 0);
 }
-.keys.is-on.over-footer {
-  opacity: 0;
-  pointer-events: none;
-}
+
 .keys-list {
   display: flex;
   gap: 16px;
@@ -1390,59 +1387,77 @@ body[data-locked] > :not(.gate) {
   75% { transform: translateX(-3px); }
 }
 
-/* ---------- Mini pager ---------- */
+/* ---------- Half cards (scrolling previous / next) ---------- */
+/* Same columns and type as the full pager cards, cut off at the bottom. */
 .mini-pager {
   position: fixed;
-  right: var(--gutter);
-  bottom: var(--gutter);
+  left: 0;
+  right: 0;
+  bottom: 0;
   z-index: 40;
-  display: flex;
-  gap: 6px;
-  opacity: 0;
-  transform: translateY(12px);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(12px, 1.4vw, 24px);
+  padding: 0 var(--gutter);
+  align-items: end;
+  transform: translateY(105%);
   pointer-events: none;
-  transition: opacity 0.3s var(--ease), transform 0.3s var(--ease);
+  transition: transform 0.45s var(--ease);
 }
 .mini-pager.is-on {
-  opacity: 1;
   transform: none;
-  pointer-events: auto;
 }
-.mini-card {
+.slice {
   display: grid;
-  align-content: center;
-  gap: 1px;
-  min-height: 44px;
-  padding: 6px 16px 7px;
-  border-radius: 999px;
+  align-content: start;
+  gap: 6px;
+  padding: clamp(12px, 1.1vw, 18px) clamp(20px, 2vw, 36px) clamp(10px, 0.9vw, 14px);
+  border-radius: 6px 6px 0 0;
   background: var(--accent);
   color: var(--on-accent);
-  font-size: 13px;
-  white-space: nowrap;
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 8px 24px -10px rgba(0, 0, 0, 0.35);
-  transition: transform 0.25s var(--ease);
+  pointer-events: auto;
+  box-shadow: 0 -12px 32px -18px rgba(0, 0, 0, 0.35);
+  transition: padding-bottom 0.3s var(--ease);
 }
-.mini-card:hover {
-  transform: translateY(-2px);
+/* Each half rises on its own: the row is bottom-aligned, so only the
+   hovered card grows upward. */
+.slice:hover,
+.slice:focus-visible {
+  padding-bottom: clamp(22px, 2vw, 34px);
 }
-.pager-card {
-  transform-origin: 0 0;
+.slice.is-next {
+  text-align: right;
+  justify-items: end;
 }
-@media (max-width: 600px) {
+.slice.is-next .pager-label {
+  justify-content: flex-end;
+}
+.slice .pager-title,
+.pager-card .pager-title {
+  font-size: clamp(24px, 2.6vw, 48px);
+}
+.slice .pager-title {
+  margin-top: 0;
+}
+.mini-pager .is-prev:only-child {
+  grid-column: 1 / -1;
+}
+@media (max-width: 799px) {
+  /* On phones, one row: both halves side by side, smaller type. */
   .mini-pager {
-    left: var(--gutter);
-    justify-content: space-between;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+  .slice {
+    padding: 12px 14px 10px;
+    gap: 4px;
+  }
+  .slice .pager-title {
+    font-size: 20px;
   }
 }
-.mini-label {
-  font-size: 10px;
-  line-height: 1.2;
-  opacity: 0.7;
-}
-.mini-title {
-  font-size: 14px;
-  line-height: 1.2;
-}
-.mini-card.is-next {
-  text-align: right;
+@media (min-width: 800px) {
+  .mini-pager {
+    grid-template-columns: 1fr 1fr;
+  }
 }
