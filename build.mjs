@@ -506,7 +506,7 @@ function workPage() {
     .map(
       (g) => `
     <section class="work-group">
-      <h2 class="work-group-name label">${esc(g.name)}</h2>
+      <h2 class="work-group-name"><span>${esc(g.name)}</span><span class="work-group-count">${g.items.length} ${g.items.length === 1 ? 'project' : 'projects'}</span></h2>
       ${g.items
         .map((p) => {
           const isReel = p === demoReel;
