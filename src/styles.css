@@ -2217,20 +2217,27 @@ img.is-loading {
   transform: translateY(10px) scale(0.6);
   transition: opacity 0.2s, transform 0.3s var(--ease);
 }
+/* One wave per hover, then the pill settles back to normal. */
 .wordmark:hover {
-  padding-left: 42px;
+  animation: wave-pill 1.6s var(--ease) forwards;
 }
 .wordmark:hover .wave {
-  opacity: 1;
-  transform: none;
-  animation: wave 0.9s ease-in-out 0.25s 1;
+  animation: wave-hand 1.6s ease-in-out forwards;
 }
-@keyframes wave {
-  0%, 100% { transform: rotate(0deg); }
-  20% { transform: rotate(-18deg); }
-  40% { transform: rotate(14deg); }
-  60% { transform: rotate(-10deg); }
-  80% { transform: rotate(8deg); }
+@keyframes wave-pill {
+  0% { padding-left: 16px; }
+  15%, 78% { padding-left: 42px; }
+  100% { padding-left: 16px; }
+}
+@keyframes wave-hand {
+  0% { opacity: 0; transform: translateY(10px) scale(0.6); }
+  15% { opacity: 1; transform: none; }
+  27% { transform: rotate(-18deg); }
+  39% { transform: rotate(14deg); }
+  51% { transform: rotate(-10deg); }
+  62% { transform: rotate(8deg); }
+  72% { opacity: 1; transform: rotate(0deg); }
+  90%, 100% { opacity: 0; transform: translateY(10px) scale(0.6); }
 }
 
 /* Reading progress inside the name capsule. */
@@ -2270,6 +2277,7 @@ img.is-loading {
 }
 @media (prefers-reduced-motion: reduce) {
   .footer-clock .colon,
+  .wordmark:hover,
   .wordmark:hover .wave {
     animation: none;
   }
