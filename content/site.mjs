@@ -461,6 +461,33 @@ export const about = {
     'Womp',
   ],
   capabilitiesImage: 'capabilities',
+  // Leading a team: shown on the About page. Every example is drawn from real projects.
+  team: {
+    intro:
+      'I lead small, senior teams of designers, motion designers, and developers, working alongside a strategist and a delivery lead. My job is to set a clear direction early, protect the idea through every review, and give everyone room to do their best work.',
+    practices: [
+      {
+        title: 'Direction in the room',
+        body: 'I present moodboards and identity reviews to founders and executive teams myself, then turn their feedback into decisions the team can act on the same day.',
+      },
+      {
+        title: 'Critique tied to the idea',
+        body: 'Every review comes back to the brand idea, so feedback is about whether the work does its job, not about anyone’s personal taste.',
+      },
+      {
+        title: 'The right specialists',
+        body: 'I bring in and direct specialists where the brand needs them, like the motion system Aaron Johnstone built for Minka under my direction.',
+      },
+      {
+        title: 'Systems that free people up',
+        body: 'On Minka I built a Figma foundations library that became FinalFinal’s standard way of delivering brands, so designers start from a shared system instead of a blank file.',
+      },
+      {
+        title: 'Calm on a deadline',
+        body: 'When Keystrike needed a logo for RSA Conference, the founders picked a direction on a Saturday and had final files on Monday.',
+      },
+    ],
+  },
   // How I lead: shown on the About page.
   leadership: [
     {

@@ -648,6 +648,15 @@ function aboutPage() {
       </ol>
     </section>
     <section class="about-grid" data-section>
+      <p class="label">Leading a team</p>
+      <div class="team-lead">
+        <p class="team-intro">${esc(about.team.intro)}</p>
+        <dl class="team-practices">
+          ${about.team.practices.map((t) => `<div><dt>${esc(t.title)}</dt><dd>${esc(t.body)}</dd></div>`).join('')}
+        </dl>
+      </div>
+    </section>
+    <section class="about-grid" data-section>
       <p class="label">Experience</p>
       <ol class="experience">
         ${about.experience
