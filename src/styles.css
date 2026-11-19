@@ -137,9 +137,7 @@ ol {
   border-radius: 50%;
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25);
 }
-.page-home .wordmark {
-  display: none;
-}
+
 @media (min-width: 1100px) {
   /* Leave room for the shortcut capsule in the middle. */
   .wordmark {
@@ -1520,12 +1518,7 @@ body[data-locked] > :not(.gate) {
   }
 }
 
-/* Homepage: shortcuts appear once you're past the hero. */
-.page-home .keys.is-on:not(.past-hero) {
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -8px);
-}
+
 
 /* A sliver of the thumbnail peeks up from each half card, in the same spot
    as on the full card; hovering raises the card and shows more of it. */
@@ -2129,4 +2122,9 @@ html.is-gated .gate {
 }
 .welcoming .keys.is-on {
   opacity: 0;
+}
+
+/* The top rule ran behind the capsules on the homepage; drop it. */
+.home-hero::before {
+  display: none;
 }
