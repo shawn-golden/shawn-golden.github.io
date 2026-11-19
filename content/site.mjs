@@ -29,6 +29,7 @@ export const projects = [
     clientTeam: [
       "Dom Rozic, Co-founder",
       "Vikram Rojo, Product & Growth Lead",
+      "Andres Corredor",
     ],
     quote: { text: "No notes. 10/10. It’s all come together really well.", source: "Vikram Rojo, Minka" },
     results: [
@@ -56,6 +57,8 @@ export const projects = [
       "Jon-Eric Cornellier, Marketing Director",
       "Natalie Pleyerova, Project Lead",
       "Geetha Pai, Product & UX",
+      "Zoe Lindsey",
+      "Amanda Berlin",
     ],
     quote: { text: "I appreciated the journey you took us on and think we’re at a really strong position.", source: "Natalie Pleyerova, Blumira" },
     results: [
@@ -113,6 +116,7 @@ export const projects = [
     clientTeam: [
       "Chase Lee, Founder & CEO",
       "Rob Gutierrez, Director of Security & Business Operations",
+      "Ivan Sugerman",
     ],
     results: [
       { text: "Emerged from stealth in October 2026 with a $10M seed round.", url: 'https://venturebeat.com/business/ultra-security-emerges-from-stealth-with-10m-seed-round-to-secure-autonomous-runtimes' },
@@ -133,8 +137,11 @@ export const projects = [
     challenge: "Five Icelandic computer scientists had the science: verifying identity continuously by the way you type, not once at login. Most security brands sell threat. Keystrike’s technology is quiet and persistent, and it needed a story to match.",
     idea: "Continuity. Smooth gradients and unbroken lines that carry the promise of “Protection without pauses,” a keyboard-grid logo, and photography of hands, the point of contact between person and machine. The founders chose it because “continuous curves are mathematically elegant and simple.”",
     clientTeam: [
-      "Ýmir Vigfússon, CTO",
+      "Valdimar Óskarsson, Co-founder & CEO",
+      "Ýmir Vigfússon, Co-founder & CTO",
+      "Steindór Guðmundsson, Co-founder & CPO",
       "Jóhanna Guðmundsdóttir, VP of Sales",
+      "Arni S. Petursson",
     ],
     results: [
       { text: "The positioning went live on Keystrike’s website, sales decks, and lead generation within weeks, before the identity was even finished." },
@@ -354,7 +361,7 @@ export const projects = [
       { text: "The refresh rolled out across Expel’s internal launch, its RSAC 2026 booth, and Expel.com within months." },
       { text: "Named a Leader in The Forrester Wave: Managed Detection and Response Services, Q1 2025.", url: 'https://www.businesswire.com/news/home/20250225361607/en' },
     ],
-    team: ['Pete Baker, Creative Director', 'Jessica Bauer-Greene, Design Lead', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    team: ['Pete Baker, Creative Director', 'Jessica Bauer-Greene, Design Lead', 'Hafsah Mijinyawa, Motion Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
     role: ['Senior Designer'],
     contributions: ['Visual identity design'],
     accent: '#5ce58b',
