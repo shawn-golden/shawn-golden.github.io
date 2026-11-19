@@ -2134,12 +2134,14 @@ html.is-gated .gate {
 
 /* Arrows nudge forward on hover. */
 .arrow-link span[aria-hidden],
+.home-contact span[aria-hidden],
 .index-all span[aria-hidden],
 .pager-label span[aria-hidden] {
   display: inline-block;
   transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1.4);
 }
 .arrow-link:hover span[aria-hidden],
+.home-contact a:hover span[aria-hidden],
 .index-all:hover span[aria-hidden] {
   transform: translateX(5px);
 }
@@ -2206,9 +2208,9 @@ img.is-loading {
 .wordmark .wave {
   position: absolute;
   left: 4px;
-  bottom: -2px;
+  bottom: 0;
   width: auto;
-  height: 52px;
+  height: 42px;
   opacity: 0;
   pointer-events: none;
   transform-origin: 60% 95%;
@@ -2216,12 +2218,12 @@ img.is-loading {
   transition: opacity 0.2s, transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1.4);
 }
 .wordmark:hover {
-  padding-left: 52px;
+  padding-left: 44px;
 }
 .wordmark:hover .wave {
   opacity: 1;
   transform: none;
-  animation: wave 0.9s ease-in-out 0.25s 2;
+  animation: wave 0.9s ease-in-out 0.25s 1;
 }
 @keyframes wave {
   0%, 100% { transform: rotate(0deg); }

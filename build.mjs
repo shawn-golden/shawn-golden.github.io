@@ -349,7 +349,7 @@ function home() {
     <h1 class="home-name">${esc(site.name)}<br>${site.titles.map(esc).join('<br>')}</h1>
     <div class="home-side">
       <p class="home-positioning">${esc(site.positioning)}</p>
-      <p class="home-contact"><a href="mailto:${site.email}">${esc(site.email)}</a></p>
+      <p class="home-contact"><a href="mailto:${site.email}">${esc(site.email)} <span aria-hidden="true">→</span></a></p>
     </div>
   </section>
   <section class="gen" tabindex="0" role="button" aria-label="Generative pattern drawn live. Press to shuffle to another brand system." data-section>
