@@ -55,7 +55,6 @@ export const projects = [
       "Matt Warner, CTO & Co-founder",
       "Heidi Craun, SVP of Operations",
       "Jon-Eric Cornellier, Marketing Director",
-      "Natalie Pleyerova, Project Lead",
       "Geetha Pai, Product & UX",
       "Zoe Lindsey, Senior Director of Messaging",
       "Amanda Berlin, Senior Product Manager, Cybersecurity",
