@@ -142,6 +142,7 @@ export const projects = [
       "Jóhanna Guðmundsdóttir, VP of Sales",
       "Arni S. Petursson, Co-founder & COO",
     ],
+    quote: { text: "This, by the way, is beautiful.", source: "Ýmir Vigfússon, Co-founder & CTO, Keystrike" },
     results: [
       { text: "The positioning went live on Keystrike’s website, sales decks, and lead generation within weeks, before the identity was even finished." },
       { text: "Brand launched at RSAC 2026." },
@@ -464,7 +465,7 @@ export const about = {
   leadership: [
     {
       title: 'Start with the idea, not the logo',
-      body: 'Every system I build starts with one clear thought a founder can repeat and a designer can build from: Minka’s engineered guilloché, Expel’s “No Black Box. No BS.,” Ultra’s living pixel field.',
+      body: 'Every system I build starts with one clear thought a founder can repeat and a designer can build from: Minka’s engineered guilloché, Keystrike’s continuity, Ultra’s governed grid.',
     },
     {
       title: 'Build tools, not just files',

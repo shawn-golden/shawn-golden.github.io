@@ -2415,3 +2415,23 @@ img.is-loading {
     grid-template-columns: repeat(5, 1fr);
   }
 }
+
+/* About: section dividers stop at the page margins instead of running edge to edge. */
+.about-grid,
+.about-hero {
+  position: relative;
+  border-bottom: 0;
+}
+.about-grid::after,
+.about-hero::after {
+  content: '';
+  position: absolute;
+  left: var(--gutter);
+  right: var(--gutter);
+  bottom: 0;
+  border-bottom: 1px solid var(--rule);
+}
+/* How I lead: headings line up across columns. */
+.leadership li {
+  align-content: start;
+}
