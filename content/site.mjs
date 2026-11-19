@@ -345,7 +345,7 @@ export const demoReel = {
   vimeoId: '1097306788',
   summary:
     'A selection of dynamic projects that highlight my skills in visual storytelling, motion graphics, and animation.',
-  thumb: 'demoreel',
+  thumb: 'demoreel-poster',
 };
 
 export const about = {
