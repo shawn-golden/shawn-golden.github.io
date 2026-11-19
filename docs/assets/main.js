@@ -432,26 +432,27 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
       chromeBtn.setAttribute('aria-pressed', String(hidden));
       chromeBtn.setAttribute('aria-label', hidden ? 'Show navigation' : 'Hide navigation');
     };
+    // The arrow sets a remembered preference. The chrome always shows at the
+    // top of a page; with the preference on, it tucks away again as soon as
+    // you scroll down, on any page.
+    let prefHidden = false;
     try {
-      setHidden(localStorage.getItem('chrome-hidden') === '1');
+      prefHidden = localStorage.getItem('chrome-hidden') === '1';
     } catch (e) {}
     chromeBtn.addEventListener('click', () => {
-      const hidden = !document.body.classList.contains('chrome-hidden');
-      setHidden(hidden);
+      prefHidden = !document.body.classList.contains('chrome-hidden');
+      setHidden(prefHidden);
       try {
-        localStorage.setItem('chrome-hidden', hidden ? '1' : '0');
+        localStorage.setItem('chrome-hidden', prefHidden ? '1' : '0');
       } catch (e) {}
     });
+    let wasScrolled = null;
     const onScrolled = () => {
       const scrolled = window.scrollY > 120;
+      if (scrolled === wasScrolled) return;
+      wasScrolled = scrolled;
       document.body.classList.toggle('scrolled', scrolled);
-      // Back at the top: bring everything back.
-      if (!scrolled && document.body.classList.contains('chrome-hidden')) {
-        setHidden(false);
-        try {
-          localStorage.setItem('chrome-hidden', '0');
-        } catch (e) {}
-      }
+      setHidden(scrolled && prefHidden);
     };
     window.addEventListener('scroll', onScrolled, { passive: true });
     onScrolled();
