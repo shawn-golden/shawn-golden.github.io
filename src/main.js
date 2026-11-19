@@ -637,22 +637,6 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     );
   }
 
-  // Plus cursor over images that open full screen.
-  if (canHover) {
-    const plus = document.createElement('div');
-    plus.className = 'img-cursor';
-    plus.setAttribute('aria-hidden', 'true');
-    document.body.appendChild(plus);
-    const sel = '.slide img, .info-panel > img, .work-thumb img';
-    document.addEventListener('pointerover', (e) => {
-      if (e.target.closest && e.target.closest(sel)) plus.classList.add('is-on');
-    });
-    document.addEventListener('pointerout', (e) => {
-      if (e.target.closest && e.target.closest(sel) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(sel))) plus.classList.remove('is-on');
-    });
-    window.addEventListener('pointermove', (e) => plus.style.setProperty('--x', `${e.clientX}px`) || plus.style.setProperty('--y', `${e.clientY}px`), { passive: true });
-  }
-
   // Soft reveal: images that still need to load fade in from the project color.
   document.querySelectorAll('.slide img, .work-thumb img, .info-panel > img').forEach((img) => {
     if (img.complete && img.naturalWidth) return;
