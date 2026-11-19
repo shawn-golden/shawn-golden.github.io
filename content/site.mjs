@@ -29,7 +29,7 @@ export const projects = [
     clientTeam: [
       "Dom Rozic, Co-founder",
       "Vikram Rojo, Product & Growth Lead",
-      "Andres Corredor",
+      "Andres Corredor, Head of Design",
     ],
     quote: { text: "No notes. 10/10. It’s all come together really well.", source: "Vikram Rojo, Minka" },
     results: [
@@ -116,7 +116,7 @@ export const projects = [
     clientTeam: [
       "Chase Lee, Founder & CEO",
       "Rob Gutierrez, Director of Security & Business Operations",
-      "Ivan Sugerman",
+      "Ivan Sugerman, Head of Product",
     ],
     results: [
       { text: "Emerged from stealth in October 2026 with a $10M seed round.", url: 'https://venturebeat.com/business/ultra-security-emerges-from-stealth-with-10m-seed-round-to-secure-autonomous-runtimes' },
