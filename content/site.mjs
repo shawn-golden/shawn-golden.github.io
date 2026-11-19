@@ -107,7 +107,6 @@ export const projects = [
     summary:
       'A massive cross-team collaboration product launch, Tap to Pay revolutionizes global payments by empowering any Square seller to take a contactless payment quickly and securely, with no additional hardware or costs, using just their phone.',
     team: [
-      'Jeff Stark, Creative Director',
       'Sasha Galkin, Sr. Copywriter',
       'Chris Weissenberger, Engineer',
       'Megan Karande, Product Marketing Manager',
