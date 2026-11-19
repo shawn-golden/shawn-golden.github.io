@@ -46,7 +46,7 @@ export const projects = [
   {
     slug: 'blumira',
     title: 'Blumira',
-    tags: ['Creative direction', 'Brand identity', 'Animation'],
+    tags: ['Brand identity', 'Brand guidelines', 'Animation'],
     // Story drawn from FinalFinal case studies in Dropbox and public sources.
     challenge: "Blumira’s product had traction and a Series B, but the brand hadn’t caught up. Security for small IT teams and MSPs usually sells fear, and Blumira needed to feel approachable and confident instead.",
     idea: "Evolve rather than erase. We questioned the longstanding hedgehog mascot, then kept it and rebuilt it as an animated, systematized character, alongside single-line illustrations for connection, vigilance, and flow, and a palette where each color carries part of the personality.",
@@ -64,9 +64,10 @@ export const projects = [
     ],
     accent: '#b4eac6',
     summary:
-      'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As Lead Brand Designer, I led the evolution of its visual identity, developing a cohesive brand system that balances technical credibility with an approachable, distinctive personality. The work spanned brand strategy, logo development, typography, color, illustration, and art direction, creating a flexible visual language designed to scale across marketing, product, and digital experiences.',
-    team: ['Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    role: ['Creative Director', 'Lead Brand Designer'],
+      'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As Senior Designer on the FinalFinal team, I helped evolve its visual identity into a cohesive brand system that balances technical credibility with an approachable, distinctive personality. I designed the brand guidelines, motion elements, and the foundations library that lets the system scale across marketing, product, and digital experiences.',
+    team: ['Pete Baker, Creative Director', 'Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    role: ['Senior Designer'],
+    contributions: ['Brand guidelines', 'Motion elements', 'Brand foundations library'],
     slides: [
       'blumira-01',
       'blumira-03',
