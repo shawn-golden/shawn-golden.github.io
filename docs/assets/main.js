@@ -166,7 +166,6 @@ if (keys && canHover && sections.length > 3) {
   if (!prevLink) {
     // Home and About: no projects to step through, nothing to zoom.
     keys.querySelector('.keys-projects')?.remove();
-    if (!document.querySelector('.work-thumb img')) keys.querySelector('.keys-zoom')?.remove();
   }
   const toggle = keys.querySelector('.keys-toggle');
   const setCollapsed = (collapsed) => {
