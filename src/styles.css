@@ -2172,11 +2172,11 @@ html.is-gated .gate {
   transition: scale 0.12s ease-out, background 0.2s, color 0.2s, opacity 0.3s, transform 0.3s;
 }
 
-/* Zoomable images use the system zoom cursor. */
+/* Zoomable images use the system crosshair cursor. */
 .slide img,
 .info-panel > img,
 .work-thumb img {
-  cursor: zoom-in;
+  cursor: crosshair;
 }
 
 /* Soft reveal from the project color, only while an image is loading. */
