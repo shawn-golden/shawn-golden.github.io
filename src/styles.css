@@ -2288,3 +2288,26 @@ img.is-loading {
   padding-top: calc(var(--gutter) + 40px + clamp(48px, 7vw, 120px));
   gap: clamp(20px, 2.4vw, 40px);
 }
+
+/* Demo reel: while the video plays, all the chrome steps out of the way. */
+.reel-playing .wordmark,
+.reel-playing .menu-button:not([aria-expanded='true']),
+.reel-playing .chrome-toggle,
+.reel-playing .keys.is-on {
+  opacity: 0;
+  pointer-events: none;
+}
+.reel-playing .wordmark,
+.reel-playing .menu-button:not([aria-expanded='true']),
+.reel-playing .chrome-toggle {
+  transform: translateY(-12px);
+}
+.reel-playing .keys.is-on {
+  transform: translate(-50%, -12px);
+}
+.reel-playing .mini-pager.is-on {
+  transform: translateY(105%);
+}
+.chrome-toggle {
+  transition-property: opacity, transform, background, color, width, margin, translate, scale;
+}

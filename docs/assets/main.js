@@ -740,6 +740,32 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     if (!email) return;
     navigator.clipboard?.writeText(email).then(() => toast('Email copied. Talk soon.'), () => (location.href = `mailto:${email}`));
   });
+  // Demo reel: hide the chrome and project links while the Vimeo video plays.
+  const reel = document.querySelector('iframe[src*="player.vimeo.com"]');
+  if (reel) {
+    const send = (method, value) => reel.contentWindow?.postMessage(JSON.stringify(value ? { method, value } : { method }), 'https://player.vimeo.com');
+    const subscribe = () => ['play', 'pause', 'ended'].forEach((ev) => send('addEventListener', ev));
+    window.addEventListener('message', (e) => {
+      if (e.origin !== 'https://player.vimeo.com') return;
+      let d;
+      try {
+        d = typeof e.data === 'string' ? JSON.parse(e.data) : e.data;
+      } catch (_) {
+        return;
+      }
+      if (d.event === 'ready') subscribe();
+      else if (d.event === 'play') document.body.classList.add('reel-playing');
+      else if (d.event === 'pause' || d.event === 'ended') document.body.classList.remove('reel-playing');
+    });
+    reel.addEventListener('load', subscribe);
+    // Scrolling to the very top or bottom of the page brings the chrome back.
+    window.addEventListener('scroll', () => {
+      if (!document.body.classList.contains('reel-playing')) return;
+      const atTop = window.scrollY < 8;
+      const atBottom = window.scrollY + window.innerHeight >= document.documentElement.scrollHeight - 8;
+      if (atTop || atBottom) document.body.classList.remove('reel-playing');
+    }, { passive: true });
+  }
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();
