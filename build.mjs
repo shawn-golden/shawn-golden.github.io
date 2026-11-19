@@ -280,7 +280,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <button class="chrome-toggle chip" type="button" aria-pressed="false" aria-label="Hide navigation"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <a class="wordmark chip" href="${root}"${crumb ? ` style="--crumb-accent:${crumb.accent}"` : ''}><img class="wave" src="${root}assets/cursors/wave.svg" alt="" width="70" height="73"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}<span class="read-progress" aria-hidden="true"></span></a>
+  <a class="wordmark chip" href="${root}"${crumb ? ` style="--crumb-accent:${crumb.accent}"` : ''}><img class="wave" src="${root}assets/cursors/wave-hand.svg?v=ce11431e" alt="" width="70" height="73"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}<span class="read-progress" aria-hidden="true"></span></a>
 </header>
 ${menu(root, current)}
 <main id="main">
