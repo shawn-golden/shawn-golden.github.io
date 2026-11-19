@@ -2203,10 +2203,10 @@ img.is-loading {
 }
 .wordmark .wave {
   position: absolute;
-  left: 2px;
-  bottom: 2px;
+  left: 4px;
+  bottom: -2px;
   width: auto;
-  height: 54px;
+  height: 52px;
   opacity: 0;
   pointer-events: none;
   transform-origin: 60% 95%;
