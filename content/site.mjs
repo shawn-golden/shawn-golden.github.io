@@ -59,9 +59,10 @@ export const projects = [
       "Zoe Lindsey, Senior Director of Messaging",
       "Amanda Berlin, Senior Product Manager, Cybersecurity",
     ],
-    quote: { text: "I appreciated the journey you took us on and think we’re at a really strong position.", source: "Natalie Pleyerova, Blumira" },
+    quote: { text: "Thank you for making us look like a real, grown-up company.", source: "Zoe Lindsey, Senior Director of Messaging, Blumira" },
     results: [
       { text: "An 18-month partnership that grew from strategy consulting into a full brand foundation: positioning, identity, guidelines, templates, and motion." },
+      { text: "At RSAC 2026, more than a dozen people stopped at Blumira’s booth just to say how much they liked the look and feel." },
       { text: "Named to the CRN 2025 MES Midmarket 100.", url: 'https://www.blumira.com/blog/blumira-earns-crn-midmarket-100-spot-and-g2-badges-for-summer-2025' },
     ],
     accent: '#b4eac6',
