@@ -259,7 +259,7 @@ ${body}
 <footer class="site-footer" id="colophon">
   <div class="footer-inner">
     <p class="label">Got something in mind? Say hi.</p>
-    <button class="footer-email" type="button" data-email="${esc(site.email)}" aria-label="Copy ${esc(site.email)}"><span class="footer-email-text">${esc(site.email)}</span><span class="footer-email-done" aria-hidden="true">Copied. Talk soon.</span></button>
+    <button class="footer-email" type="button" data-email="${esc(site.email)}" aria-label="Copy ${esc(site.email)}"><span class="footer-email-text">${[...site.email].map((c) => `<span class="ch">${esc(c)}</span>`).join('')}</span><span class="footer-email-done" aria-hidden="true">Copied. Talk soon.</span></button>
     <div class="footer-meta">
       <span class="footer-clock">${esc(site.location)}<time data-clock></time></span>
       <button class="footer-build" type="button" aria-expanded="false" aria-controls="build-log">How this site was built</button>

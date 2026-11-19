@@ -496,6 +496,82 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     url.search = new URL(SCRIPT_URL).search;
     import(url.href).then((m) => m.start(gen, reduceMotion)).catch(() => gen.remove());
   }
+  // ---------- Footer email: letters drift away from the cursor ----------
+  const emailBtn = document.querySelector('.footer-email');
+  if (emailBtn && canHover && !reduceMotion) {
+    const chars = [...emailBtn.querySelectorAll('.ch')];
+    const footer = emailBtn.closest('footer');
+    let raf = 0;
+    const scatter = (x, y) => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => {
+        const size = parseFloat(getComputedStyle(emailBtn).fontSize);
+        const radius = size * 2.4;
+        for (const ch of chars) {
+          const r = ch.getBoundingClientRect();
+          const cx = r.left + r.width / 2 - (parseFloat(ch.dataset.x) || 0);
+          const cy = r.top + r.height / 2 - (parseFloat(ch.dataset.y) || 0);
+          const dx = cx - x, dy = cy - y;
+          const d = Math.hypot(dx, dy) || 1;
+          const force = Math.max(0, 1 - d / radius);
+          const push = force * force * size * 0.42;
+          const ox = (dx / d) * push, oy = (dy / d) * push;
+          ch.dataset.x = ox;
+          ch.dataset.y = oy;
+          ch.style.transform = push > 0.2 ? `translate(${ox.toFixed(1)}px, ${oy.toFixed(1)}px) rotate(${(ox * 0.6).toFixed(1)}deg)` : '';
+        }
+      });
+    };
+    const settle = () => {
+      cancelAnimationFrame(raf);
+      chars.forEach((ch) => {
+        ch.style.transform = '';
+        ch.dataset.x = ch.dataset.y = 0;
+      });
+    };
+    footer.addEventListener('pointermove', (e) => scatter(e.clientX, e.clientY));
+    footer.addEventListener('pointerleave', settle);
+  }
+
+  // ---------- Principles set themselves, word by word ----------
+  document.querySelectorAll('.principle-quote').forEach((q) => {
+    if (reduceMotion || q.dataset.split) return;
+    q.dataset.split = '1';
+    const words = q.textContent.trim().split(/\s+/);
+    q.textContent = '';
+    words.forEach((w, i) => {
+      const span = document.createElement('span');
+      span.className = 'word';
+      span.style.setProperty('--w', i);
+      span.textContent = w;
+      q.append(span, i < words.length - 1 ? ' ' : '');
+    });
+    q.setAttribute('aria-label', words.join(' '));
+  });
+
+  // ---------- "Welcome back." on a return visit ----------
+  // Shown once, at the start of a new visit, for people who've been here before.
+  try {
+    if (!sessionStorage.getItem('seen')) {
+      sessionStorage.setItem('seen', '1');
+      const visits = (parseInt(localStorage.getItem('visits'), 10) || 0) + 1;
+      localStorage.setItem('visits', String(visits));
+      if (visits > 1) {
+        const hello = document.createElement('div');
+        hello.className = 'welcome chip';
+        hello.setAttribute('role', 'status');
+        hello.textContent = 'Welcome back.';
+        document.body.appendChild(hello);
+        document.body.classList.add('welcoming');
+        setTimeout(() => hello.classList.add('is-on'), 600);
+        setTimeout(() => {
+          hello.classList.remove('is-on');
+          document.body.classList.remove('welcoming');
+          setTimeout(() => hello.remove(), 500);
+        }, 3800);
+      }
+    }
+  } catch (e) {}
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();

@@ -2090,3 +2090,43 @@ html.is-gated .gate {
   min-height: 0;
   padding-bottom: clamp(32px, 4vw, 64px);
 }
+
+/* ---------- Footer email letters ---------- */
+.footer-email .ch {
+  display: inline-block;
+  white-space: pre;
+  transition: transform 0.45s cubic-bezier(0.2, 0.9, 0.3, 1.3);
+  will-change: transform;
+}
+
+/* ---------- Principles: words set in one at a time ---------- */
+.principle-quote .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.35em);
+  transition: opacity 0.45s var(--ease), transform 0.55s var(--ease);
+  transition-delay: calc(var(--w) * 70ms + 150ms);
+}
+.principle.is-in .principle-quote .word {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- Welcome back ---------- */
+.welcome {
+  position: fixed;
+  top: var(--gutter);
+  left: 50%;
+  z-index: 70;
+  transform: translate(-50%, -12px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease);
+}
+.welcome.is-on {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+.welcoming .keys.is-on {
+  opacity: 0;
+}
