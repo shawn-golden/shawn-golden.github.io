@@ -14,7 +14,7 @@ export const site = {
   email: 'hi@shawngolden.co',
   location: 'Detroit',
   positioning:
-    'Detroit-based creative director building brands for security, fintech, and AI companies that need to earn trust fast.',
+    'Detroit-based creative director turning complex ideas into brands people trust and remember.',
   url: 'https://shawn-golden.github.io', // public address, used for share images
 };
 
@@ -405,7 +405,7 @@ export const demoReel = {
 
 export const about = {
   intro:
-    'Hello, I’m Shawn. I’m a Detroit-based creative director building brands for security, fintech, and AI companies that need to earn trust fast.',
+    'Hello, I’m Shawn. I’m a Detroit-based creative director turning complex ideas into brands people trust and remember.',
   bio: [
     'For over 15 years I’ve helped technical companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Keystrike, and Minka.',
     'As Creative Director at FinalFinal, I lead brand work from the first strategy conversation through launch. I set the idea, shape the system, direct designers, motion artists, and developers, and work side by side with founders and marketing leads to ship it. I still get hands-on with the details, because that’s where trust is won or lost.',
@@ -494,11 +494,6 @@ export const principles = {
   minka: [
     { after: 'minka-09', quote: 'Color in Minka is a tool, not a theme.', source: 'Minka guidelines · Color' },
     { after: 'minka-02', quote: 'Guilloché should feel engineered, not ornamental.', source: 'Minka guidelines · Imagery' },
-    {
-      after: 'minka-08',
-      quote: 'Patterns should always feel purposeful, precise, and integrated — never ornamental or illustrative.',
-      source: 'Minka guidelines · Pattern',
-    },
   ],
   blumira: [
     {
@@ -506,32 +501,23 @@ export const principles = {
       quote: 'Each illustration is created from a single, unbroken line, symbolizing connection, vigilance, and flow.',
       source: 'Blumira guidelines · Illustration',
     },
+  ],
+  ultra: [
     {
-      after: 'blumira-04',
-      quote: 'Each color expresses a facet of Blumira’s personality. Use them with intention to convey mood and hierarchy.',
-      source: 'Blumira guidelines · Color',
+      after: 'ultra-08',
+      quote: 'Agents act freely on a fixed grid, and the rules show up as structure, not as walls.',
+      source: 'Ultra guidelines · Art direction',
     },
   ],
-  expel: [
+  keystrike: [
     {
-      after: 'expel-05',
-      quote: 'Technical, data-driven, systematic, precise. It’s a visual callback to when computer output was precise, systematic, and showed its work.',
-      source: 'Expel guidelines · Graphic device',
-    },
-    {
-      after: 'expel-06',
-      quote: 'When you’d like to add emphasis to the layout, extend a color block to half or even 3/4 of the design.',
-      source: 'Expel guidelines · Layout',
-    },
-  ],
-  'email-design-system': [
-    {
-      after: 'email-01',
-      quote: 'Aim to keep this within 2 lines on desktop and 3 lines on mobile.',
-      source: 'Usage note built into the headline component',
+      after: 'keystrike-11',
+      quote: 'Blue Ice leads. Leading is not the same as dominating.',
+      source: 'Keystrike guidelines · Color',
     },
   ],
 };
+
 
 // Alt text for every image, keyed by image name.
 export const alts = {

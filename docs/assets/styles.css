@@ -1043,8 +1043,13 @@ p, li, dd {
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   animation: marquee 60s linear infinite;
+  /* Held on the first names (Anthropic, Adult Swim) until it scrolls into view. */
+  animation-play-state: paused;
 }
-.marquee:hover .marquee-track {
+.marquee.is-playing .marquee-track {
+  animation-play-state: running;
+}
+.marquee.is-playing:hover .marquee-track {
   animation-play-state: paused;
 }
 .marquee-row {

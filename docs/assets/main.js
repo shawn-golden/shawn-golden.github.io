@@ -767,6 +767,21 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
       if (atTop || atBottom) document.body.classList.remove('reel-playing');
     }, { passive: true });
   }
+  // Client marquee: start scrolling only once it's on screen, so the first
+  // names people see are the strongest ones.
+  const marquee = document.querySelector('.marquee');
+  if (marquee) {
+    if (!('IntersectionObserver' in window)) marquee.classList.add('is-playing');
+    else {
+      const mo = new IntersectionObserver(([e]) => {
+        if (e.isIntersecting) {
+          marquee.classList.add('is-playing');
+          mo.disconnect();
+        }
+      }, { threshold: 0.6 });
+      mo.observe(marquee);
+    }
+  }
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();
