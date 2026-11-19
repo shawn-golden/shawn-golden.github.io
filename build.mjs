@@ -178,12 +178,28 @@ function slideFigure(slide, i, project, root) {
   return s.caption ? `<div class="slide-group" data-section><p class="slide-caption label">${esc(s.caption)}</p>${fig}</div>` : fig;
 }
 
+// The thinking behind a project: challenge, idea, and what happened since.
+function storyBlock(p) {
+  if (!p.challenge && !p.idea && !p.results) return '';
+  const col = (label, html) => (html ? `<div class="story-col"><p class="label">${label}</p>${html}</div>` : '');
+  const results = p.results?.length
+    ? `<ul class="story-results">${p.results
+        .map((r) => `<li>${esc(r.text)}${r.url ? ` <a href="${esc(r.url)}" target="_blank" rel="noopener" aria-label="Source">↗</a>` : ''}</li>`)
+        .join('')}</ul>`
+    : '';
+  return `<section class="project-story" data-section>
+        ${col('The challenge', p.challenge ? `<p>${esc(p.challenge)}</p>` : '')}
+        ${col('The idea', p.idea ? `<p>${esc(p.idea)}</p>` : '')}
+        ${col('Since launch', results)}
+      </section>`;
+}
+
 function slidesWithPrinciples(p, root) {
   const prs = principles[p.slug] || [];
   return p.slides
     .map((s, i) => {
       const after = prs.filter((pr) => pr.after === slideSrc(s)).map(principleBlock).join('');
-      return slideFigure(s, i, p, root) + after;
+      return slideFigure(s, i, p, root) + (i === 0 ? storyBlock(p) : '') + after;
     })
     .join('\n      ');
 }
@@ -623,6 +639,12 @@ function aboutPage() {
     <section class="about-grid" data-section>
       <p class="label">Bio</p>
       <div class="about-bio">${about.bio.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
+    </section>
+    <section class="about-grid" data-section>
+      <p class="label">How I lead</p>
+      <ol class="leadership">
+        ${about.leadership.map((l, i) => `<li><span class="lead-num">${String(i + 1).padStart(2, '0')}</span><h2>${esc(l.title)}</h2><p>${esc(l.body)}</p></li>`).join('')}
+      </ol>
     </section>
     <section class="about-grid" data-section>
       <p class="label">Experience</p>

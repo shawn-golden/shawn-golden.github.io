@@ -14,7 +14,7 @@ export const site = {
   email: 'hi@shawngolden.co',
   location: 'Detroit',
   positioning:
-    'Detroit-based creative director and designer making complex ideas clear, compelling, and impossible to ignore.',
+    'Detroit-based creative director building brands for security, fintech, and AI companies that need to earn trust fast.',
   url: 'https://shawn-golden.github.io', // public address, used for share images
 };
 
@@ -23,6 +23,13 @@ export const projects = [
     slug: 'minka',
     title: 'Minka',
     tags: ['Brand strategy', 'Brand identity', 'Generative tool development'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Minka sells to central banks and clearinghouses, but builds like a startup. The brand had to earn institutional trust without looking like legacy finance.",
+    idea: "We rebuilt the guilloché patterns of banknotes as precise, engineered stripe systems, kept color as a tool rather than a theme, and built a pattern generator so any team could make on-brand artwork.",
+    results: [
+      { text: "Minka’s Payments Hub connects banks, cooperatives, and fintechs to Bre-B, Colombia’s national instant payments system, which passed 34 million registered users in its first six months.", url: 'https://banrep.gov.co/en/news/six-months-operation-bre-b-34-million-registered-users' },
+      { text: "Backed by Tiger Global and Kaszek.", url: 'https://techcrunch.com/2022/04/27/bogota-based-minka-lands-24m-from-tiger-kaszek-to-build-an-open-infrastructure-for-money' },
+    ],
     accent: '#f5fc9f',
     summary:
       'Minka is building the infrastructure that connects banks, financial institutions, and payment networks to make instant payments possible at a national scale. As lead designer, I helped evolve Minka’s brand identity into a cohesive, flexible visual system spanning typography, geometric patterns, product identities, motion, and brand applications. The result balances the credibility of established financial institutions with the clarity and energy of modern financial technology.',
@@ -34,6 +41,13 @@ export const projects = [
     slug: 'blumira',
     title: 'Blumira',
     tags: ['Creative direction', 'Brand identity', 'Animation'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Security for small IT teams and MSPs usually sells fear. Blumira needed to feel approachable and confident instead.",
+    idea: "Single-line illustrations that stand for connection, vigilance, and flow, a hedgehog as a friendly guard, and a color palette where each hue carries a piece of the personality.",
+    results: [
+      { text: "Named to the CRN 2025 MES Midmarket 100.", url: 'https://www.blumira.com/blog/blumira-earns-crn-midmarket-100-spot-and-g2-badges-for-summer-2025' },
+      { text: "MSP program rated 5 stars in the 2025 CRN Partner Program Guide.", url: 'https://www.communiquepr.com/blumiras-spring-2025-momentum-advancing-security-solutions-and-strengthening-msp-partnerships/' },
+    ],
     accent: '#b4eac6',
     summary:
       'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As Lead Brand Designer, I led the evolution of its visual identity, developing a cohesive brand system that balances technical credibility with an approachable, distinctive personality. The work spanned brand strategy, logo development, typography, color, illustration, and art direction, creating a flexible visual language designed to scale across marketing, product, and digital experiences.',
@@ -78,6 +92,12 @@ export const projects = [
     slug: 'ultra',
     title: 'Ultra',
     tags: ['Creative direction', 'Brand identity', 'Web design'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Launch a brand-new category, runtime security for AI agents, out of stealth, with an identity that felt as new as the problem.",
+    idea: "A noise-driven pixel field that looks alive and governed at the same time, plus a generative tool that turns it into endless on-brand artwork for web, social, and print.",
+    results: [
+      { text: "Emerged from stealth in October 2026 with a $10M seed round.", url: 'https://venturebeat.com/business/ultra-security-emerges-from-stealth-with-10m-seed-round-to-secure-autonomous-runtimes' },
+    ],
     accent: '#181818',
     dark: true,
     summary:
@@ -90,6 +110,12 @@ export const projects = [
     slug: 'keystrike',
     title: 'Keystrike',
     tags: ['Brand identity', 'Web design'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Make an invisible idea visible: continuous proof that a real person is behind every action, not just at login.",
+    idea: "Unbroken ribbons of color that run through every touchpoint, carrying the promise of “Protection without pauses.”",
+    results: [
+      { text: "Raised a seed round in April 2025, after a pre-seed raised to expand into the US market.", url: 'https://www.northstack.is/keystike-raises/' },
+    ],
     accent: '#3065f8',
     dark: true,
     summary:
@@ -103,6 +129,12 @@ export const projects = [
     title: 'Tap to Pay Launch',
     shortTitle: 'Tap to Pay',
     tags: ['Product launch campaign', 'Art direction', 'Motion design'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Introduce hardware-free contactless payments to Square sellers everywhere, with one campaign that worked across teams, channels, and countries.",
+    idea: "Art direction built around real sellers on the go, and a campaign design system flexible enough for every team and every market to use.",
+    results: [
+      { text: "Launched for Square sellers in 7 markets: the US, UK, France, Spain, Canada, Australia, and Ireland.", url: 'https://squareup.com/ca/en/press/tap-to-pay-on-iphone-launches-in-canada' },
+    ],
     accent: '#c9e8f5',
     summary:
       'A massive cross-team collaboration product launch, Tap to Pay revolutionizes global payments by empowering any Square seller to take a contactless payment quickly and securely, with no additional hardware or costs, using just their phone.',
@@ -285,6 +317,12 @@ export const projects = [
     slug: 'tracebit',
     title: 'Tracebit',
     tags: ['Brand identity', 'Web design', 'Generative tools'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Deception technology can read as niche. Tracebit wanted to own a bigger idea: the answer to Assume Breach.",
+    idea: "A canary mark built from strokes that rotate to fixed angles, so it can turn to face any threat, set in warm gradients on dark ground and drawn live by a custom generator.",
+    results: [
+      { text: "Raised a $20M Series A in March 2026, led by FirstMark with Accel.", url: 'https://securityweek.com/tracebit-raises-20m-for-cloud-native-deception-technology' },
+    ],
     team: ['Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
     accent: '#f3dcd5',
     summary:
@@ -306,6 +344,12 @@ export const projects = [
     slug: 'expel',
     title: 'Expel',
     tags: ['Brand identity', 'Campaigns', 'Environmental design'],
+    // Draft story: confirm before relying on it. Results link to public sources.
+    challenge: "Managed detection and response is crowded with opaque promises. Expel’s real difference is transparency.",
+    idea: "A plainspoken voice, “No Black Box. No BS.,” paired with an X pattern built from the logomark that nods to computer output that showed its work.",
+    results: [
+      { text: "Named a Leader in The Forrester Wave: Managed Detection and Response Services, Q1 2025.", url: 'https://www.businesswire.com/news/home/20250225361607/en' },
+    ],
     team: ['Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
     accent: '#5ce58b',
     summary:
@@ -350,10 +394,10 @@ export const demoReel = {
 
 export const about = {
   intro:
-    'Hello, I’m Shawn. I’m a Detroit-based creative director and designer making complex ideas clear, compelling, and impossible to ignore.',
+    'Hello, I’m Shawn. I’m a Detroit-based creative director building brands for security, fintech, and AI companies that need to earn trust fast.',
   bio: [
-    'I’m a multidisciplinary designer with over 15 years of experience building brands and digital experiences for startups, global companies, and everything in between.',
-    'My work spans brand strategy, visual identity, digital design, and motion. I’m equally comfortable leading creative direction, building scalable design systems, and getting hands-on with the details that bring an idea to life.',
+    'For over 15 years I’ve helped technical companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Tracebit, and Minka.',
+    'As Creative Director at FinalFinal, I lead brand work from the first strategy conversation through launch. I set the idea, shape the system, direct designers, motion artists, and developers, and work side by side with founders and marketing leads to ship it. I still get hands-on with the details, because that’s where trust is won or lost.',
     'Outside of design, I write and direct animated comedy, perform improv, and pursue all kinds of creative experiments. I believe curiosity, humor, and a willingness to try something unexpected make for better creative work.',
   ],
   experience: [
@@ -404,6 +448,25 @@ export const about = {
     'Womp',
   ],
   capabilitiesImage: 'capabilities',
+  // How I lead: shown on the About page.
+  leadership: [
+    {
+      title: 'Start with the idea, not the logo',
+      body: 'Every system I build starts with one clear thought a founder can repeat and a designer can build from: Minka’s engineered guilloché, Expel’s “No Black Box. No BS.,” Ultra’s living pixel field.',
+    },
+    {
+      title: 'Build tools, not just files',
+      body: 'When a brand needs to scale, I build the pattern generator, the template, or the design system that lets a whole team make on-brand work without me in the room.',
+    },
+    {
+      title: 'Make the team better',
+      body: 'Clear direction, honest critique, and room to explore. I care as much about how a designer grows on a project as about what we ship.',
+    },
+    {
+      title: 'Keep it human',
+      body: 'Technical buyers are still people. A hedgehog mascot or a hot dog guarding a login page can build more trust than another blue gradient.',
+    },
+  ],
 };
 
 // Homepage groups, in order. Projects not listed fall into the last group.
