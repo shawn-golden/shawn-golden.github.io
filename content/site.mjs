@@ -82,7 +82,7 @@ export const projects = [
     dark: true,
     summary:
       'Ultra is a cybersecurity company building runtime security for AI agents, helping organizations monitor, govern, and secure autonomous AI systems. As Lead Brand Designer, I led the development of a visual identity that translates complex security technology into a clear, confident, and distinctive brand. The work established a flexible design system spanning typography, color, graphic elements, motion, and digital applications, positioning Ultra as a credible and forward-thinking voice in an emerging category.',
-    team: ['Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    team: ['Ryan Cady, Designer', 'Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: ['ultra-05', 'ultra-08', 'ultra-02', 'ultra-06', 'ultra-03', 'ultra-04', 'ultra-09', 'ultra-07', 'ultra-10', 'ultra-01'],
   },
