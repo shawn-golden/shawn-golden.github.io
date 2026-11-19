@@ -210,7 +210,7 @@ document.addEventListener('keydown', (e) => {
     }
     return;
   }
-  if (e.metaKey || e.ctrlKey || e.altKey || menuOpen()) return;
+  if (e.metaKey || e.ctrlKey || e.altKey || menuOpen() || document.documentElement.classList.contains('w95-on')) return;
   const t = e.target;
   if (t.closest && t.closest('input, textarea, select, [contenteditable], iframe')) return;
   const k = e.key.toLowerCase();
@@ -572,6 +572,39 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
       }
     }
   } catch (e) {}
+  // ---------- Windows 95 mode ----------
+  let w95 = null;
+  const enterW95 = () => {
+    if (w95 || !SCRIPT_URL) return;
+    const dataEl = document.getElementById('w95-data');
+    if (!dataEl) return;
+    if (menuOpen()) setMenu(false);
+    const v = new URL(SCRIPT_URL).search;
+    if (!document.querySelector('link[data-w95-css]')) {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet';
+      css.href = new URL('w95.css' + v, SCRIPT_URL).href;
+      css.dataset.w95Css = '';
+      document.head.appendChild(css);
+    }
+    w95 = 'loading';
+    import(new URL('w95.js' + v, SCRIPT_URL).href)
+      .then((m) => {
+        w95 = m.start(JSON.parse(dataEl.textContent), { onExit: () => (w95 = null) });
+      })
+      .catch(() => (w95 = null));
+  };
+  document.querySelectorAll('[data-w95]').forEach((b) =>
+    b.addEventListener('click', (e) => {
+      e.preventDefault();
+      enterW95();
+    })
+  );
+  document.addEventListener('keydown', (e) => {
+    if (w95 || e.metaKey || e.ctrlKey || e.altKey || menuOpen() || viewer?.open) return;
+    if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (e.key.toLowerCase() === 'w') enterW95();
+  });
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();

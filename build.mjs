@@ -18,7 +18,7 @@ const SLIDE_H = 1080;
 const visible = projects.filter((p) => !p.hidden);
 const bySlug = Object.fromEntries([...visible, demoReel].map((p) => [p.slug, p]));
 const VERSION = createHash('sha1')
-  .update(['styles.css', 'main.js', 'gate.js', 'gen.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
+  .update(['styles.css', 'main.js', 'gate.js', 'gen.js', 'w95.js', 'w95.css'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
   .digest('hex')
   .slice(0, 8);
 const missingVideos = new Set();
@@ -210,11 +210,41 @@ function menu(root, current) {
           <li><a href="${root}work/"${current === 'work' ? ' aria-current="page"' : ''}>All work</a></li>
           <li><a href="${root}about/"${current === 'about' ? ' aria-current="page"' : ''}>About</a></li>
           <li><a href="#colophon" data-open-build>Colophon</a></li>
+          <li><a href="#w95" data-w95>Windows 95 mode</a></li>
           <li><a href="mailto:${site.email}">${esc(site.email)}</a></li>
         </ol>
       </div>
     </div>
   </nav>`;
+}
+
+// Data for Windows 95 mode (inside each page's encrypted body).
+function w95Data(root) {
+  const projectsData = order.map((p) => {
+    const isReel = p === demoReel;
+    return {
+      slug: p.slug,
+      title: p.title,
+      accent: isReel ? '#cccccc' : p.accent,
+      role: p.role ? p.role.join(', ') : '',
+      summary: p.summary,
+      tags: p.tags.join(' · '),
+      href: `${root}${p.slug}/`,
+      images: (isReel ? [p.thumb] : slideImages(p)).map((n) => `${root}assets/slides/${n}-sm.webp`),
+    };
+  });
+  const aboutText = [
+    'ABOUT ME.TXT',
+    '',
+    about.intro,
+    '',
+    ...about.bio.flatMap((b) => [b, '']),
+    'EXPERIENCE',
+    ...about.experience.map((e) => `  ${e.role}, ${e.company} (${e.dates})`),
+    '',
+    `Say hi: ${site.email}`,
+  ].join('\n');
+  return JSON.stringify({ projects: projectsData, about: aboutText, email: site.email, workHref: `${root}work/` }).replace(/</g, '\\u003c');
 }
 
 function layout({ title, description, root, current, body, bodyClass = '', bodyStyle = '', og, theme, prev, next, crumb }) {
@@ -263,13 +293,15 @@ ${body}
     <div class="footer-meta">
       <span class="footer-clock">${esc(site.location)}<time data-clock></time></span>
       <button class="footer-build" type="button" aria-expanded="false" aria-controls="build-log">How this site was built</button>
+      <button class="footer-build" type="button" data-w95>Windows 95 mode</button>
       <a href="mailto:${site.email}">${esc(site.email)}</a>
       <span>© ${new Date().getFullYear()} ${esc(site.name)}</span>
     </div>
     <ol class="build-log" id="build-log" hidden>${BUILD_LOG}</ol>
   </div>
 </footer>
-<div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span class="keys-zoom"><kbd>Z</kbd> Zoom</span></span></div>
+<div class="keys"><button class="keys-toggle" type="button" aria-expanded="true" aria-label="Hide keyboard shortcuts"><svg class="eye-open" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/></svg><svg class="eye-closed" viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="3" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.6"/></svg></button><span class="keys-list" aria-label="Keyboard shortcuts"><span><kbd>↑</kbd><kbd>↓</kbd> Sections</span><span class="keys-projects"><kbd>←</kbd><kbd>→</kbd> Projects</span><span class="keys-zoom"><kbd>Z</kbd> Zoom</span><span class="keys-w95"><kbd>W</kbd> 95</span></span></div>
+<script type="application/json" id="w95-data">${w95Data(root)}</script>
 <dialog class="viewer" aria-label="Image viewer"><img alt=""><button class="viewer-close" type="button" aria-label="Close">×</button></dialog>
 </body>
 </html>
@@ -644,7 +676,7 @@ for (const entry of readdirSync(OUT)) {
   if (entry === 'assets' || entry === 'CNAME' || entry === '.nojekyll') continue;
   rmSync(join(OUT, entry), { recursive: true, force: true });
 }
-for (const f of ['styles.css', 'main.js', 'gate.js', 'gen.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
+for (const f of ['styles.css', 'main.js', 'gate.js', 'gen.js', 'w95.js', 'w95.css', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
 writeFileSync(join(OUT, '.nojekyll'), '');
 BUILD_LOG = buildLog();
 
