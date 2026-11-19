@@ -311,7 +311,11 @@ document.querySelectorAll('.footer-email').forEach((btn) => {
 const clock = document.querySelector('[data-clock]');
 if (clock) {
   const fmt = new Intl.DateTimeFormat('en-US', { timeZone: 'America/Detroit', hour: 'numeric', minute: '2-digit' });
-  const tick = () => (clock.textContent = ` · ${fmt.format(new Date())}`);
+  const tick = () => {
+    const [hm, ampm] = fmt.format(new Date()).split(' ');
+    const [h, m] = hm.split(':');
+    clock.innerHTML = ` · ${h}<span class="colon">:</span>${m} ${ampm || ''}`;
+  };
   tick();
   setInterval(tick, 15000);
 }
@@ -604,6 +608,154 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     if (w95 || e.metaKey || e.ctrlKey || e.altKey || menuOpen() || viewer?.open) return;
     if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
     if (e.key.toLowerCase() === 'w') enterW95();
+  });
+  // =================== Micro-interactions ===================
+
+  // Magnetic capsules: lean toward the cursor when it gets close.
+  if (canHover && !reduceMotion) {
+    const magnets = [...document.querySelectorAll('.menu-button, .chrome-toggle')];
+    let mraf = 0;
+    window.addEventListener(
+      'pointermove',
+      (e) => {
+        cancelAnimationFrame(mraf);
+        mraf = requestAnimationFrame(() => {
+          for (const m of magnets) {
+            const r = m.getBoundingClientRect();
+            if (!r.width) continue;
+            const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+            const dx = e.clientX - cx, dy = e.clientY - cy;
+            const d = Math.hypot(dx, dy);
+            const reach = 90;
+            const k = d < reach ? (1 - d / reach) * 0.35 : 0;
+            m.style.setProperty('--mx', `${(dx * k).toFixed(1)}px`);
+            m.style.setProperty('--my', `${(dy * k).toFixed(1)}px`);
+          }
+        });
+      },
+      { passive: true }
+    );
+  }
+
+  // Plus cursor over images that open full screen.
+  if (canHover) {
+    const plus = document.createElement('div');
+    plus.className = 'img-cursor';
+    plus.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(plus);
+    const sel = '.slide img, .info-panel > img, .work-thumb img';
+    document.addEventListener('pointerover', (e) => {
+      if (e.target.closest && e.target.closest(sel)) plus.classList.add('is-on');
+    });
+    document.addEventListener('pointerout', (e) => {
+      if (e.target.closest && e.target.closest(sel) && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest(sel))) plus.classList.remove('is-on');
+    });
+    window.addEventListener('pointermove', (e) => plus.style.setProperty('--x', `${e.clientX}px`) || plus.style.setProperty('--y', `${e.clientY}px`), { passive: true });
+  }
+
+  // Soft reveal: images that still need to load fade in from the project color.
+  document.querySelectorAll('.slide img, .work-thumb img, .info-panel > img').forEach((img) => {
+    if (img.complete && img.naturalWidth) return;
+    img.classList.add('is-loading');
+    const done = () => img.classList.remove('is-loading');
+    img.addEventListener('load', done, { once: true });
+    img.addEventListener('error', done, { once: true });
+  });
+
+  // Homepage numbers count up as each group scrolls into view.
+  const nums = document.querySelectorAll('.index-num');
+  if (nums.length && !reduceMotion && 'IntersectionObserver' in window) {
+    const no = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (!en.isIntersecting) continue;
+          no.unobserve(en.target);
+          const n = en.target;
+          const target = parseInt(n.textContent, 10);
+          const t0 = performance.now();
+          const step = (t) => {
+            const p = Math.min(1, (t - t0) / 700);
+            n.textContent = String(Math.round(target * (1 - Math.pow(1 - p, 3)))).padStart(2, '0');
+            if (p < 1) requestAnimationFrame(step);
+          };
+          n.textContent = '00';
+          setTimeout(() => requestAnimationFrame(step), 0);
+        }
+      },
+      { threshold: 1 }
+    );
+    nums.forEach((n) => no.observe(n));
+  }
+
+  // Homepage tags type themselves in on hover.
+  if (canHover && !reduceMotion) {
+    document.querySelectorAll('.index-row a').forEach((a) => {
+      const tags = a.querySelector('.index-tags');
+      if (!tags) return;
+      const full = tags.textContent;
+      let timer = 0;
+      a.addEventListener('mouseenter', () => {
+        clearInterval(timer);
+        let i = 0;
+        tags.textContent = '';
+        timer = setInterval(() => {
+          i += 2;
+          tags.textContent = full.slice(0, i);
+          if (i >= full.length) clearInterval(timer);
+        }, 16);
+      });
+      a.addEventListener('mouseleave', () => {
+        clearInterval(timer);
+        tags.textContent = full;
+      });
+    });
+  }
+
+  // Project pages: reading progress in the name capsule; the big title
+  // tightens and fades as you scroll past it.
+  const wordmark = document.querySelector('.wordmark');
+  const projTitle = document.querySelector('.project-title');
+  if (wordmark && document.body.classList.contains('page-project')) {
+    let praf = 0;
+    const onProg = () => {
+      cancelAnimationFrame(praf);
+      praf = requestAnimationFrame(() => {
+        const max = document.documentElement.scrollHeight - window.innerHeight;
+        wordmark.style.setProperty('--progress', max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : 0);
+        if (projTitle && !reduceMotion) {
+          const h = projTitle.offsetTop + projTitle.offsetHeight;
+          const p = Math.min(1, Math.max(0, window.scrollY / h));
+          projTitle.style.setProperty('--tp', p.toFixed(3));
+        }
+      });
+    };
+    window.addEventListener('scroll', onProg, { passive: true });
+    onProg();
+  }
+
+  // C copies the email from anywhere.
+  const toast = (text) => {
+    const t = document.createElement('div');
+    t.className = 'welcome chip';
+    t.setAttribute('role', 'status');
+    t.textContent = text;
+    document.body.appendChild(t);
+    document.body.classList.add('welcoming');
+    requestAnimationFrame(() => t.classList.add('is-on'));
+    setTimeout(() => {
+      t.classList.remove('is-on');
+      document.body.classList.remove('welcoming');
+      setTimeout(() => t.remove(), 500);
+    }, 1800);
+  };
+  document.addEventListener('keydown', (e) => {
+    if (e.key.toLowerCase() !== 'c' || e.metaKey || e.ctrlKey || e.altKey || menuOpen()) return;
+    if (document.documentElement.classList.contains('w95-on') || viewer?.open) return;
+    if (e.target.closest && e.target.closest('input, textarea, select, [contenteditable]')) return;
+    if (window.getSelection && String(window.getSelection())) return; // don't fight real copying
+    const email = document.querySelector('.footer-email')?.dataset.email;
+    if (!email) return;
+    navigator.clipboard?.writeText(email).then(() => toast('Email copied. Talk soon.'), () => (location.href = `mailto:${email}`));
   });
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });

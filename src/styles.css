@@ -1073,7 +1073,6 @@ p, li, dd {
   flex: none;
   width: 6px;
   height: 6px;
-  border-radius: 50%;
   background: currentColor;
   opacity: 0.35;
 }
@@ -2127,4 +2126,185 @@ html.is-gated .gate {
 /* The top rule ran behind the capsules on the homepage; drop it. */
 .home-hero::before {
   display: none;
+}
+
+/* =================== Micro-interactions =================== */
+
+/* Arrows nudge forward on hover. */
+.arrow-link span[aria-hidden],
+.index-all span[aria-hidden],
+.pager-label span[aria-hidden] {
+  display: inline-block;
+  transition: transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1.4);
+}
+.arrow-link:hover span[aria-hidden],
+.index-all:hover span[aria-hidden] {
+  transform: translateX(5px);
+}
+
+/* Magnetic capsules use the separate translate property, so they never
+   fight the show/hide transforms. */
+.menu-button,
+.chrome-toggle {
+  translate: var(--mx, 0) var(--my, 0);
+  transition-property: opacity, transform, background, color, width, margin, translate, scale;
+  transition-duration: 0.3s;
+}
+
+/* Press feedback. */
+.chip:active,
+.keys-toggle:active,
+.gate-row button:active,
+.footer-email:active,
+.arrow-link:active,
+.pager-card:active,
+.slice:active {
+  scale: 0.97;
+}
+.chip,
+.gate-row button,
+.pager-card,
+.slice {
+  transition: scale 0.12s ease-out, background 0.2s, color 0.2s, opacity 0.3s, transform 0.3s;
+}
+
+/* Plus cursor over zoomable images. */
+@media (hover: hover) and (pointer: fine) {
+  .slide img,
+  .info-panel > img,
+  .work-thumb img {
+    cursor: none;
+  }
+}
+.img-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 90;
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  border-radius: 50%;
+  background: rgba(17, 17, 17, 0.86);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  transform: translate3d(var(--x, -100px), var(--y, -100px), 0) scale(0.4);
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.12s linear, scale 0.2s;
+}
+.img-cursor::before,
+.img-cursor::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 14px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -7px;
+  background: #fff;
+}
+.img-cursor::after {
+  transform: rotate(90deg);
+}
+.img-cursor.is-on {
+  opacity: 1;
+  transform: translate3d(var(--x), var(--y), 0) scale(1);
+}
+
+/* Soft reveal from the project color, only while an image is loading. */
+.page-project .slide,
+.page-project .info-panel {
+  background: color-mix(in srgb, var(--menu-bg, #e8e8e8) 45%, #ececec);
+}
+.work-thumb {
+  background: color-mix(in srgb, var(--accent, #e6e6e6) 45%, #ececec);
+}
+.slide img,
+.work-thumb img,
+.info-panel > img {
+  transition: opacity 0.6s var(--ease), transform 0.5s var(--ease);
+}
+img.is-loading {
+  opacity: 0;
+}
+
+/* Name capsule: Ugly's waving hand on hover, big enough to break out of the pill. */
+.wordmark {
+  overflow: visible;
+  transition: background 0.2s, padding 0.35s var(--ease);
+}
+.wordmark > span:not(.read-progress) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.wordmark .wave {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  width: auto;
+  height: 54px;
+  opacity: 0;
+  pointer-events: none;
+  transform-origin: 60% 95%;
+  transform: translateY(10px) scale(0.6);
+  transition: opacity 0.2s, transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1.4);
+}
+.wordmark:hover {
+  padding-left: 52px;
+}
+.wordmark:hover .wave {
+  opacity: 1;
+  transform: none;
+  animation: wave 0.9s ease-in-out 0.25s 2;
+}
+@keyframes wave {
+  0%, 100% { transform: rotate(0deg); }
+  20% { transform: rotate(-18deg); }
+  40% { transform: rotate(14deg); }
+  60% { transform: rotate(-10deg); }
+  80% { transform: rotate(8deg); }
+}
+
+/* Reading progress inside the name capsule. */
+.wordmark {
+  position: relative;
+}
+.read-progress {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--crumb-accent, #fff);
+  transform: scaleX(var(--progress, 0));
+  transform-origin: 0 50%;
+  opacity: 0.9;
+}
+.page-home .read-progress,
+.page-about .read-progress,
+.page-work .read-progress {
+  display: none;
+}
+
+/* Big project title tightens and fades as you scroll past it. */
+.project-title {
+  letter-spacing: calc(-0.055em - var(--tp, 0) * 0.025em);
+  opacity: calc(1 - var(--tp, 0) * 0.65);
+  transform: translateY(calc(var(--tp, 0) * 24px));
+}
+
+/* Footer clock: the colon ticks. */
+.footer-clock .colon {
+  animation: tick 2s steps(1) infinite;
+}
+@keyframes tick {
+  50% { opacity: 0.15; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-clock .colon,
+  .wordmark:hover .wave {
+    animation: none;
+  }
 }
