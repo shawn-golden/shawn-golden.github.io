@@ -2208,17 +2208,17 @@ img.is-loading {
 .wordmark .wave {
   position: absolute;
   left: 4px;
-  bottom: 0;
+  bottom: 3px;
   width: auto;
-  height: 42px;
+  height: 36px;
   opacity: 0;
   pointer-events: none;
   transform-origin: 60% 95%;
   transform: translateY(10px) scale(0.6);
-  transition: opacity 0.2s, transform 0.35s cubic-bezier(0.3, 0.7, 0.2, 1.4);
+  transition: opacity 0.2s, transform 0.3s var(--ease);
 }
 .wordmark:hover {
-  padding-left: 44px;
+  padding-left: 42px;
 }
 .wordmark:hover .wave {
   opacity: 1;
