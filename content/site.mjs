@@ -56,10 +56,10 @@ export const projects = [
       "Heidi Craun, SVP of Operations",
       "Jon-Eric Cornellier, Marketing Director",
       "Geetha Pai, Product & UX",
-      "Zoe Lindsey, Senior Director of Messaging",
+      "Zoe Lindsey, Senior Director of Product Marketing",
       "Amanda Berlin, Senior Product Manager, Cybersecurity",
     ],
-    quote: { text: "Thank you for making us look like a real, grown-up company.", source: "Zoe Lindsey, Senior Director of Messaging, Blumira" },
+    quote: { text: "Thank you for making us look like a real, grown-up company.", source: "Zoe Lindsey, Senior Director of Product Marketing, Blumira" },
     results: [
       { text: "An 18-month partnership that grew from strategy consulting into a full brand foundation: positioning, identity, guidelines, templates, and motion." },
       { text: "At RSAC 2026, more than a dozen people stopped at Blumira’s booth just to say how much they liked the look and feel." },
