@@ -1,5 +1,5 @@
 // Live generative band on the homepage, drawn in three of the brand systems:
-// Minka (stripes and blocks), Ultra (pixel field), Tracebit (rotating marks).
+// Minka (stripes and blocks) and Ultra (pixel field).
 // Click to shuffle. Pauses off screen; still frame for reduced motion.
 
 const rand = (a = 1, b) => (b === undefined ? Math.random() * a : a + Math.random() * (b - a));
@@ -91,62 +91,13 @@ const systems = {
       }
     },
   },
-  tracebit: {
-    name: 'Tracebit',
-    bg: '#111111',
-    setup(w, h) {
-      const angles = [0, 17.36, 45, 90, 180, 270].map((a) => (a * Math.PI) / 180);
-      const size = Math.max(70, h * 0.62);
-      const count = Math.max(3, Math.floor(w / (size * 1.25)));
-      const gap = w / count;
-      const marks = Array.from({ length: count }, (_, i) => {
-        const a = pick(angles);
-        return { x: gap * (i + 0.5), y: h / 2, a, target: a, wait: rand(0.3, 2.4) };
-      });
-      return { angles, size, marks };
-    },
-    draw(ctx, s, w, h, dt) {
-      ctx.fillStyle = this.bg;
-      ctx.fillRect(0, 0, w, h);
-      for (const m of s.marks) {
-        m.wait -= dt;
-        if (m.wait <= 0) {
-          m.target = pick(s.angles) + Math.PI * 2 * Math.round(m.a / (Math.PI * 2));
-          m.wait = rand(1.4, 3.6);
-        }
-        m.a += (m.target - m.a) * Math.min(1, dt * 3.2);
-        ctx.save();
-        ctx.translate(m.x, m.y);
-        ctx.rotate(m.a);
-        const L = s.size / 2;
-        const strokes = [
-          [0, 1, 0.16],
-          [Math.PI / 3, 0.92, 0.1],
-          [-Math.PI / 3, 0.92, 0.1],
-          [Math.PI / 2, 0.55, 0.06],
-        ];
-        for (const [rot, len, wdt] of strokes) {
-          ctx.save();
-          ctx.rotate(rot);
-          const g = ctx.createLinearGradient(0, -L * len, 0, L * len);
-          g.addColorStop(0, '#f3dcd5');
-          g.addColorStop(0.55, '#f08a7a');
-          g.addColorStop(1, '#d6372f');
-          ctx.fillStyle = g;
-          ctx.fillRect((-s.size * wdt) / 2 / 3, -L * len, (s.size * wdt) / 3, L * len * 2);
-          ctx.restore();
-        }
-        ctx.restore();
-      }
-    },
-  },
 };
 
 export function start(root, reduceMotion) {
   const canvas = root.querySelector('canvas');
   const label = root.querySelector('.gen-name');
   const ctx = canvas.getContext('2d');
-  const order = ['minka', 'ultra', 'tracebit'];
+  const order = ['minka', 'ultra'];
   let i = Math.floor(Math.random() * order.length);
   let sys, state, w, h, last = 0, raf = 0, visible = true;
 

@@ -51,7 +51,11 @@ export const projects = [
     challenge: "Blumira’s product had traction and a Series B, but the brand hadn’t caught up. Security for small IT teams and MSPs usually sells fear, and Blumira needed to feel approachable and confident instead.",
     idea: "Evolve rather than erase. We questioned the longstanding hedgehog mascot, then kept it and rebuilt it as an animated, systematized character, alongside single-line illustrations for connection, vigilance, and flow, and a palette where each color carries part of the personality.",
     clientTeam: [
+      "Matt Warner, CTO & Co-founder",
+      "Heidi Craun, SVP of Operations",
+      "Jon-Eric Cornellier, Marketing Director",
       "Natalie Pleyerova, Project Lead",
+      "Geetha Pai, Product & UX",
     ],
     quote: { text: "I appreciated the journey you took us on and think we’re at a really strong position.", source: "Natalie Pleyerova, Blumira" },
     results: [
@@ -107,6 +111,7 @@ export const projects = [
     idea: "A noise-driven pixel field that looks alive and governed at the same time, plus a generative tool that turns it into endless on-brand artwork for web, social, and print.",
     clientTeam: [
       "Chase Lee, Founder & CEO",
+      "Rob Gutierrez, Director of Security & Business Operations",
     ],
     results: [
       { text: "Emerged from stealth in October 2026 with a $10M seed round.", url: 'https://venturebeat.com/business/ultra-security-emerges-from-stealth-with-10m-seed-round-to-secure-autonomous-runtimes' },
@@ -333,40 +338,6 @@ export const projects = [
   },
   {
     // Draft summary written from the work itself; role and team still to confirm.
-    slug: 'tracebit',
-    title: 'Tracebit',
-    tags: ['Brand identity', 'Web design', 'Generative tools'],
-    // Story drawn from FinalFinal case studies in Dropbox and public sources.
-    challenge: "Tracebit’s ex-Palantir founders approach security with calm precision, but security marketing defaults to alarm. The brand needed to feel quietly confident, ahead of a new funding round.",
-    idea: "Caltrops: ancient defensive spikes scattered across a battlefield. However one lands, a point always faces up, just as Tracebit’s decoys are scattered across a cloud. A custom generator draws endless variations of the mark, with laser-line tripwires showing detection.",
-    clientTeam: [
-      "Andy Smith, CEO & Co-founder",
-      "Sam Cox, Co-founder",
-      "Gemma Jacobson, Head of Marketing",
-    ],
-    quote: { text: "It was so exciting to see the ideas for Tracebit’s visual identity taking shape.", source: "Gemma Jacobson, Tracebit" },
-    results: [
-      { text: "Positioning was adopted ahead of schedule for the March 2026 funding announcement, with new taglines on the homepage." },
-      { text: "Raised a $20M Series A in March 2026, led by FirstMark with Accel.", url: 'https://securityweek.com/tracebit-raises-20m-for-cloud-native-deception-technology' },
-    ],
-    team: ['Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    accent: '#f3dcd5',
-    summary:
-      'Tracebit helps security teams catch attackers early by planting canaries across their cloud, decoys that alert the moment someone touches them, positioning the company as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
-    slides: [
-      'tracebit-02',
-      'tracebit-01',
-      'tracebit-03',
-      'tracebit-08',
-      'tracebit-07',
-      { row: ['tracebit-h1', 'tracebit-h2', 'tracebit-h3'] },
-      'tracebit-04',
-      'tracebit-05',
-      'tracebit-06',
-    ],
-  },
-  {
-    // Draft summary written from the work itself; role and team still to confirm.
     slug: 'expel',
     title: 'Expel',
     tags: ['Brand identity', 'Campaigns', 'Environmental design'],
@@ -382,7 +353,9 @@ export const projects = [
       { text: "The refresh rolled out across Expel’s internal launch, its RSAC 2026 booth, and Expel.com within months." },
       { text: "Named a Leader in The Forrester Wave: Managed Detection and Response Services, Q1 2025.", url: 'https://www.businesswire.com/news/home/20250225361607/en' },
     ],
-    team: ['Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    team: ['Pete Baker, Creative Director', 'Jessica Bauer-Greene, Design Lead', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    role: ['Senior Designer'],
+    contributions: ['Visual identity design'],
     accent: '#5ce58b',
     summary:
       'Expel runs managed detection and response for security teams. The brand pairs a plainspoken voice, “No Black Box. No BS.,” with an X pattern built from the logomark, and carries it from guidelines and the website to a trade show booth, a keynote stage, campaign posters, a pixel mascot and merch.',
@@ -428,7 +401,7 @@ export const about = {
   intro:
     'Hello, I’m Shawn. I’m a Detroit-based creative director building brands for security, fintech, and AI companies that need to earn trust fast.',
   bio: [
-    'For over 15 years I’ve helped technical companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Tracebit, and Minka.',
+    'For over 15 years I’ve helped technical companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Keystrike, and Minka.',
     'As Creative Director at FinalFinal, I lead brand work from the first strategy conversation through launch. I set the idea, shape the system, direct designers, motion artists, and developers, and work side by side with founders and marketing leads to ship it. I still get hands-on with the details, because that’s where trust is won or lost.',
     'Outside of design, I write and direct animated comedy, perform improv, and pursue all kinds of creative experiments. I believe curiosity, humor, and a willingness to try something unexpected make for better creative work.',
   ],
@@ -503,7 +476,7 @@ export const about = {
 
 // Homepage groups, in order. Projects not listed fall into the last group.
 export const groups = [
-  { name: 'Brand systems', slugs: ['minka', 'blumira', 'ultra', 'keystrike', 'tracebit', 'expel'] },
+  { name: 'Brand systems', slugs: ['minka', 'blumira', 'ultra', 'keystrike', 'expel'] },
   { name: 'Design systems', slugs: ['email-design-system'] },
   { name: 'Launches & campaigns', slugs: ['tap-to-pay', 'demo-reel'] },
   { name: 'Editorial & interaction', slugs: ['ugly-magazine'] },
@@ -597,17 +570,6 @@ export const alts = {
   'keystrike-09': 'A Keystrike social post: “Protect the core when everything else fails.”',
   'keystrike-10': 'The opening page of Keystrike’s brand story, “Who We Are.”',
   'keystrike-11': 'Three Keystrike cards in purple, green and pink: “Authentication assumes. Verification happens continuously.”',
-  'tracebit-01': 'Tracebit web and product screens tilted into a collage: “The answer to Assume Breach.”',
-  'tracebit-02': 'A Tracebit sign mounted on a concrete wall, plus a slim sign stand.',
-  'tracebit-03': 'The Tracebit mark shown at a set of fixed angles, in color and in white.',
-  'tracebit-04': 'A browser tool for composing the Tracebit mark, with the mark on a dark grid.',
-  'tracebit-05': 'Tracebit on a desktop monitor, and a Tracebit business card.',
-  'tracebit-h1': 'A full Tracebit homepage, top to bottom.',
-  'tracebit-h2': 'A tall Tracebit kiosk outside a perforated metal building.',
-  'tracebit-h3': 'A black Tracebit tote held up by one strap.',
-  'tracebit-06': 'Four Tracebit social graphics in blush and black.',
-  'tracebit-07': 'Two Tracebit posters: “Detect attacks across cloud at scale.”',
-  'tracebit-08': 'Someone in a cream Tracebit hoodie.',
   'expel-01': 'A keynote stage with “No Black Box. No BS.” on the screen.',
   'expel-02': 'Expel’s trade show booth, its green X logo lit up on a metal frame.',
   'expel-03': 'Pages from Expel’s brand guidelines: logo variations, clearspace and layout types.',

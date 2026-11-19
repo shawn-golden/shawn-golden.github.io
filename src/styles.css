@@ -2411,3 +2411,8 @@ img.is-loading {
   max-width: 24ch;
   text-wrap: balance;
 }
+@media (min-width: 1000px) {
+  .credits.cols-5 {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
