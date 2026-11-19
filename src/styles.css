@@ -992,12 +992,6 @@ p, li, dd {
   letter-spacing: -0.045em;
   max-width: 26ch;
 }
-.principle-quote::before {
-  content: '“';
-}
-.principle-quote::after {
-  content: '”';
-}
 .principle footer {
   color: var(--muted);
 }
