@@ -551,7 +551,7 @@ export const alts = {
   'experiments-02': 'Square recruiting ads: “Join us in shaping the future of business,” “We’re hiring,” “Everyone.”',
   'experiments-03': 'Square illustration style: sellers and everyday objects drawn in red, blue and black.',
   'experiments-04': 'A hack week website exploration with neon gradients, a payments menu and a dotted schedule.',
-  demoreel: 'Motion demo reel title card: SHAWN GOLDEN in tall type with a cartoon head.',
+  'demoreel-poster': 'Motion demo reel title card: SHAWN GOLDEN in tall type with a cartoon head.',
   capabilities: 'Creative Capabilities, with direction, brand, interactive, writing, illustration, motion and print in floating ovals.',
 };
 
