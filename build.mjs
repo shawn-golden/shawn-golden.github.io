@@ -675,7 +675,13 @@ if (existsSync(PW_FILE) && !process.env.NO_GATE) {
   const gate = `<div class="gate"><form class="gate-form" autocomplete="on">
   <p class="gate-name">${esc(site.name)}<br>${site.titles.map(esc).join('<br>')}</p>
   <label class="label" for="gate-pw">This portfolio is password protected.</label>
-  <div class="gate-row"><input id="gate-pw" name="password" type="password" autocomplete="current-password" required autofocus><button type="submit">Enter <span aria-hidden="true">→</span></button></div>
+  <div class="gate-row"><input id="gate-pw" name="password" type="password" autocomplete="current-password" required><button type="submit">Enter <span aria-hidden="true">→</span></button>
+    <div class="gate-dog" aria-hidden="true">
+      <img class="dog-watch" src="/assets/hotdog-watch.svg" alt="" width="130" height="255">
+      <img class="dog-hide" src="/assets/hotdog-dontlook.svg" alt="" width="130" height="255">
+      <svg class="dog-pupils" viewBox="122 50 130 255"><circle class="pupil" data-cx="159" data-cy="84.5" cx="159" cy="84.5" r="2"/><circle class="pupil" data-cx="174" data-cy="81" cx="174" cy="81" r="2"/></svg>
+    </div>
+  </div>
   <p class="gate-error label" role="alert" hidden>That’s not it. Try again, or email <a href="mailto:${site.email}">${esc(site.email)}</a>.</p>
 </form></div>`;
   const walkHtml = (dir) => readdirSync(dir).flatMap((f) => (statSync(join(dir, f)).isDirectory() ? (f === 'assets' ? [] : walkHtml(join(dir, f))) : f.endsWith('.html') && f !== '404.html' ? [join(dir, f)] : []));

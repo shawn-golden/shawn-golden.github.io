@@ -32,6 +32,30 @@
   document.documentElement.classList.add('is-gated');
   const form = document.querySelector('.gate-form');
   const input = form.querySelector('input');
+
+  // The security-conscious hot dog: watches the cursor, points at the
+  // password field, and covers his eyes while you type.
+  const dog = form.querySelector('.gate-dog');
+  if (dog) {
+    const pupils = [...dog.querySelectorAll('.pupil')];
+    const svg = dog.querySelector('.dog-pupils');
+    const look = (x, y) => {
+      const box = svg.getBoundingClientRect();
+      const scale = box.width / 130;
+      for (const p of pupils) {
+        const cx = +p.dataset.cx, cy = +p.dataset.cy;
+        const ex = box.left + (cx - 122) * scale, ey = box.top + (cy - 50) * scale;
+        const dx = x - ex, dy = y - ey;
+        const d = Math.hypot(dx, dy) || 1;
+        const reach = Math.min(2.6, d / 60);
+        p.setAttribute('cx', (cx + (dx / d) * reach).toFixed(2));
+        p.setAttribute('cy', (cy + (dy / d) * reach).toFixed(2));
+      }
+    };
+    window.addEventListener('pointermove', (e) => look(e.clientX, e.clientY), { passive: true });
+    input.addEventListener('focus', () => dog.classList.add('is-hiding'));
+    input.addEventListener('blur', () => dog.classList.remove('is-hiding'));
+  }
   const error = form.querySelector('.gate-error');
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
