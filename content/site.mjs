@@ -26,7 +26,7 @@ export const projects = [
     accent: '#f5fc9f',
     summary:
       'Minka is building the infrastructure that connects banks, financial institutions, and payment networks to make instant payments possible at a national scale. As lead designer, I helped evolve Minka’s brand identity into a cohesive, flexible visual system spanning typography, geometric patterns, product identities, motion, and brand applications. The result balances the credibility of established financial institutions with the clarity and energy of modern financial technology.',
-    team: ['Aaron Johnstone, Motion Designer', 'Ruth Facer, Delivery Lead'],
+    team: ['Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: ['minka-04', 'minka-02', 'minka-06', 'minka-05', 'minka-08', 'minka-03', 'minka-07', 'minka-09', 'minka-01', 'minka-10'],
   },
@@ -37,7 +37,7 @@ export const projects = [
     accent: '#b4eac6',
     summary:
       'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As Lead Brand Designer, I led the evolution of its visual identity, developing a cohesive brand system that balances technical credibility with an approachable, distinctive personality. The work spanned brand strategy, logo development, typography, color, illustration, and art direction, creating a flexible visual language designed to scale across marketing, product, and digital experiences.',
-    team: ['Aaron Johnstone, Motion Designer', 'Ruth Facer, Delivery Lead'],
+    team: ['Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: [
       'blumira-01',
@@ -82,7 +82,7 @@ export const projects = [
     dark: true,
     summary:
       'Ultra is a cybersecurity company building runtime security for AI agents, helping organizations monitor, govern, and secure autonomous AI systems. As Lead Brand Designer, I led the development of a visual identity that translates complex security technology into a clear, confident, and distinctive brand. The work established a flexible design system spanning typography, color, graphic elements, motion, and digital applications, positioning Ultra as a credible and forward-thinking voice in an emerging category.',
-    team: ['Ruth Facer, Delivery Lead'],
+    team: ['Ryan Cady, Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: ['ultra-05', 'ultra-08', 'ultra-02', 'ultra-06', 'ultra-03', 'ultra-04', 'ultra-09', 'ultra-07', 'ultra-10', 'ultra-01'],
   },
@@ -94,7 +94,7 @@ export const projects = [
     dark: true,
     summary:
       'Keystrike is a cybersecurity company pioneering a new approach to access security, verifying that every action taken within a system comes from an authorized user. As Creative Director and Lead Brand Designer, I led the development of a bold, modern visual identity that brings clarity and distinction to a complex technical offering. The work established a cohesive brand system spanning typography, color, graphic elements, and digital applications, positioning Keystrike as an innovative voice in a rapidly evolving security landscape.',
-    team: ['Brian Caiazza, Motion Designer', 'Ruth Facer, Delivery Lead'],
+    team: ['Brian Caiazza, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: ['keystrike-02', 'keystrike-07', 'keystrike-01', 'keystrike-11', 'keystrike-06', 'keystrike-05', 'keystrike-08', 'keystrike-03', 'keystrike-04', 'keystrike-09', 'keystrike-10'],
   },
@@ -148,6 +148,8 @@ export const projects = [
           'The distance between each image is proportional to the width of the user’s device, resulting in a scalable, seamless, and visually stunning animation that enhances the user’s overall experience.',
         ],
         figures: [{ img: 'taptopay-05-diagram.webp', w: 320, h: 160, alt: 'Diagram: images animate in from outside the viewport' }],
+        // The collage demo was a GIF in Figma; it plays here as a silent MP4.
+        videos: [{ file: 'taptopay-collage.mp4', x: 235, y: 96, w: 918, h: 729 }],
       },
       {
         src: 'taptopay-06',
@@ -160,8 +162,9 @@ export const projects = [
         ],
         figures: [
           { img: 'taptopay-06-diagram.webp', w: 320, h: 198, alt: 'Diagram: gallery images move with scroll' },
-          { img: 'taptopay-06-easing.webp', w: 268, h: 86, alt: 'Easing curves' },
+          { img: 'taptopay-06-easing-anim.webp', w: 268, h: 86, alt: 'Easing curves' },
         ],
+        videos: [{ file: 'taptopay-gallery.mp4', x: 170, y: 155, w: 1048, h: 610 }],
       },
       {
         src: 'taptopay-09',

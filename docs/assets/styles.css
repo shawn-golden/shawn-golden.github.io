@@ -2282,3 +2282,9 @@ img.is-loading {
     animation: none;
   }
 }
+
+/* Project header: clear the top chrome, and keep the title close to its summary. */
+.project-hero {
+  padding-top: calc(var(--gutter) + 40px + clamp(48px, 7vw, 120px));
+  gap: clamp(20px, 2.4vw, 40px);
+}
