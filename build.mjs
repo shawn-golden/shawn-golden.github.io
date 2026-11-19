@@ -247,6 +247,14 @@ function w95Data(root) {
   return JSON.stringify({ projects: projectsData, about: aboutText, email: site.email, workHref: `${root}work/` }).replace(/</g, '\\u003c');
 }
 
+// Reading-progress bar color: the project accent, or white when the accent
+// is too dark to see on the black name capsule (Ultra, Email).
+function barColor(hex) {
+  const n = parseInt(hex.slice(1), 16);
+  const lum = (0.2126 * (n >> 16) + 0.7152 * ((n >> 8) & 255) + 0.0722 * (n & 255)) / 255;
+  return lum < 0.25 ? '#ffffff' : hex;
+}
+
 function layout({ title, description, root, current, body, bodyClass = '', bodyStyle = '', og, theme, prev, next, crumb }) {
   const fullTitle = title ? `${title} | ${site.name}` : `${site.name} | ${site.titles.join(', ')}`;
   const ogUrl = og ? `${site.url}/assets/og/${og}.png` : '';
@@ -280,7 +288,7 @@ ${next ? `<link rel="next" href="${next}">` : ''}
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <button class="chrome-toggle chip" type="button" aria-pressed="false" aria-label="Hide navigation"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M12 19V5M5.5 11.5 12 5l6.5 6.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-  <a class="wordmark chip" href="${root}"${crumb ? ` style="--crumb-accent:${crumb.accent}"` : ''}><img class="wave" src="${root}assets/cursors/wave-hand.svg?v=ce11431e" alt="" width="70" height="73"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}<span class="read-progress" aria-hidden="true"></span></a>
+  <a class="wordmark chip" href="${root}"${crumb ? ` style="--crumb-accent:${barColor(crumb.accent)}"` : ''}><img class="wave" src="${root}assets/cursors/wave-hand.svg?v=ce11431e" alt="" width="70" height="73"><span>${esc(site.name)}</span>${crumb ? `<span class="crumb-sep" aria-hidden="true">/</span><span class="crumb"><i style="background:${crumb.accent}"></i>${esc(crumb.title)}</span>` : ''}<span class="read-progress" aria-hidden="true"></span></a>
 </header>
 ${menu(root, current)}
 <main id="main">

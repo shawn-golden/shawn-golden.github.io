@@ -28,7 +28,7 @@ export const projects = [
       'Minka is building the infrastructure that connects banks, financial institutions, and payment networks to make instant payments possible at a national scale. As lead designer, I helped evolve Minka’s brand identity into a cohesive, flexible visual system spanning typography, geometric patterns, product identities, motion, and brand applications. The result balances the credibility of established financial institutions with the clarity and energy of modern financial technology.',
     team: ['Aaron Johnstone, Motion Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
-    slides: range('minka', 10),
+    slides: ['minka-04', 'minka-02', 'minka-06', 'minka-05', 'minka-08', 'minka-03', 'minka-07', 'minka-09', 'minka-01', 'minka-10'],
   },
   {
     slug: 'blumira',
@@ -41,10 +41,7 @@ export const projects = [
     role: ['Creative Director', 'Lead Brand Designer'],
     slides: [
       'blumira-01',
-      'blumira-02',
       'blumira-03',
-      'blumira-04',
-      'blumira-05',
       {
         // The hedgehog clip lost its transparency in Figma's stream, so it's
         // multiplied onto the badge (white drops out), over a cream patch that
@@ -53,7 +50,6 @@ export const projects = [
         under: [{ x: 132, y: 127, w: 156, h: 156, color: '#f5f2ec', round: true }],
         videos: [{ file: 'blumira-hog.mp4', x: 0, y: 89, w: 342, h: 342, rotate: -15, blend: 'multiply' }],
       },
-      'blumira-07',
       {
         // Waves clip tinted by three blend-mode rectangles, posters on top.
         src: 'blumira-08',
@@ -65,6 +61,8 @@ export const projects = [
         ],
         overlays: [{ img: 'blumira-08-fg.webp', x: 0, y: 0, w: 1920, h: 1080 }],
       },
+      'blumira-05',
+      'blumira-04',
       'blumira-09',
       {
         // Night clip under a dark tint, infographic on top.
@@ -72,6 +70,8 @@ export const projects = [
         videos: [{ file: 'blumira-night.mp4', x: 960, y: -8, w: 968, h: 1089 }],
         overlays: [{ img: 'blumira-10-fg.webp', x: 0, y: 0, w: 1920, h: 1080 }],
       },
+      'blumira-02',
+      'blumira-07',
     ],
   },
   {
@@ -84,7 +84,7 @@ export const projects = [
       'Ultra is a cybersecurity company building runtime security for AI agents, helping organizations monitor, govern, and secure autonomous AI systems. As Lead Brand Designer, I led the development of a visual identity that translates complex security technology into a clear, confident, and distinctive brand. The work established a flexible design system spanning typography, color, graphic elements, motion, and digital applications, positioning Ultra as a credible and forward-thinking voice in an emerging category.',
     team: ['Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
-    slides: range('ultra', 10),
+    slides: ['ultra-05', 'ultra-08', 'ultra-02', 'ultra-06', 'ultra-03', 'ultra-04', 'ultra-09', 'ultra-07', 'ultra-10', 'ultra-01'],
   },
   {
     slug: 'keystrike',
@@ -96,7 +96,7 @@ export const projects = [
       'Keystrike is a cybersecurity company pioneering a new approach to access security, verifying that every action taken within a system comes from an authorized user. As Creative Director and Lead Brand Designer, I led the development of a bold, modern visual identity that brings clarity and distinction to a complex technical offering. The work established a cohesive brand system spanning typography, color, graphic elements, and digital applications, positioning Keystrike as an innovative voice in a rapidly evolving security landscape.',
     team: ['Brian Caiazza, Motion Designer', 'Ruth Facer, Delivery Lead'],
     role: ['Creative Director', 'Lead Brand Designer'],
-    slides: range('keystrike', 11),
+    slides: ['keystrike-02', 'keystrike-07', 'keystrike-01', 'keystrike-11', 'keystrike-06', 'keystrike-05', 'keystrike-08', 'keystrike-03', 'keystrike-04', 'keystrike-09', 'keystrike-10'],
   },
   {
     slug: 'tap-to-pay',
@@ -121,9 +121,22 @@ export const projects = [
     role: ['Lead Designer'],
     contributions: ['Creative strategy', 'Photo and video art direction', 'Motion graphics', 'Visual system design & documentation'],
     slides: [
-      { src: 'taptopay-01', caption: 'Art direction style guide' },
       { src: 'taptopay-02', caption: 'Product photoshoot art direction' },
-      { src: 'taptopay-03', caption: 'Brand campaign design system for cross-functional use' },
+      { src: 'taptopay-01', caption: 'Art direction style guide' },
+      { src: 'taptopay-07', caption: 'Scalable design system for international launch: US, UK, France, Spain, Canada, Australia, Ireland' },
+      {
+        src: 'taptopay-08',
+        caption: 'Motion studies',
+        videos: [
+          { file: 'taptopay-tap-to-phone-3.mp4', x: 201, y: 159, w: 812, h: 514 },
+          { file: 'taptopay-precomp-3.mp4', x: 1056, y: 159, w: 293, h: 355 },
+          { file: 'taptopay-hero-7.mp4', x: 1388, y: 159, w: 331, h: 433 },
+          { file: 'taptopay-precomp-4.mp4', x: 201, y: 716, w: 391, h: 223 },
+          { file: 'taptopay-tap-to-phone-2.mp4', x: 613, y: 716, w: 400, h: 223 },
+          { file: 'taptopay-hero-3.mp4', x: 1056, y: 557, w: 292, h: 382 },
+          { file: 'taptopay-hero-5.mp4', x: 1388, y: 628, w: 331, h: 311 },
+        ],
+      },
       { src: 'taptopay-04', caption: 'Public web experience' },
       {
         src: 'taptopay-05',
@@ -150,26 +163,13 @@ export const projects = [
           { img: 'taptopay-06-easing.webp', w: 268, h: 86, alt: 'Easing curves' },
         ],
       },
-      { src: 'taptopay-07', caption: 'Scalable design system for international launch: US, UK, France, Spain, Canada, Australia, Ireland' },
-      {
-        src: 'taptopay-08',
-        caption: 'Motion studies',
-        videos: [
-          { file: 'taptopay-tap-to-phone-3.mp4', x: 201, y: 159, w: 812, h: 514 },
-          { file: 'taptopay-precomp-3.mp4', x: 1056, y: 159, w: 293, h: 355 },
-          { file: 'taptopay-hero-7.mp4', x: 1388, y: 159, w: 331, h: 433 },
-          { file: 'taptopay-precomp-4.mp4', x: 201, y: 716, w: 391, h: 223 },
-          { file: 'taptopay-tap-to-phone-2.mp4', x: 613, y: 716, w: 400, h: 223 },
-          { file: 'taptopay-hero-3.mp4', x: 1056, y: 557, w: 292, h: 382 },
-          { file: 'taptopay-hero-5.mp4', x: 1388, y: 628, w: 331, h: 311 },
-        ],
-      },
       {
         src: 'taptopay-09',
         caption: 'Social media campaign motion graphics',
         videos: [{ file: 'taptopay-product-1.mp4', x: 125, y: 219, w: 318, h: 565 }],
         overlays: [{ img: 'taptopay-09-story.webp', x: 125, y: 219, w: 318, h: 59 }],
       },
+      { src: 'taptopay-03', caption: 'Brand campaign design system for cross-functional use' },
     ],
   },
   {
@@ -198,12 +198,13 @@ export const projects = [
     ],
     slides: [
       { src: 'ugly-01', caption: 'Marketing website experience' },
-      { src: 'ugly-02', caption: 'Brand guidelines' },
       {
         src: 'ugly-03',
         caption: 'Social media campaign design and animation',
         videos: [{ file: 'ugly-free-sample.mp4', x: 140, y: 236, w: 482, h: 607 }],
       },
+      { src: 'ugly-06', caption: 'Marketing website experience' },
+      { src: 'ugly-02', caption: 'Brand guidelines' },
       {
         src: 'ugly-04',
         caption: 'Marketing website animations',
@@ -223,7 +224,6 @@ export const projects = [
         ],
         videos: [{ file: 'ugly-comp-2.mp4', x: 123, y: 93, w: 1142, h: 738 }],
       },
-      { src: 'ugly-06', caption: 'Marketing website experience' },
       {
         src: 'ugly-07',
         title: 'About image and video hover',
@@ -233,7 +233,6 @@ export const projects = [
         ],
         videos: [{ file: 'ugly-comp-1.mp4', x: 123, y: 92, w: 1142, h: 738 }],
       },
-      { src: 'ugly-08', caption: 'Joyful web experiences, custom cursors' },
       {
         src: 'ugly-09',
         title: 'Excessive congratulations confetti',
@@ -244,6 +243,7 @@ export const projects = [
         ],
         videos: [{ file: 'ugly-comp-3.mp4', x: 123, y: 93, w: 1142, h: 738 }],
       },
+      { src: 'ugly-08', caption: 'Joyful web experiences, custom cursors' },
       { src: 'ugly-10', caption: 'Interaction models for collaboration with web development agency' },
     ],
   },
@@ -264,7 +264,7 @@ export const projects = [
     ],
     role: ['Designer'],
     contributions: ['Template design', 'System design', 'Figma library, styles, components', 'Documentation'],
-    slides: ['email-01', 'email-02', 'email-03', { src: 'email-04', caption: 'Design system instructions for cross-team collaboration' }, 'email-05'],
+    slides: ['email-05', 'email-02', 'email-03', 'email-01', { src: 'email-04', caption: 'Design system instructions for cross-team collaboration' }],
   },
   {
     slug: 'motion-calendar',
@@ -287,15 +287,15 @@ export const projects = [
     summary:
       'Tracebit helps security teams catch attackers early by planting canaries across their cloud, decoys that alert the moment someone touches them, positioning the company as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
     slides: [
-      'tracebit-01',
       'tracebit-02',
+      'tracebit-01',
       'tracebit-03',
+      'tracebit-08',
+      'tracebit-07',
+      { row: ['tracebit-h1', 'tracebit-h2', 'tracebit-h3'] },
       'tracebit-04',
       'tracebit-05',
-      { row: ['tracebit-h1', 'tracebit-h2', 'tracebit-h3'] },
       'tracebit-06',
-      'tracebit-07',
-      'tracebit-08',
     ],
   },
   {
@@ -308,14 +308,14 @@ export const projects = [
       'Expel runs managed detection and response for security teams. The brand pairs a plainspoken voice, “No Black Box. No BS.,” with an X pattern built from the logomark, and carries it from guidelines and the website to a trade show booth, a keynote stage, campaign posters, a pixel mascot and merch.',
     slides: [
       'expel-01',
-      'expel-02',
-      'expel-03',
-      'expel-04',
       'expel-05',
-      { row: ['expel-h1', 'expel-h2'] },
+      'expel-02',
       'expel-06',
-      { row: ['expel-h3', 'expel-h4'] },
       { row: ['expel-h5', 'expel-h6'] },
+      'expel-04',
+      { row: ['expel-h3', 'expel-h4'] },
+      { row: ['expel-h1', 'expel-h2'] },
+      'expel-03',
     ],
   },
   {
@@ -414,10 +414,10 @@ export const groups = [
 // Principles quoted from the brand guidelines in Figma, shown between slides.
 export const principles = {
   minka: [
-    { after: 'minka-01', quote: 'Color in Minka is a tool, not a theme.', source: 'Minka guidelines · Color' },
+    { after: 'minka-09', quote: 'Color in Minka is a tool, not a theme.', source: 'Minka guidelines · Color' },
     { after: 'minka-02', quote: 'Guilloché should feel engineered, not ornamental.', source: 'Minka guidelines · Imagery' },
     {
-      after: 'minka-05',
+      after: 'minka-08',
       quote: 'Patterns should always feel purposeful, precise, and integrated — never ornamental or illustrative.',
       source: 'Minka guidelines · Pattern',
     },
@@ -436,12 +436,12 @@ export const principles = {
   ],
   expel: [
     {
-      after: 'expel-03',
+      after: 'expel-05',
       quote: 'Technical, data-driven, systematic, precise. It’s a visual callback to when computer output was precise, systematic, and showed its work.',
       source: 'Expel guidelines · Graphic device',
     },
     {
-      after: 'expel-05',
+      after: 'expel-06',
       quote: 'When you’d like to add emphasis to the layout, extend a color block to half or even 3/4 of the design.',
       source: 'Expel guidelines · Layout',
     },
