@@ -23,12 +23,18 @@ export const projects = [
     slug: 'minka',
     title: 'Minka',
     tags: ['Brand strategy', 'Brand identity', 'Generative tool development'],
-    // Draft story: confirm before relying on it. Results link to public sources.
-    challenge: "Minka sells to central banks and clearinghouses, but builds like a startup. The brand had to earn institutional trust without looking like legacy finance.",
-    idea: "We rebuilt the guilloché patterns of banknotes as precise, engineered stripe systems, kept color as a tool rather than a theme, and built a pattern generator so any team could make on-brand artwork.",
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
+    challenge: "Minka sits across the table from central banks across Latin America and Africa, but its identity was nearly ten years old. It needed an institutional rebrand, not a startup refresh, without looking like legacy finance.",
+    idea: "Borrow from the oldest form of financial design: guilloché, the banknote patterns made to be impossible to counterfeit. We rebuilt it as an engineered pattern system, then shipped a pattern generator so Minka’s team could make on-brand artwork on their own.",
+    clientTeam: [
+      "Dom Rozic, Co-founder",
+      "Vikram Rojo, Product & Growth Lead",
+    ],
+    quote: { text: "No notes. 10/10. It’s all come together really well.", source: "Vikram Rojo, Minka" },
     results: [
-      { text: "Minka’s Payments Hub connects banks, cooperatives, and fintechs to Bre-B, Colombia’s national instant payments system, which passed 34 million registered users in its first six months.", url: 'https://banrep.gov.co/en/news/six-months-operation-bre-b-34-million-registered-users' },
-      { text: "Backed by Tiger Global and Kaszek.", url: 'https://techcrunch.com/2022/04/27/bogota-based-minka-lands-24m-from-tiger-kaszek-to-build-an-open-infrastructure-for-money' },
+      { text: "Seven months, four phases: strategy, messaging, a full identity with product sub-brands for Switch, Hub, and Ledger, a motion library, templates, and a pattern generator." },
+      { text: "Minka’s website launched on the new brand in early 2026." },
+      { text: "Minka’s Payments Hub connects banks to Bre-B, Colombia’s national instant payments system, which passed 34 million registered users in its first six months.", url: 'https://banrep.gov.co/en/news/six-months-operation-bre-b-34-million-registered-users' },
     ],
     accent: '#f5fc9f',
     summary:
@@ -41,12 +47,16 @@ export const projects = [
     slug: 'blumira',
     title: 'Blumira',
     tags: ['Creative direction', 'Brand identity', 'Animation'],
-    // Draft story: confirm before relying on it. Results link to public sources.
-    challenge: "Security for small IT teams and MSPs usually sells fear. Blumira needed to feel approachable and confident instead.",
-    idea: "Single-line illustrations that stand for connection, vigilance, and flow, a hedgehog as a friendly guard, and a color palette where each hue carries a piece of the personality.",
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
+    challenge: "Blumira’s product had traction and a Series B, but the brand hadn’t caught up. Security for small IT teams and MSPs usually sells fear, and Blumira needed to feel approachable and confident instead.",
+    idea: "Evolve rather than erase. We questioned the longstanding hedgehog mascot, then kept it and rebuilt it as an animated, systematized character, alongside single-line illustrations for connection, vigilance, and flow, and a palette where each color carries part of the personality.",
+    clientTeam: [
+      "Natalie Pleyerova, Project Lead",
+    ],
+    quote: { text: "I appreciated the journey you took us on and think we’re at a really strong position.", source: "Natalie Pleyerova, Blumira" },
     results: [
+      { text: "An 18-month partnership that grew from strategy consulting into a full brand foundation: positioning, identity, guidelines, templates, and motion." },
       { text: "Named to the CRN 2025 MES Midmarket 100.", url: 'https://www.blumira.com/blog/blumira-earns-crn-midmarket-100-spot-and-g2-badges-for-summer-2025' },
-      { text: "MSP program rated 5 stars in the 2025 CRN Partner Program Guide.", url: 'https://www.communiquepr.com/blumiras-spring-2025-momentum-advancing-security-solutions-and-strengthening-msp-partnerships/' },
     ],
     accent: '#b4eac6',
     summary:
@@ -92,9 +102,12 @@ export const projects = [
     slug: 'ultra',
     title: 'Ultra',
     tags: ['Creative direction', 'Brand identity', 'Web design'],
-    // Draft story: confirm before relying on it. Results link to public sources.
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
     challenge: "Launch a brand-new category, runtime security for AI agents, out of stealth, with an identity that felt as new as the problem.",
     idea: "A noise-driven pixel field that looks alive and governed at the same time, plus a generative tool that turns it into endless on-brand artwork for web, social, and print.",
+    clientTeam: [
+      "Chase Lee, Founder & CEO",
+    ],
     results: [
       { text: "Emerged from stealth in October 2026 with a $10M seed round.", url: 'https://venturebeat.com/business/ultra-security-emerges-from-stealth-with-10m-seed-round-to-secure-autonomous-runtimes' },
     ],
@@ -110,11 +123,17 @@ export const projects = [
     slug: 'keystrike',
     title: 'Keystrike',
     tags: ['Brand identity', 'Web design'],
-    // Draft story: confirm before relying on it. Results link to public sources.
-    challenge: "Make an invisible idea visible: continuous proof that a real person is behind every action, not just at login.",
-    idea: "Unbroken ribbons of color that run through every touchpoint, carrying the promise of “Protection without pauses.”",
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
+    challenge: "Five Icelandic computer scientists had the science: verifying identity continuously by the way you type, not once at login. Most security brands sell threat. Keystrike’s technology is quiet and persistent, and it needed a story to match.",
+    idea: "Continuity. Smooth gradients and unbroken lines that carry the promise of “Protection without pauses,” a keyboard-grid logo, and photography of hands, the point of contact between person and machine. The founders chose it because “continuous curves are mathematically elegant and simple.”",
+    clientTeam: [
+      "Ýmir Vigfússon, CTO",
+      "Jóhanna Guðmundsdóttir, VP of Sales",
+    ],
     results: [
-      { text: "Raised a seed round in April 2025, after a pre-seed raised to expand into the US market.", url: 'https://www.northstack.is/keystike-raises/' },
+      { text: "The positioning went live on Keystrike’s website, sales decks, and lead generation within weeks, before the identity was even finished." },
+      { text: "Brand launched at RSAC 2026." },
+      { text: "Raised a seed round in April 2025 to expand into the US market.", url: 'https://www.northstack.is/keystike-raises/' },
     ],
     accent: '#3065f8',
     dark: true,
@@ -129,7 +148,7 @@ export const projects = [
     title: 'Tap to Pay Launch',
     shortTitle: 'Tap to Pay',
     tags: ['Product launch campaign', 'Art direction', 'Motion design'],
-    // Draft story: confirm before relying on it. Results link to public sources.
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
     challenge: "Introduce hardware-free contactless payments to Square sellers everywhere, with one campaign that worked across teams, channels, and countries.",
     idea: "Art direction built around real sellers on the go, and a campaign design system flexible enough for every team and every market to use.",
     results: [
@@ -317,10 +336,17 @@ export const projects = [
     slug: 'tracebit',
     title: 'Tracebit',
     tags: ['Brand identity', 'Web design', 'Generative tools'],
-    // Draft story: confirm before relying on it. Results link to public sources.
-    challenge: "Deception technology can read as niche. Tracebit wanted to own a bigger idea: the answer to Assume Breach.",
-    idea: "A canary mark built from strokes that rotate to fixed angles, so it can turn to face any threat, set in warm gradients on dark ground and drawn live by a custom generator.",
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
+    challenge: "Tracebit’s ex-Palantir founders approach security with calm precision, but security marketing defaults to alarm. The brand needed to feel quietly confident, ahead of a new funding round.",
+    idea: "Caltrops: ancient defensive spikes scattered across a battlefield. However one lands, a point always faces up, just as Tracebit’s decoys are scattered across a cloud. A custom generator draws endless variations of the mark, with laser-line tripwires showing detection.",
+    clientTeam: [
+      "Andy Smith, CEO & Co-founder",
+      "Sam Cox, Co-founder",
+      "Gemma Jacobson, Head of Marketing",
+    ],
+    quote: { text: "It was so exciting to see the ideas for Tracebit’s visual identity taking shape.", source: "Gemma Jacobson, Tracebit" },
     results: [
+      { text: "Positioning was adopted ahead of schedule for the March 2026 funding announcement, with new taglines on the homepage." },
       { text: "Raised a $20M Series A in March 2026, led by FirstMark with Accel.", url: 'https://securityweek.com/tracebit-raises-20m-for-cloud-native-deception-technology' },
     ],
     team: ['Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
@@ -344,10 +370,16 @@ export const projects = [
     slug: 'expel',
     title: 'Expel',
     tags: ['Brand identity', 'Campaigns', 'Environmental design'],
-    // Draft story: confirm before relying on it. Results link to public sources.
-    challenge: "Managed detection and response is crowded with opaque promises. Expel’s real difference is transparency.",
-    idea: "A plainspoken voice, “No Black Box. No BS.,” paired with an X pattern built from the logomark that nods to computer output that showed its work.",
+    // Story drawn from FinalFinal case studies in Dropbox and public sources.
+    challenge: "Expel had credibility for days: a unicorn valuation and a board with Kevin Mandia. But its brand read like everyone else’s, heavy on proof points and light on empathy.",
+    idea: "The Security Realist: not the fear-monger, not the hype machine, but the honest voice security teams trust. It shows up as “No Black Box. No BS.” and an X pattern built from the logomark that nods to computer output that showed its work.",
+    clientTeam: [
+      "Jessica Dodson, CMO",
+      "Amy Rossi, VP of Brand",
+      "Kim Ayers, Director of Events & Field Marketing",
+    ],
     results: [
+      { text: "The refresh rolled out across Expel’s internal launch, its RSAC 2026 booth, and Expel.com within months." },
       { text: "Named a Leader in The Forrester Wave: Managed Detection and Response Services, Q1 2025.", url: 'https://www.businesswire.com/news/home/20250225361607/en' },
     ],
     team: ['Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],

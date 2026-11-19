@@ -2397,3 +2397,17 @@ img.is-loading {
   font-size: var(--fs-mono, 11px);
   opacity: 0.5;
 }
+.story-quote {
+  grid-column: 1 / -1;
+  margin: clamp(16px, 3vw, 48px) 0 0;
+  display: grid;
+  gap: 14px;
+}
+.story-quote p {
+  margin: 0;
+  font-size: var(--fs-2, clamp(28px, 3.4vw, 52px));
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  max-width: 24ch;
+  text-wrap: balance;
+}

@@ -191,6 +191,7 @@ function storyBlock(p) {
         ${col('The challenge', p.challenge ? `<p>${esc(p.challenge)}</p>` : '')}
         ${col('The idea', p.idea ? `<p>${esc(p.idea)}</p>` : '')}
         ${col('Since launch', results)}
+        ${p.quote ? `<blockquote class="story-quote"><p>“${esc(p.quote.text)}”</p><footer class="label">${esc(p.quote.source)}</footer></blockquote>` : ''}
       </section>`;
 }
 
@@ -413,7 +414,7 @@ function credits(p) {
     items && items.length
       ? `<div class="credit"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
       : '';
-  const cols = [col('Team', p.team), col('Shawn’s Role', p.role), col('Contributions', p.contributions), p === demoReel || p.slug === 'experiments' ? null : col('Discipline', p.tags)].filter(Boolean);
+  const cols = [col('Team', p.team), col('Client Team', p.clientTeam), col('Shawn’s Role', p.role), col('Contributions', p.contributions), p === demoReel || p.slug === 'experiments' ? null : col('Discipline', p.tags)].filter(Boolean);
   return `<div class="credits cols-${cols.length}">${cols.join('')}</div>`;
 }
 
