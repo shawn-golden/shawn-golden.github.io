@@ -1,3 +1,4 @@
+const SCRIPT_URL = document.currentScript && document.currentScript.src;
 // Everything runs once the page content is available (after the password gate).
 function boot() {
 document.documentElement.classList.add('js');
@@ -488,6 +489,13 @@ if (location.hash === '#colophon') setTimeout(openLog, 400);
     requestAnimationFrame(() => wipe.classList.add('is-in'));
     setTimeout(() => (location.href = url.href), 380);
   });
+  // ---------- Homepage generative band ----------
+  const gen = document.querySelector('.gen');
+  if (gen && SCRIPT_URL) {
+    const url = new URL('gen.js', SCRIPT_URL);
+    url.search = new URL(SCRIPT_URL).search;
+    import(url.href).then((m) => m.start(gen, reduceMotion)).catch(() => gen.remove());
+  }
 }
 if (document.body.hasAttribute('data-locked')) document.addEventListener('site:unlocked', boot, { once: true });
 else boot();

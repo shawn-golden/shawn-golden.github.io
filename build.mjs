@@ -18,7 +18,7 @@ const SLIDE_H = 1080;
 const visible = projects.filter((p) => !p.hidden);
 const bySlug = Object.fromEntries([...visible, demoReel].map((p) => [p.slug, p]));
 const VERSION = createHash('sha1')
-  .update(['styles.css', 'main.js', 'gate.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
+  .update(['styles.css', 'main.js', 'gate.js', 'gen.js'].map((f) => readFileSync(join(ROOT, 'src', f), 'utf8')).join(''))
   .digest('hex')
   .slice(0, 8);
 const missingVideos = new Set();
@@ -319,6 +319,10 @@ function home() {
       <p class="home-positioning">${esc(site.positioning)}</p>
       <p class="home-contact"><a href="mailto:${site.email}">${esc(site.email)}</a></p>
     </div>
+  </section>
+  <section class="gen" tabindex="0" role="button" aria-label="Generative pattern drawn live. Press to shuffle to another brand system." data-section>
+    <canvas aria-hidden="true"></canvas>
+    <p class="gen-caption"><span><span class="gen-name">Minka</span> pattern system, drawn live</span><span class="gen-hint">Click to shuffle</span></p>
   </section>
   <section class="marquee" aria-label="Selected clients" data-section>
     <p class="label">Selected clients</p>
@@ -640,7 +644,7 @@ for (const entry of readdirSync(OUT)) {
   if (entry === 'assets' || entry === 'CNAME' || entry === '.nojekyll') continue;
   rmSync(join(OUT, entry), { recursive: true, force: true });
 }
-for (const f of ['styles.css', 'main.js', 'gate.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
+for (const f of ['styles.css', 'main.js', 'gate.js', 'gen.js', 'favicon.svg']) copyFileSync(join(ROOT, 'src', f), join(OUT, 'assets', f));
 writeFileSync(join(OUT, '.nojekyll'), '');
 BUILD_LOG = buildLog();
 
