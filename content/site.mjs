@@ -57,8 +57,8 @@ export const projects = [
       "Jon-Eric Cornellier, Marketing Director",
       "Natalie Pleyerova, Project Lead",
       "Geetha Pai, Product & UX",
-      "Zoe Lindsey",
-      "Amanda Berlin",
+      "Zoe Lindsey, Senior Director of Messaging",
+      "Amanda Berlin, Senior Product Manager, Cybersecurity",
     ],
     quote: { text: "I appreciated the journey you took us on and think we’re at a really strong position.", source: "Natalie Pleyerova, Blumira" },
     results: [
@@ -141,7 +141,7 @@ export const projects = [
       "Ýmir Vigfússon, Co-founder & CTO",
       "Steindór Guðmundsson, Co-founder & CPO",
       "Jóhanna Guðmundsdóttir, VP of Sales",
-      "Arni S. Petursson",
+      "Arni S. Petursson, Co-founder & COO",
     ],
     results: [
       { text: "The positioning went live on Keystrike’s website, sales decks, and lead generation within weeks, before the identity was even finished." },
