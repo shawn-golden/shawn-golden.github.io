@@ -397,7 +397,7 @@ function credits(p) {
     items && items.length
       ? `<div class="credit"><p class="label">${label}</p><ul>${items.map((t) => `<li>${esc(t)}</li>`).join('')}</ul></div>`
       : '';
-  const cols = [col('Team', p.team), col('Shawn’s Role', p.role), col('Contributions', p.contributions), col('Discipline', p.tags)].filter(Boolean);
+  const cols = [col('Team', p.team), col('Shawn’s Role', p.role), col('Contributions', p.contributions), p === demoReel ? null : col('Discipline', p.tags)].filter(Boolean);
   return `<div class="credits cols-${cols.length}">${cols.join('')}</div>`;
 }
 
