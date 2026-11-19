@@ -285,7 +285,7 @@ export const projects = [
     slug: 'tracebit',
     title: 'Tracebit',
     tags: ['Brand identity', 'Web design', 'Generative tools'],
-    team: ['Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
+    team: ['Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
     accent: '#f3dcd5',
     summary:
       'Tracebit helps security teams catch attackers early by planting canaries across their cloud, decoys that alert the moment someone touches them, positioning the company as “the answer to Assume Breach.” The identity centers on a single mark that rotates through a fixed set of angles, so one symbol can carry signage, web, social, events and merch while staying recognizably Tracebit. A browser-based tool lets the team build new mark compositions on brand.',
