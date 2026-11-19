@@ -2251,9 +2251,8 @@ img.is-loading {
   display: none;
 }
 
-/* Big project title tightens and fades as you scroll past it. */
+/* Big project title sinks and fades as you scroll past it. */
 .project-title {
-  letter-spacing: calc(-0.055em - var(--tp, 0) * 0.025em);
   opacity: calc(1 - var(--tp, 0) * 0.65);
   transform: translateY(calc(var(--tp, 0) * 24px));
 }
