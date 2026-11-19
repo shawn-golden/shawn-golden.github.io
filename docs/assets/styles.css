@@ -2080,6 +2080,8 @@ html.is-gated .gate {
 }
 .home-hero {
   min-height: 0;
+  /* Clear the top chrome (40px capsules) with real breathing room. */
+  padding-top: calc(var(--gutter) + 40px + clamp(48px, 7vw, 120px));
   padding-bottom: clamp(32px, 4vw, 64px);
 }
 
