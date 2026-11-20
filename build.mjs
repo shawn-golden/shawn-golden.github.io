@@ -400,7 +400,7 @@ function home() {
       current: 'home',
       body,
       bodyClass: 'page-home',
-      description: `${site.name} is a ${site.titles.join(' and ').toLowerCase()} based in ${site.location}. ${site.positioning}`,
+      description: `${site.positioning}`,
       og: 'home',
     })
   );
@@ -642,13 +642,13 @@ function aboutPage() {
       <div class="about-bio">${about.bio.map((t) => `<p>${esc(t)}</p>`).join('')}</div>
     </section>
     <section class="about-grid" data-section>
-      <p class="label">How I lead</p>
+      <p class="label">How I work</p>
       <ol class="leadership">
         ${about.leadership.map((l, i) => `<li><span class="lead-num">${String(i + 1).padStart(2, '0')}</span><h2>${esc(l.title)}</h2><p>${esc(l.body)}</p></li>`).join('')}
       </ol>
     </section>
     <section class="about-grid" data-section>
-      <p class="label">Leading a team</p>
+      <p class="label">Leading through the work</p>
       <div class="team-lead">
         <p class="team-intro">${esc(about.team.intro)}</p>
         <dl class="team-practices">

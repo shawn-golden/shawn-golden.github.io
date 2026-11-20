@@ -10,11 +10,11 @@
 
 export const site = {
   name: 'Shawn Golden',
-  titles: ['Lead Brand Designer', 'Creative Director'],
+  titles: ['Senior Brand Designer'],
   email: 'hi@shawngolden.co',
   location: 'Detroit',
   positioning:
-    'Detroit-based creative director turning complex ideas into brands people trust and remember.',
+    'Detroit-based brand designer making complicated things clear, distinctive, and a little more human.',
   url: 'https://shawn-golden.github.io', // public address, used for share images
 };
 
@@ -39,9 +39,9 @@ export const projects = [
     ],
     accent: '#f5fc9f',
     summary:
-      'Minka is building the infrastructure that connects banks, financial institutions, and payment networks to make instant payments possible at a national scale. As lead designer, I helped evolve Minka’s brand identity into a cohesive, flexible visual system spanning typography, geometric patterns, product identities, motion, and brand applications. The result balances the credibility of established financial institutions with the clarity and energy of modern financial technology.',
+      'Minka is building the infrastructure that connects banks, financial institutions, and payment networks to make instant payments possible at a national scale. As lead designer, I set the creative direction and evolved Minka’s brand identity into a cohesive, flexible visual system spanning typography, geometric patterns, product identities, motion, and brand applications. The result balances the credibility of established financial institutions with the clarity and energy of modern financial technology.',
     team: ['Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    role: ['Creative Director', 'Lead Brand Designer'],
+    role: ['Lead Brand Designer', 'Creative Direction'],
     slides: ['minka-04', 'minka-02', 'minka-06', 'minka-05', 'minka-08', 'minka-03', 'minka-07', 'minka-09', 'minka-01', 'minka-10'],
   },
   {
@@ -67,9 +67,9 @@ export const projects = [
     ],
     accent: '#b4eac6',
     summary:
-      'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As Creative Director, I led the evolution of its visual identity, developing a cohesive brand system that balances technical credibility with an approachable, distinctive personality. The work spanned brand strategy, logo development, typography, color, illustration, and art direction, creating a flexible visual language designed to scale across marketing, product, and digital experiences.',
+      'Blumira is a cybersecurity platform making threat detection and response simpler and more accessible. As lead designer, I set the creative direction and designed the evolution of its visual identity, developing a cohesive brand system that balances technical credibility with an approachable, distinctive personality. The work spanned brand strategy, logo development, typography, color, illustration, and art direction, creating a flexible visual language designed to scale across marketing, product, and digital experiences.',
     team: ['Aaron Johnstone, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    role: ['Creative Director', 'Lead Brand Designer'],
+    role: ['Lead Brand Designer', 'Creative Direction'],
     slides: [
       'blumira-01',
       'blumira-03',
@@ -123,9 +123,9 @@ export const projects = [
     accent: '#181818',
     dark: true,
     summary:
-      'Ultra is a cybersecurity company building runtime security for AI agents, helping organizations monitor, govern, and secure autonomous AI systems. As Lead Brand Designer, I led the development of a visual identity that translates complex security technology into a clear, confident, and distinctive brand. The work established a flexible design system spanning typography, color, graphic elements, motion, and digital applications, positioning Ultra as a credible and forward-thinking voice in an emerging category.',
+      'Ultra is a cybersecurity company building runtime security for AI agents, helping organizations monitor, govern, and secure autonomous AI systems. As lead designer, I set the creative direction and designed a visual identity that translates complex security technology into a clear, confident, and distinctive brand. The work established a flexible design system spanning typography, color, graphic elements, motion, and digital applications, positioning Ultra as a credible and forward-thinking voice in an emerging category.',
     team: ['Ryan Cady, Designer', 'Pete Baker, Design Technologist', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    role: ['Creative Director', 'Lead Brand Designer'],
+    role: ['Lead Brand Designer', 'Creative Direction'],
     slides: ['ultra-05', 'ultra-08', 'ultra-02', 'ultra-06', 'ultra-03', 'ultra-04', 'ultra-09', 'ultra-07', 'ultra-10', 'ultra-01'],
   },
   {
@@ -151,9 +151,9 @@ export const projects = [
     accent: '#3065f8',
     dark: true,
     summary:
-      'Keystrike is a cybersecurity company pioneering a new approach to access security, verifying that every action taken within a system comes from an authorized user. As Creative Director and Lead Brand Designer, I led the development of a bold, modern visual identity that brings clarity and distinction to a complex technical offering. The work established a cohesive brand system spanning typography, color, graphic elements, and digital applications, positioning Keystrike as an innovative voice in a rapidly evolving security landscape.',
+      'Keystrike is a cybersecurity company pioneering a new approach to access security, verifying that every action taken within a system comes from an authorized user. As lead designer, I set the creative direction and designed a bold, modern visual identity that brings clarity and distinction to a complex technical offering. The work established a cohesive brand system spanning typography, color, graphic elements, and digital applications, positioning Keystrike as an innovative voice in a rapidly evolving security landscape.',
     team: ['Brian Caiazza, Motion Designer', 'Ryan Cady, Designer', 'Ruth Facer, Delivery Lead', 'Emily Samar, Project Manager'],
-    role: ['Creative Director', 'Lead Brand Designer'],
+    role: ['Lead Brand Designer', 'Creative Direction'],
     slides: ['keystrike-02', 'keystrike-07', 'keystrike-01', 'keystrike-11', 'keystrike-06', 'keystrike-05', 'keystrike-08', 'keystrike-03', 'keystrike-04', 'keystrike-09', 'keystrike-10'],
   },
   {
@@ -163,7 +163,7 @@ export const projects = [
     tags: ['Product launch campaign', 'Art direction', 'Motion design'],
     // Story drawn from FinalFinal case studies in Dropbox and public sources.
     challenge: "Introduce hardware-free contactless payments to Square sellers everywhere, with one campaign that worked across teams, channels, and countries.",
-    idea: "Art direction built around real sellers on the go, and a campaign design system flexible enough for every team and every market to use.",
+    idea: "Real sellers on the go, shot and art directed for the launch, then carried through the website, social, motion, and product moments by one campaign system that teams in seven countries could localize without breaking it.",
     results: [
       { text: "Launched for Square sellers in 7 markets: the US, UK, France, Spain, Canada, Australia, and Ireland.", url: 'https://squareup.com/ca/en/press/tap-to-pay-on-iphone-launches-in-canada' },
     ],
@@ -407,10 +407,11 @@ export const demoReel = {
 
 export const about = {
   intro:
-    'Hello, I’m Shawn. I’m a Detroit-based creative director turning complex ideas into brands people trust and remember.',
+    'Hello, I’m Shawn. I’m a Detroit-based brand designer making complicated things clear, distinctive, and a little more human.',
   bio: [
-    'For over 15 years I’ve helped technical companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Keystrike, and Minka.',
-    'As Creative Director at FinalFinal, I lead brand work from the first strategy conversation through launch. I set the idea, shape the system, direct designers, motion artists, and developers, and work side by side with founders and marketing leads to ship it. I still get hands-on with the details, because that’s where trust is won or lost.',
+    'For over 15 years I’ve helped companies explain what they do and look like they mean it, from Duo Security and Square to early-stage teams like Ultra, Keystrike, and Minka. Most of my recent work is for skeptical, technical audiences: security teams, engineers, and central banks.',
+    'As Creative Director at FinalFinal, I take brands from the first strategy conversation through launch, working side by side with founders and marketing leads, and bringing in motion designers, illustrators, and developers when the work calls for it. I still get hands-on with the details, because that’s where trust is won or lost.',
+    'When a brand needs a tool, I make one, like the pattern generators behind Minka and Ultra. I use code and AI to explore faster and build things myself, including this site.',
     'Outside of design, I write and direct animated comedy, perform improv, and pursue all kinds of creative experiments. I believe curiosity, humor, and a willingness to try something unexpected make for better creative work.',
   ],
   experience: [
@@ -435,18 +436,18 @@ export const about = {
     'Detroit Free Press',
   ],
   capabilities: [
-    'Creative Direction',
-    'Brand Strategy & Identity',
-    'Art Direction',
-    'Visual Design Systems',
-    'Digital & Web Design',
-    'Motion Design & Animation',
-    'Campaigns & Brand Activations',
     'Typography & Graphic Design',
-    'Presentation & Editorial Design',
+    'Brand Identity & Systems',
+    'Concept Development',
+    'Campaigns & Launches',
+    'Environmental & Event Design',
+    'Art Direction',
+    'Motion Design & Animation',
+    'Digital & Web Design',
     'Creative Technology & Generative Tools',
-    'Leadership & Mentorship',
-    'Design Production',
+    'Creative Direction',
+    'Presentation & Editorial Design',
+    'Mentorship & Critique',
   ],
   tools: [
     'Figma',
@@ -464,7 +465,7 @@ export const about = {
   // Leading a team: shown on the About page. Every example is drawn from real projects.
   team: {
     intro:
-      'I lead small, senior teams of designers, motion designers, and developers, working alongside a strategist and a delivery lead. My job is to set a clear direction early, protect the idea through every review, and give everyone room to do their best work.',
+      'Most of my leadership happens through the work itself: setting a clear direction early, giving honest and specific critique, mentoring the designers around me, and directing the specialists a project needs.',
     practices: [
       {
         title: 'Direction in the room',
@@ -499,8 +500,8 @@ export const about = {
       body: 'When a brand needs to scale, I build the pattern generator, the template, or the design system that lets a whole team make on-brand work without me in the room.',
     },
     {
-      title: 'Make the team better',
-      body: 'Clear direction, honest critique, and room to explore. I care as much about how a designer grows on a project as about what we ship.',
+      title: 'Sweat the details',
+      body: 'Type, spacing, color, the last bit of polish. It’s the part most people never consciously notice and always feel.',
     },
     {
       title: 'Keep it human',
@@ -512,10 +513,9 @@ export const about = {
 // Homepage groups, in order. Projects not listed fall into the last group.
 export const groups = [
   { name: 'Brand systems', slugs: ['minka', 'blumira', 'ultra', 'keystrike', 'expel'] },
+  { name: 'Campaigns & launches', slugs: ['tap-to-pay', 'demo-reel'] },
   { name: 'Design systems', slugs: ['email-design-system'] },
-  { name: 'Launches & campaigns', slugs: ['tap-to-pay', 'demo-reel'] },
-  { name: 'Editorial & interaction', slugs: ['ugly-magazine'] },
-  { name: 'Side projects', slugs: ['experiments'] },
+  { name: 'Independent work', slugs: ['ugly-magazine', 'experiments'] },
 ];
 
 // Principles quoted from the brand guidelines in Figma, shown between slides.
